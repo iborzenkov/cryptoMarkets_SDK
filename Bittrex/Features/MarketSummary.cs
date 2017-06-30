@@ -1,7 +1,7 @@
 ﻿using System;
 using Model.Features;
 
-namespace BittrexModel
+namespace Bittrex.Features
 {
     public class MarketSummary
     {
@@ -13,6 +13,7 @@ namespace BittrexModel
         public double BaseVolume { get; set; }
         public DateTime TimeStamp { get; set; }
         public double Bid { get; set; }
+        public double Ask { get; set; }
         public int CountOpenedBuyOrders { get; set; }
         public int CountOpenedSellOrders { get; set; }
     }

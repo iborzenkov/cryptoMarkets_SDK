@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Model;
-using Model.Features;
 
-namespace BittrexModel.DataTypes
+namespace Bittrex.DataTypes
 {
     [DataContract]
     public class BittrexMarketSummaries : BaseDataType
@@ -58,7 +56,7 @@ namespace BittrexModel.DataTypes
         /// TimeStamp
         /// </summary>
         [DataMember(Name = "TimeStamp", EmitDefaultValue = false)]
-        public DateTime TimeStamp { get; set; }
+        public string TimeStamp { get; set; }
 
         /// <summary>
         /// Bid
@@ -76,37 +74,12 @@ namespace BittrexModel.DataTypes
         /// OpenBuyOrders
         /// </summary>
         [DataMember(Name = "OpenBuyOrders", EmitDefaultValue = false)]
-        public int OpenBuyOrders { get; set; }
+        public int CountOpenBuyOrders { get; set; }
 
         /// <summary>
         /// OpenSellOrders
         /// </summary>
         [DataMember(Name = "OpenSellOrders", EmitDefaultValue = false)]
-        public int OpenSellOrders { get; set; }
-
-        public MarketSummary ToMarketSummary
-        {
-            get
-            {
-                Currency baseCurrency;
-                Currency quoteCurrency;
-                Pair pair;
-                if (Currency.TryParse(BaseCurrency, out baseCurrency) &&
-                    Currency.TryParse(QuoteCurrency, out quoteCurrency))
-                {
-                    var market = new Market(
-                        new Pair(baseCurrency, quoteCurrency), 
-                        MinTradeSize,
-                        IsActive);
-
-                    DateTime dateTime;
-                    if (DateTime.TryParse(Created, out dateTime))
-                        market.Created = dateTime;
-
-                    return market;
-                }
-                return null;
-            }
-        }
+        public int CountOpenSellOrders { get; set; }
     }
 }

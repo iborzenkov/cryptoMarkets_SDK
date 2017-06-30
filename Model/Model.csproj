@@ -42,8 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Features\Currency.cs" />
-    <Compile Include="CurrencyEnum.cs" />
+    <Compile Include="Features\OrderBook.cs" />
     <Compile Include="IMarketInfo.cs" />
     <Compile Include="Features\Market.cs" />
     <Compile Include="Features\Pair.cs" />

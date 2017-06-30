@@ -7,8 +7,8 @@
     <ProjectGuid>{6462605E-9B9F-48BB-B24F-CDF6C7EF914F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BittrexModel</RootNamespace>
-    <AssemblyName>BittrexModel</AssemblyName>
+    <RootNamespace>Bittrex</RootNamespace>
+    <AssemblyName>Bittrex</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,17 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BittrexConnection.cs" />
-    <Compile Include="BittrexPairs.cs" />
+    <Compile Include="Connection\BittrexConnection.cs" />
+    <Compile Include="DataTypes\BittrexOrderBook.cs" />
+    <Compile Include="DataTypes\Misc\BittrexPairs.cs" />
     <Compile Include="DataTypes\BittrexMarketSummary.cs" />
     <Compile Include="DataTypes\BittrexTickerDataType.cs" />
     <Compile Include="BittrexInfo.cs" />
     <Compile Include="DataTypes\BaseDataType.cs" />
     <Compile Include="DataTypes\BittrexCurrencyDataType.cs" />
     <Compile Include="DataTypes\BittrexMarketsDataType.cs" />
-    <Compile Include="EndPoints.cs" />
+    <Compile Include="DataTypes\Extensions\DataTypeExtensions.cs" />
+    <Compile Include="Connection\EndPoints.cs" />
+    <Compile Include="DataTypes\Misc\BittrexOrderBookTypeEnum.cs" />
     <Compile Include="IBittrexMarketInfo.cs" />
-    <Compile Include="MarketSummary.cs" />
+    <Compile Include="Features\MarketSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,7 @@
 ﻿using System.Runtime.Serialization;
-using Model;
 using Model.Features;
 
-namespace BittrexModel.DataTypes
+namespace Bittrex.DataTypes
 {
     [DataContract]
     public class BittrexCurrenciesDataType : BaseDataType
@@ -22,6 +21,12 @@ namespace BittrexModel.DataTypes
         /// </summary>
         [DataMember(Name = "Currency", EmitDefaultValue = false)]
         public string CurrencyName { get; set; }
+
+        /// <summary>
+        /// CurrencyLongName
+        /// </summary>
+        [DataMember(Name = "CurrencyLong", EmitDefaultValue = false)]
+        public string CurrencyLongName { get; set; }
 
         /// <summary>
         /// MinConfirmation
@@ -46,17 +51,5 @@ namespace BittrexModel.DataTypes
         /// </summary>
         [DataMember(Name = "BaseAddress", EmitDefaultValue = false)]
         public string BaseAddress { get; set; }
-
-        public Currency ToCurrency
-        {
-            get
-            {
-                Currency currency;
-                if (Currency.TryParse(CurrencyName, out currency))
-                    return currency;
-
-                return null;
-            }
-        }
     }
 }

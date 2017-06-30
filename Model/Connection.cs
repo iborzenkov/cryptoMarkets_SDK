@@ -50,7 +50,7 @@ namespace Model
         {
             var result = default(T);
 
-            using (HttpClient httpClient = CreateHttpClient(uri))
+            using (var httpClient = CreateHttpClient(uri))
             {
                 var response = httpClient.GetStreamAsync(CodeGetParams(parameters));
                 response.Wait();

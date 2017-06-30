@@ -1,10 +1,11 @@
-﻿using Model;
+﻿using System.Collections.Generic;
+using Bittrex.Features;
+using Model;
 using Model.Features;
-using System.Collections.Generic;
 
-namespace BittrexModel
+namespace Bittrex
 {
-    internal interface IBittrexMarketInfo : IMarketInfo
+    public interface IBittrexMarketInfo : IMarketInfo
     {
         IEnumerable<MarketSummary> MarketSummaries();
 

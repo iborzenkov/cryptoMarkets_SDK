@@ -1,8 +1,7 @@
-﻿using Model;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using Model.Features;
 
-namespace BittrexModel.DataTypes
+namespace Bittrex.DataTypes
 {
     [DataContract]
     public class BittrexTickerDataType : BaseDataType
@@ -34,7 +33,5 @@ namespace BittrexModel.DataTypes
         /// </summary>
         [DataMember(Name = "Last", EmitDefaultValue = false)]
         public double Last { get; set; }
-
-        public Tick ToTick => new Tick(Bid, Ask, Last);
     }
 }

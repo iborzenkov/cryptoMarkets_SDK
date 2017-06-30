@@ -1,12 +1,12 @@
 ﻿using Model.Features;
 
-namespace BittrexModel
+namespace Bittrex.DataTypes.Misc
 {
     internal class BittrexPairs
     {
         public static string AsString(Pair pair)
         {
-            return $"{pair.BaseCurrency.ShortName}-{pair.QuoteCurrency.ShortName}";
+            return $"{pair.BaseCurrency.Name}-{pair.QuoteCurrency.Name}";
         }
     }
 }

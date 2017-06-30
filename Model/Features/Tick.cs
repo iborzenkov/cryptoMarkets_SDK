@@ -2,9 +2,20 @@
 {
     public class Tick
     {
-        public double Bid { get; set; }
-        public double Ask { get; set; }
-        public double Last { get; set; }
+        /// <summary>
+        /// Bid price
+        /// </summary>
+        public double Bid { get; }
+
+        /// <summary>
+        /// Ask price
+        /// </summary>
+        public double Ask { get; }
+
+        /// <summary>
+        /// Last price
+        /// </summary>
+        public double Last { get; }
 
         public Tick(double bid, double ask)
         {

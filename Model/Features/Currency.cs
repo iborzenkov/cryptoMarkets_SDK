@@ -2,79 +2,33 @@
 
 namespace Model.Features
 {
-    public class Currency
+    public class Currency : IEquatable<Currency>
     {
-        public CurrencyEnum Enum;
-
-        public Currency(CurrencyEnum currencyEnum)
+        public Currency(string name)
         {
-            Enum = currencyEnum;
+            Name = name;
         }
 
-        public static bool TryParse(string shortName, out Currency currency)
+        public Currency(string name, string longName) : this(name)
         {
-            currency = null;
-
-            if (string.Equals(shortName, InternalShortName(CurrencyEnum.BTC), StringComparison.OrdinalIgnoreCase))
-                currency = new Currency(CurrencyEnum.BTC);
-            if (string.Equals(shortName, InternalShortName(CurrencyEnum.DOGE), StringComparison.OrdinalIgnoreCase))
-                currency = new Currency(CurrencyEnum.DOGE);
-            if (string.Equals(shortName, InternalShortName(CurrencyEnum.LTC), StringComparison.OrdinalIgnoreCase))
-                currency = new Currency(CurrencyEnum.LTC);
-            if (string.Equals(shortName, InternalShortName(CurrencyEnum.USD), StringComparison.OrdinalIgnoreCase))
-                currency = new Currency(CurrencyEnum.USD);
-
-            return currency != null;
+            LongName = longName;
         }
 
-        public string Name => InternalName(Enum);
-        public string ShortName => InternalShortName(Enum);
+        public string Name { get; }
+        public string LongName { get; }
+        public double TxFee { get; set; }
+        public bool IsActive { get; set; }
+        public string BaseAddress { get; set; }
+
+        public bool Equals(Currency other)
+        {
+            return other != null && string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+        }
 
         public override string ToString()
         {
-            return ShortName;
+            return LongName;
         }
 
-        private static string InternalName(CurrencyEnum currencyEnum)
-        {
-            switch (currencyEnum)
-            {
-                case CurrencyEnum.BTC:
-                    return "Bitcoin";
-
-                case CurrencyEnum.LTC:
-                    return "Litecoin";
-
-                case CurrencyEnum.USD:
-                    return "Dollars";
-
-                case CurrencyEnum.DOGE:
-                    return "Doge";
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(currencyEnum), currencyEnum, null);
-            }
-        }
-
-        private static string InternalShortName(CurrencyEnum currencyEnum)
-        {
-            switch (currencyEnum)
-            {
-                case CurrencyEnum.BTC:
-                    return "BTC";
-
-                case CurrencyEnum.LTC:
-                    return "LTC";
-
-                case CurrencyEnum.USD:
-                    return "USD";
-
-                case CurrencyEnum.DOGE:
-                    return "Doge";
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(currencyEnum), currencyEnum, null);
-            }
-        }
     }
 }

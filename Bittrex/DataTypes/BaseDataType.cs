@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BittrexModel.DataTypes
+namespace Bittrex.DataTypes
 {
     [DataContract]
     public abstract class BaseDataType

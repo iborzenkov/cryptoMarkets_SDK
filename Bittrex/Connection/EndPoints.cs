@@ -1,4 +1,4 @@
-﻿namespace BittrexModel
+﻿namespace Bittrex.Connection
 {
     public class EndPoints
     {
@@ -7,5 +7,6 @@
         public static string GetCurrencies = "public/getcurrencies";
         public static string GetTicker = "public/getticker";
         public static string GetMarketSummary = "public/getmarketsummary";
+        public static string GetOrderBook = "public/getorderbook";
     }
 }
