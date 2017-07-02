@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Model.Features
+namespace CryptoSdk.Features
 {
     public class Pair : IEquatable<Pair>
     {

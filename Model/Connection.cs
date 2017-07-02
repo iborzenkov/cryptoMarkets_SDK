@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Model
+namespace CryptoSdk
 {
     public abstract class Connection
     {

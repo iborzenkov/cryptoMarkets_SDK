@@ -1,4 +1,4 @@
-﻿namespace Model.Features
+﻿namespace CryptoSdk.Features
 {
     public class Tick
     {

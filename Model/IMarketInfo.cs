@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Model.Features;
+using CryptoSdk.Features;
 
-namespace Model
+namespace CryptoSdk
 {
     public interface IMarketInfo
     {

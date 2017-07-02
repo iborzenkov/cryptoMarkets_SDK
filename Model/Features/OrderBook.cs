@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Model.Features
+namespace CryptoSdk.Features
 {
     public class OrderBook
     {
@@ -43,9 +43,11 @@ namespace Model.Features
                 case OrderBookSort.Increase:
                     comparer = new OrderBookPartComparerIncrease();
                     break;
+
                 case OrderBookSort.Decrease:
                     comparer = new OrderBookPartComparerDecrease();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sorting), sorting, null);
             }

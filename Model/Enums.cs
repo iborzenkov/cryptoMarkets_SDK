@@ -1,4 +1,4 @@
-﻿namespace Model
+﻿namespace CryptoSdk
 {
     public enum OrderBookType
     {

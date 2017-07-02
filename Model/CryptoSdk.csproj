@@ -7,8 +7,8 @@
     <ProjectGuid>{5D11293F-2769-48C8-9E0D-D57CB4D58E3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Model</RootNamespace>
-    <AssemblyName>Model</AssemblyName>
+    <RootNamespace>CryptoSdk</RootNamespace>
+    <AssemblyName>CryptoSdk</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,7 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bittrex\BittrexInfo.cs" />
+    <Compile Include="Bittrex\Connection\BittrexConnection.cs" />
+    <Compile Include="Bittrex\Connection\EndPoints.cs" />
+    <Compile Include="Bittrex\DataTypes\BaseDataType.cs" />
+    <Compile Include="Bittrex\DataTypes\BittrexCurrencyDataType.cs" />
+    <Compile Include="Bittrex\DataTypes\BittrexMarketsDataType.cs" />
+    <Compile Include="Bittrex\DataTypes\BittrexMarketSummary.cs" />
+    <Compile Include="Bittrex\DataTypes\BittrexOrderBook.cs" />
+    <Compile Include="Bittrex\DataTypes\BittrexTickerDataType.cs" />
+    <Compile Include="Bittrex\DataTypes\Extensions\DataTypeExtensions.cs" />
+    <Compile Include="Bittrex\DataTypes\Misc\BittrexOrderBookTypeEnum.cs" />
+    <Compile Include="Bittrex\DataTypes\Misc\BittrexPairs.cs" />
+    <Compile Include="Bittrex\Features\MarketSummary.cs" />
+    <Compile Include="Bittrex\IBittrexMarketInfo.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="Crypto.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Features\Currency.cs" />
     <Compile Include="Features\OrderBook.cs" />
@@ -50,7 +65,7 @@
     <Compile Include="Features\Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Features\Tick.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Tools\Utils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace Model
+namespace CryptoSdk
 {
     public static class Utils
     {

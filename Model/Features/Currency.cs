@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Model.Features
+namespace CryptoSdk.Features
 {
     public class Currency : IEquatable<Currency>
     {
@@ -29,6 +29,5 @@ namespace Model.Features
         {
             return LongName;
         }
-
     }
 }
