@@ -247,6 +247,7 @@ namespace Views.Implementations
         {
             // todo: сделать "человеческую" сортировку
             // todo: растиражировать её на другие формы
+            // todo: добавить столбец Volume - брать из BaseVolume
             var value1 = ((ListViewItem)x).SubItems[_column].Text;
             var value2 = ((ListViewItem)y).SubItems[_column].Text;
 

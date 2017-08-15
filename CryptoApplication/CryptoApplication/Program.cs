@@ -21,8 +21,8 @@ namespace CryptoApplication
             Application.SetCompatibleTextRenderingDefault(false);
 
             var domainModel = new DomainModel.Model();
-            //var marketModel = new BittrexModel();
-            var marketModel = new DummyModel();
+            var marketModel = new BittrexModel();
+            //var marketModel = new DummyModel();
 
             var market = new Market("Bittrex", marketModel, new[] { ApiKeyRole.Info, ApiKeyRole.Trade, ApiKeyRole.Account });
 
