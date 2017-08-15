@@ -80,5 +80,11 @@ namespace CryptoSdk.Bittrex.DataTypes
         /// </summary>
         [DataMember(Name = "OpenSellOrders", EmitDefaultValue = false)]
         public int CountOpenSellOrders { get; set; }
+
+        /// <summary>
+        /// PrevDay
+        /// </summary>
+        [DataMember(Name = "PrevDay", EmitDefaultValue = false)]
+        public double PrevDay { get; set; }
     }
 }

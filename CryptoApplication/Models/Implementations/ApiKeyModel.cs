@@ -1,0 +1,51 @@
+﻿using DomainModel.Features;
+using DomainModel.MarketModel;
+using Models.Interfaces;
+using System;
+using System.Collections.Generic;
+
+namespace Models.Implementations
+{
+    public class ApiKeyModel : IApiKeyModel
+    {
+        private readonly DomainModel.IModel _domainModel;
+        private Market _selectedMarket;
+
+        public ApiKeyModel(DomainModel.IModel domainModel)
+        {
+            _domainModel = domainModel;
+        }
+
+        IEnumerable<Market> IApiKeyModel.Markets => _domainModel.Markets;
+
+        Market IApiKeyModel.SelectedMarket
+        {
+            get { return _selectedMarket; }
+            set
+            {
+                if (_selectedMarket == value)
+                    return;
+
+                _selectedMarket = value;
+
+                IEnumerable<ApiKeyRole> apiKeyRoles = null;
+                IEnumerable<ApiKeyPair> apiKeys = new List<ApiKeyPair>();
+                if (_selectedMarket != null)
+                {
+                    apiKeyRoles = _selectedMarket.SpecifiedRoles;
+                    apiKeys = ((IApiKeyProvider)_selectedMarket).ApiKeys;
+                }
+
+                ApiKeyRolesChanged?.Invoke(this, apiKeyRoles);
+                foreach (var pair in apiKeys)
+                {
+                    ApiKeysChanged?.Invoke(this, pair);
+                }
+            }
+        }
+
+        public event EventHandler<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
+
+        public event EventHandler<ApiKeyPair> ApiKeysChanged;
+    }
+}

@@ -1,5 +1,5 @@
-﻿using System;
-using DomainModel;
+﻿using DomainModel;
+using System;
 
 namespace CryptoSdk.Bittrex.DataTypes.Misc
 {

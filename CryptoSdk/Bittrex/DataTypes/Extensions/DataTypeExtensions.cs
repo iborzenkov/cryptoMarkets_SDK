@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using CryptoSdk.Bittrex.Features;
+﻿using CryptoSdk.Bittrex.Features;
+using DomainModel;
 using DomainModel.Features;
+using System;
+using System.Linq;
 
 namespace CryptoSdk.Bittrex.DataTypes.Extensions
 {
@@ -11,7 +12,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
         {
             var currency = new CurrencyOfMarket(
                 new Currency(currencyDataType.CurrencyName, currencyDataType.CurrencyLongName),
-                market, currencyDataType.TxFee, currencyDataType.IsActive, currencyDataType.BaseAddress);
+                market, currencyDataType.TxFee, currencyDataType.IsActive, CryptoAddress.FromString(currencyDataType.BaseAddress));
 
             return currency;
         }
@@ -25,6 +26,15 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                 market, pairDataType.MinTradeSize, pairDataType.IsActive, created);
 
             return pair;
+        }
+
+        public static Balance ToBalance(this BittrexBalanceItemDataType balanceItemDataType, Market market, Currency currency)
+        {
+            var balance = new Balance(
+                market, currency, CryptoAddress.FromString(balanceItemDataType.CryptoAddress),
+                balanceItemDataType.Balance, balanceItemDataType.Available, balanceItemDataType.Pending);
+
+            return balance;
         }
 
         public static Tick ToTick(this TickerDataType tickerDataType)
@@ -49,7 +59,8 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                 Last = marketSummaryDataType.Last,
                 Low = marketSummaryDataType.Low,
                 Pair = pair,
-                Volume = marketSummaryDataType.Volume
+                Volume = marketSummaryDataType.Volume,
+                PreviousDayPrice = marketSummaryDataType.PrevDay
             };
 
             DateTime timeStamp;
@@ -79,6 +90,19 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
 
             var bids = orderBookDataType.OrderBook.Bids.Select(bid => new OrderBookPart(bid.Price, bid.Quantity));
             result.ReplaceBids(bids);
+
+            return result;
+        }
+
+        public static OrderBook ToOrderBook(this BittrexOrderBookOneSideDataType orderBookDataType, Pair pair, OrderBookType orderBookType)
+        {
+            var result = new OrderBook(pair);
+
+            var prices = orderBookDataType.Prices.Select(price => new OrderBookPart(price.Price, price.Quantity));
+            if (orderBookType == OrderBookType.Sell)
+                result.ReplaceAsk(prices);
+            else
+                result.ReplaceBids(prices);
 
             return result;
         }

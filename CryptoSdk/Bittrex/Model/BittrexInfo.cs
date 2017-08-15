@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CryptoSdk.Bittrex.Connection;
+﻿using CryptoSdk.Bittrex.Connection;
 using CryptoSdk.Bittrex.DataTypes;
 using CryptoSdk.Bittrex.DataTypes.Extensions;
 using CryptoSdk.Bittrex.DataTypes.Misc;
@@ -9,38 +6,19 @@ using CryptoSdk.Bittrex.Features;
 using DomainModel;
 using DomainModel.Features;
 using DomainModel.MarketModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoSdk.Bittrex.Model
 {
     public class BittrexInfo : IBittrexMarketInfo
     {
-        private readonly BittrexConnection _connection = new BittrexConnection();
+        private readonly IConnection _connection;
 
-        public BittrexInfo()
+        public BittrexInfo(IConnection connection)
         {
-            
-        }
-
-        IEnumerable<PairOfMarket> IMarketInfo.Pairs(Market market)
-        {
-            var result = new List<PairOfMarket>();
-
-            var query = _connection.PublicGetQuery<BittrexMarketsDataType>(EndPoints.GetMarkets);
-            if (query.Success)
-                result.AddRange(query.Pairs.Select(marketDataType => marketDataType.ToPair(market)));
-
-            return result;
-        }
-
-        public IEnumerable<CurrencyOfMarket> Currencies(Market market)
-        {
-            var result = new List<CurrencyOfMarket>();
-
-            var query = _connection.PublicGetQuery<BittrexCurrenciesDataType>(EndPoints.GetCurrencies);
-            if (query.Success)
-                result.AddRange(query.Currencies.Select(currencyDataType => currencyDataType.ToCurrency(market)));
-
-            return result;
+            _connection = connection;
         }
 
         Tick IMarketInfo.Tick(Pair pair)
@@ -55,7 +33,39 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
-        public OrderBook OrderBook(Pair pair, int depth = 10, OrderBookType orderBookType = OrderBookType.Both)
+        IEnumerable<PairOfMarket> IMarketInfo.Pairs(Market market)
+        {
+            var result = new List<PairOfMarket>();
+
+            var query = _connection.PublicGetQuery<BittrexMarketsDataType>(EndPoints.GetMarkets);
+            if (query.Success)
+                result.AddRange(query.Pairs.Select(marketDataType => marketDataType.ToPair(market)));
+
+            return result;
+        }
+
+        IEnumerable<CurrencyOfMarket> IMarketInfo.Currencies(Market market)
+        {
+            var result = new List<CurrencyOfMarket>();
+
+            var query = _connection.PublicGetQuery<BittrexCurrenciesDataType>(EndPoints.GetCurrencies);
+            if (query.Success)
+                result.AddRange(query.Currencies.Select(currencyDataType => currencyDataType.ToCurrency(market)));
+
+            return result;
+        }
+
+        ICollection<PairStatistic> IMarketInfo.PairsStatistic()
+        {
+            var summaries = (this as IBittrexMarketInfo).MarketSummaries();
+
+            return summaries.Select(
+                summary => new PairStatistic(
+                    summary.Pair, summary.High, summary.Low, summary.Volume, summary.Last, 
+                    summary.PreviousDayPrice, summary.CountOpenedBuyOrders, summary.CountOpenedSellOrders)).ToList();
+        }
+
+        OrderBook IMarketInfo.OrderBook(Pair pair, int depth, OrderBookType orderBookType)
         {
             OrderBook result = null;
 
@@ -64,18 +74,27 @@ namespace CryptoSdk.Bittrex.Model
             parameters[1] = new Tuple<string, string>("type", orderBookType.AsString());
             parameters[2] = new Tuple<string, string>("depth", depth.ToString());
 
-            var query = _connection.PublicGetQuery<BittrexOrderBookDataType>(EndPoints.GetOrderBook, parameters);
-            if (query.Success)
-                result = query.ToOrderBook(pair);
+            if (orderBookType == OrderBookType.Both)
+            {
+                var query = _connection.PublicGetQuery<BittrexOrderBookDataType>(EndPoints.GetOrderBook, parameters);
+                if (query.Success)
+                    result = query.ToOrderBook(pair);
+            }
+            else
+            {
+                var query = _connection.PublicGetQuery<BittrexOrderBookOneSideDataType>(EndPoints.GetOrderBook, parameters);
+                if (query.Success)
+                    result = query.ToOrderBook(pair, orderBookType);
+            }
 
             return result;
         }
 
-        IEnumerable<MarketSummary> IBittrexMarketInfo.MarketSummaries()
+        ICollection<MarketSummary> IBittrexMarketInfo.MarketSummaries()
         {
             var result = new List<MarketSummary>();
 
-            var query = _connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummary);
+            var query = _connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
             if (query.Success)
                 result.AddRange(query.MarketSummaries.Select(marketSummary => marketSummary.ToMarketSummary()));
 

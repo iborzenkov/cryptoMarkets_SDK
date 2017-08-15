@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using CryptoSdk.Bittrex.Features;
+﻿using CryptoSdk.Bittrex.Features;
 using DomainModel.Features;
 using DomainModel.MarketModel;
+using System.Collections.Generic;
 
 namespace CryptoSdk.Bittrex.Model
 {
     public interface IBittrexMarketInfo : IMarketInfo
     {
-        IEnumerable<MarketSummary> MarketSummaries();
+        ICollection<MarketSummary> MarketSummaries();
 
         MarketSummary MarketSummaries(Pair pair);
     }

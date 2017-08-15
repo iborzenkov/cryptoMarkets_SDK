@@ -40,8 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Features\CryptoAddress.cs" />
     <Compile Include="Features\Currency.cs" />
+    <Compile Include="Features\Balance.cs" />
+    <Compile Include="Features\Order.cs" />
+    <Compile Include="Features\PairStatistic.cs" />
+    <Compile Include="MarketModel\ApiKeyProvider.cs" />
+    <Compile Include="MarketModel\IApiKeyProvider.cs" />
+    <Compile Include="IniFile.cs" />
+    <Compile Include="MarketModel\OrderBookAdapter.cs" />
+    <Compile Include="MarketModel\IOrderBook.cs" />
     <Compile Include="Features\Market.cs" />
     <Compile Include="Features\PairOfMarket.cs" />
     <Compile Include="Features\OrderBook.cs" />
@@ -55,14 +65,24 @@
     <Compile Include="MarketModel\IMarketInfo.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="MarketModel\IMarketTrade.cs" />
-    <Compile Include="MarketModel\IOrderBookUpdater.cs" />
-    <Compile Include="MarketModel\IOrderBookUpdaterProvider.cs" />
+    <Compile Include="Features\OrderId.cs" />
+    <Compile Include="MarketModel\Updaters\PairStatistic\PairStatisticUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\PairStatistic\IPairStatisticUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\PairStatistic\PairStatisticUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\PairStatistic\IPairStatisticUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\OrderBook\OrderBookSignal.cs" />
+    <Compile Include="MarketModel\Updaters\Balance\BalanceSignal.cs" />
+    <Compile Include="MarketModel\Updaters\Balance\IBalanceUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\OrderBook\IOrderBookUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\Balance\IBalanceUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\OrderBook\IOrderBookUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\Balance\BalanceUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\Balance\BalanceUpdater.cs" />
     <Compile Include="Model.cs" />
-    <Compile Include="MarketModel\OrderBookUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdaterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

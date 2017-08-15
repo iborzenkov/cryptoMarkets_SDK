@@ -1,5 +1,4 @@
 ﻿using System;
-using DomainModel.Features;
 
 namespace DomainModel.MarketModel
 {
@@ -8,10 +7,11 @@ namespace DomainModel.MarketModel
         int RefreshInterval { get; set; }
         int Depth { get; set; }
         OrderBookType OrderBookType { get; set; }
-        
+
         void Start();
+
         void Stop();
 
-        event EventHandler<OrderBook> Changed;
+        event EventHandler<IOrderBook> Changed;
     }
 }

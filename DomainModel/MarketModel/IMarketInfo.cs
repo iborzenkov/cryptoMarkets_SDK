@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using DomainModel.Features;
+﻿using DomainModel.Features;
+using System.Collections.Generic;
 
 namespace DomainModel.MarketModel
 {
@@ -25,5 +25,7 @@ namespace DomainModel.MarketModel
         /// <param name="orderBookType">Displayed part of the orderbook </param>
         /// <param name="depth">The depth of orderbook</param>
         OrderBook OrderBook(Pair pair, int depth = 10, OrderBookType orderBookType = OrderBookType.Both);
+
+        ICollection<PairStatistic> PairsStatistic();
     }
 }

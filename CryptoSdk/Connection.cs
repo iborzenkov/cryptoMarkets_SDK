@@ -6,11 +6,11 @@ using System.Text;
 
 namespace CryptoSdk
 {
-    public abstract class Connection
+    public abstract class Connection : IConnection
     {
         protected abstract string MainUri { get; }
 
-        public T PublicGetQuery<T>(string endPoint, params Tuple<string, string>[] parameters)
+        T IConnection.PublicGetQuery<T>(string endPoint, params Tuple<string, string>[] parameters)
         {
             var uri = $"{MainUri}{endPoint}";
 

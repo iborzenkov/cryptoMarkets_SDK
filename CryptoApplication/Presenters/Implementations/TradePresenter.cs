@@ -1,0 +1,61 @@
+﻿using DomainModel.Features;
+using Models.Interfaces;
+using System;
+using System.Linq;
+using Views.Interfaces;
+
+namespace Presenters.Implementations
+{
+    internal class TradePresenter : BasePresenter<ITradeView>
+    {
+        private ITradeModel Model { get; }
+
+        public TradePresenter(ITradeView view, ITradeModel model) : base(view)
+        {
+            Model = model;
+            //Model.TradeChanged += Model_TradeChanged;
+
+            View.SetMarkets(Model.Markets);
+
+            View.MarketChanged += View_MarketChanged;
+            View.PairChanged += View_PairChanged;
+            View.ViewClosed += View_ViewClosed;
+
+            if (Model.Markets.Any())
+                View.Market = Model.Markets.First();
+        }
+
+        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        {
+            Release();
+        }
+
+        private void Release()
+        {
+            //Model.TradeChanged -= Model_TradeChanged;
+            //Model.Release();
+        }
+
+        /*private void Model_TradeChanged(object sender, ITrade trade)
+        {
+            //View.SetTrade(trade);
+        }*/
+
+        private void View_PairChanged(object sender, PairOfMarket pair)
+        {
+            //Model.NeedTradeOf(View.Pair);
+        }
+
+        private void View_MarketChanged(object sender, Market market)
+        {
+            var selectedPair = View.Pair;
+
+            var pairs = market.Pairs;
+            var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
+            View.SetPairs(pairOfMarkets);
+
+            if (selectedPair != null)
+                View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+        }
+    }
+}

@@ -1,32 +1,26 @@
 ﻿using DomainModel.Features;
+using DomainModel.MarketModel.Updaters.Balance;
+using DomainModel.MarketModel.Updaters.OrderBook;
 using System.Collections.Generic;
-using DomainModel.MarketModel;
+using DomainModel.MarketModel.Updaters.PairStatistic;
 
 namespace DomainModel
 {
-    public class Model : IModel, IOrderBookUpdaterProvider
+    public class Model : IModel
     {
         private readonly List<Market> _markets = new List<Market>();
-
-        public Model()
-        {
-        }
 
         public void AddMarket(Market market)
         {
             _markets.Add(market);
         }
 
-        public IEnumerable<Market> Markets => _markets;
+        IEnumerable<Market> IModel.Markets => _markets;
 
-        private readonly Dictionary<PairOfMarket,IOrderBookUpdater> _orderBookUpdaters = new Dictionary<PairOfMarket,IOrderBookUpdater>();
-        public IOrderBookUpdater OrderBookUpdater(PairOfMarket pair)
-        {
-            IOrderBookUpdater updater;
-            if (!_orderBookUpdaters.TryGetValue(pair, out updater))
-                updater = new OrderBookUpdater(pair, pair.Market.Model.Info);
+        IOrderBookUpdaterProvider IModel.OrderBookUpdaterProvider { get; } = new OrderBookUpdaterProvider();
 
-            return updater;
-        }
+        IBalanceUpdaterProvider IModel.BalanceUpdaterProvider { get; } = new BalanceUpdaterProvider();
+
+        IPairStatisticUpdaterProvider IModel.PairStatisticUpdaterProvider { get; } = new PairStatisticUpdaterProvider();
     }
 }

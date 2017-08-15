@@ -1,5 +1,5 @@
-﻿using System;
-using DomainModel.Features;
+﻿using DomainModel.Features;
+using System;
 
 namespace CryptoSdk.Bittrex.Features
 {
@@ -16,5 +16,6 @@ namespace CryptoSdk.Bittrex.Features
         public double Ask { get; set; }
         public int CountOpenedBuyOrders { get; set; }
         public int CountOpenedSellOrders { get; set; }
+        public double PreviousDayPrice { get; set; }
     }
 }

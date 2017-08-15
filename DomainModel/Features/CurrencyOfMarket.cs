@@ -12,12 +12,12 @@
         {
         }
 
-        public CurrencyOfMarket(Currency currency, Market market, double txFee, bool isActive) : 
+        public CurrencyOfMarket(Currency currency, Market market, double txFee, bool isActive) :
             this(currency, market, txFee, isActive, null)
         {
         }
 
-        public CurrencyOfMarket(Currency currency, Market market, double txFee, bool isActive, string baseAddress)
+        public CurrencyOfMarket(Currency currency, Market market, double txFee, bool isActive, CryptoAddress baseAddress)
         {
             Currency = currency;
             Market = market;
@@ -30,6 +30,7 @@
         public Market Market { get; }
         public double TxFee { get; set; }
         public bool IsActive { get; set; }
-        public string BaseAddress { get; set; }
+        public CryptoAddress BaseAddress { get; set; }
+        public int MinConfirmation { get; set; }
     }
 }

@@ -1,3 +1,4 @@
 bin
 obj
 /DomainModel/*.cd
+open-genesis-code

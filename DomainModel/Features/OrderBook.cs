@@ -1,21 +1,21 @@
-﻿using System;
+﻿using DomainModel.MarketModel;
+using System;
 using System.Collections.Generic;
 
 namespace DomainModel.Features
 {
-    public class OrderBook
+    public class OrderBook : IOrderBook
     {
         public Pair Pair { get; }
 
-        public OrderBookSort AskSorting { get; set; } = OrderBookSort.Decrease;
-        public OrderBookSort BidSorting { get; set; } = OrderBookSort.Decrease;
+        public OrderBookSort AskSorting { get; set; } = OrderBookSort.Increase;
+        public OrderBookSort BidSorting { get; set; } = OrderBookSort.Increase;
 
-        private readonly List<OrderBookPart> _bids = new List<OrderBookPart>();
-        private readonly List<OrderBookPart> _asks = new List<OrderBookPart>();
+        private List<OrderBookPart> InternalBids { get; } = new List<OrderBookPart>();
+        private List<OrderBookPart> InternalAsks { get; } = new List<OrderBookPart>();
 
-        public IReadOnlyCollection<OrderBookPart> Bids => _bids.AsReadOnly();
-
-        public IReadOnlyCollection<OrderBookPart> Asks => _asks.AsReadOnly();
+        IEnumerable<OrderBookPart> IOrderBook.Bids => InternalBids;
+        IEnumerable<OrderBookPart> IOrderBook.Asks => InternalAsks;
 
         public OrderBook(Pair pair)
         {
@@ -24,12 +24,12 @@ namespace DomainModel.Features
 
         public void ReplaceBids(IEnumerable<OrderBookPart> bids)
         {
-            Replace(_bids, bids, BidSorting);
+            Replace(InternalBids, bids, BidSorting);
         }
 
         public void ReplaceAsk(IEnumerable<OrderBookPart> asks)
         {
-            Replace(_asks, asks, AskSorting);
+            Replace(InternalAsks, asks, AskSorting);
         }
 
         private void Replace(List<OrderBookPart> collection, IEnumerable<OrderBookPart> data, OrderBookSort sorting)
@@ -65,7 +65,7 @@ namespace DomainModel.Features
                 return +1;
             if (x == null && y != null)
                 return -1;
-            return y.Price.CompareTo(x.Price);
+            return x.Price.CompareTo(y.Price);
         }
     }
 
@@ -79,13 +79,13 @@ namespace DomainModel.Features
                 return -1;
             if (x == null && y != null)
                 return +1;
-            return x.Price.CompareTo(y.Price);
+            return y.Price.CompareTo(x.Price);
         }
     }
 
     public class OrderBookPart
     {
-        public double Price { get; }
+        public double Price { get; private set; }
 
         public double Quantity { get; }
 
@@ -93,6 +93,11 @@ namespace DomainModel.Features
         {
             Price = price;
             Quantity = quantity;
+        }
+
+        public void Multiplier(int multiplier)
+        {
+            Price = Price * multiplier;
         }
 
         public override string ToString()

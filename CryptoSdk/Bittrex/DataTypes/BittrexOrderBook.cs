@@ -13,18 +13,28 @@ namespace CryptoSdk.Bittrex.DataTypes
     }
 
     [DataContract]
+    public class BittrexOrderBookOneSideDataType : BaseDataType
+    {
+        /// <summary>
+        /// OrderBook
+        /// </summary>
+        [DataMember(Name = "result", EmitDefaultValue = false)]
+        public OrderBookPartDataType[] Prices { get; set; }
+    }
+
+    [DataContract]
     public class OrderBookDataType
     {
         /// <summary>
         /// Asks
         /// </summary>
-        [DataMember(Name = "buy", EmitDefaultValue = false)]
+        [DataMember(Name = "sell", EmitDefaultValue = false)]
         public OrderBookPartDataType[] Asks { get; set; }
 
         /// <summary>
         /// Bids
         /// </summary>
-        [DataMember(Name = "sell", EmitDefaultValue = false)]
+        [DataMember(Name = "buy", EmitDefaultValue = false)]
         public OrderBookPartDataType[] Bids { get; set; }
     }
 
