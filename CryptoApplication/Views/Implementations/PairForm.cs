@@ -246,6 +246,7 @@ namespace Views.Implementations
         public int Compare(object x, object y)
         {
             // todo: сделать "человеческую" сортировку
+            // todo: растиражировать её на другие формы
             var value1 = ((ListViewItem)x).SubItems[_column].Text;
             var value2 = ((ListViewItem)y).SubItems[_column].Text;
 
