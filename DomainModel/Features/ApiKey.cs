@@ -1,6 +1,4 @@
 ﻿using DomainModel.MarketModel;
-using System;
-using System.Collections.Generic;
 
 namespace DomainModel.Features
 {
@@ -40,24 +38,6 @@ namespace DomainModel.Features
             Role = role;
             PrivateKey = privateKey;
             PublicKey = publicKey;
-        }
-    }
-
-    public static class ApiKeyRoleCaption
-    {
-        private static readonly Dictionary<ApiKeyRole, string> Captions = new Dictionary<ApiKeyRole, string>
-        {
-            {ApiKeyRole.Info, "Info"},
-            {ApiKeyRole.Trade, "Trade"},
-            {ApiKeyRole.Account, "Account"},
-        };
-
-        public static string Caption(ApiKeyRole role)
-        {
-            string caption;
-            if (Captions.TryGetValue(role, out caption))
-                return caption;
-            throw new Exception($"Compliance is not set ({role})");
         }
     }
 }

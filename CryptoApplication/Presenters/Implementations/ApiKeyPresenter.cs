@@ -20,12 +20,29 @@ namespace Presenters.Implementations
 
             View.SetMarkets(Model.Markets);
 
+            View.ViewClosed += View_ViewClosed;
             View.MarketChanged += View_MarketChanged;
             View.PrivateApiKeyChanged += View_PrivateApiKeyChanged;
             View.PublicApiKeyChanged += View_PublicApiKeyChanged;
 
             if (Model.Markets.Any())
                 View.SetSelectedMarket(Model.Markets.First());
+        }
+
+        private void Release()
+        {
+            View.ViewClosed -= View_ViewClosed;
+            View.MarketChanged -= View_MarketChanged;
+            View.PrivateApiKeyChanged -= View_PrivateApiKeyChanged;
+            View.PublicApiKeyChanged -= View_PublicApiKeyChanged;
+
+            Model.ApiKeyRolesChanged -= Model_ApiKeyRolesChanged;
+            Model.ApiKeysChanged -= Model_ApiKeysChanged;
+        }
+
+        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        {
+            Release();
         }
 
         private void View_PrivateApiKeyChanged(object sender, Tuple<ApiKeyRole, IApiKey> apiKeyInfo)

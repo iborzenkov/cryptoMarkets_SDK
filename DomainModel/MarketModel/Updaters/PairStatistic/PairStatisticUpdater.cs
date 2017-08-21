@@ -6,12 +6,13 @@ namespace DomainModel.MarketModel.Updaters.PairStatistic
 {
     public class PairStatisticUpdater : IPairStatisticUpdater
     {
-        private const int DefaultRefreshInterval = 1 * 60 * 60 * 1000; // once an hour
+        private const int DefaultRefreshInterval = 30 * 1000; // once an hour
 
         private readonly Timer _timer;
         private int _refreshInterval;
         private bool _isActive;
         private readonly IMarketInfo _marketInfo;
+        public ICollection<Features.PairStatistic> LastPairsStatistic { get; private set; }
 
         public PairStatisticUpdater(IMarketInfo marketInfo, int refreshInterval = DefaultRefreshInterval)
         {
@@ -53,8 +54,8 @@ namespace DomainModel.MarketModel.Updaters.PairStatistic
 
         private void TimerCallback(object state)
         {
-            var pairsStatistic = _marketInfo.PairsStatistic();
-            OnChanged(pairsStatistic);
+            LastPairsStatistic = _marketInfo.PairsStatistic();
+            OnChanged(LastPairsStatistic);
         }
 
         private void ChangeTimer()

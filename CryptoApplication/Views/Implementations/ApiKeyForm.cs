@@ -52,25 +52,26 @@ namespace Views.Implementations
             var top = 30;
             foreach (var role in roles)
             {
+                var topControls = 28;
                 var groupBox = new GroupBox
                 {
                     Text = ApiKeyRoleCaption.Caption(role),
                     Parent = apiKeysGroupBox,
                     Location = new Point(14, top),
-                    Size = new Size(267, 80),
+                    Size = new Size(267, topControls + 60),
                     Tag = role,
                 };
                 var privateKeyLabel = new Label
                 {
                     Text = PrivateKeyText,
-                    Location = new Point(3, 22),
+                    Location = new Point(3, topControls + 3),
                     Parent = groupBox,
                     AutoSize = true,
                 };
                 _privateKeyLabels.Add(privateKeyLabel);
                 var privateTextBox = new TextBox
                 {
-                    Location = new Point(70, 19),
+                    Location = new Point(70, topControls),
                     Size = new Size(191, 20),
                     Parent = groupBox,
                     Tag = role,
@@ -80,14 +81,14 @@ namespace Views.Implementations
                 var publicKeyLabel = new Label
                 {
                     Text = PublicKeyText,
-                    Location = new Point(3, 48),
+                    Location = new Point(3, topControls + 29),
                     Parent = groupBox,
                     AutoSize = true,
                 };
                 _publicKeyLabels.Add(publicKeyLabel);
                 var publicTextBox = new TextBox
                 {
-                    Location = new Point(70, 45),
+                    Location = new Point(70, topControls + 26),
                     Size = new Size(191, 20),
                     Parent = groupBox,
                     Tag = role,

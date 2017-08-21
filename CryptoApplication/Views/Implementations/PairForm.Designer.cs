@@ -47,6 +47,7 @@ namespace Views.Implementations
             this.activeOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.filterTextBox = new System.Windows.Forms.TextBox();
             this.filterLabel = new System.Windows.Forms.Label();
+            this.volumeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marketsGroupBox.SuspendLayout();
             this.pairPanel.SuspendLayout();
             this.filterPanel.SuspendLayout();
@@ -80,7 +81,7 @@ namespace Views.Implementations
             this.pairPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pairPanel.Location = new System.Drawing.Point(200, 0);
             this.pairPanel.Name = "pairPanel";
-            this.pairPanel.Size = new System.Drawing.Size(376, 280);
+            this.pairPanel.Size = new System.Drawing.Size(452, 280);
             this.pairPanel.TabIndex = 3;
             // 
             // pairListView
@@ -89,6 +90,7 @@ namespace Views.Implementations
             this.pairColumnHeader,
             this.activeColumnHeader,
             this.dailyChangeColumnHeader,
+            this.volumeColumnHeader,
             this.minTradeSizeColumnHeader});
             this.pairListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pairListView.FullRowSelect = true;
@@ -96,7 +98,7 @@ namespace Views.Implementations
             this.pairListView.Location = new System.Drawing.Point(0, 63);
             this.pairListView.MultiSelect = false;
             this.pairListView.Name = "pairListView";
-            this.pairListView.Size = new System.Drawing.Size(376, 217);
+            this.pairListView.Size = new System.Drawing.Size(452, 217);
             this.pairListView.TabIndex = 1;
             this.pairListView.UseCompatibleStateImageBehavior = false;
             this.pairListView.View = System.Windows.Forms.View.Details;
@@ -133,7 +135,7 @@ namespace Views.Implementations
             this.filterPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.filterPanel.Location = new System.Drawing.Point(0, 0);
             this.filterPanel.Name = "filterPanel";
-            this.filterPanel.Size = new System.Drawing.Size(376, 63);
+            this.filterPanel.Size = new System.Drawing.Size(452, 63);
             this.filterPanel.TabIndex = 4;
             // 
             // allDailyChangeRadioButton
@@ -209,11 +211,16 @@ namespace Views.Implementations
             this.filterLabel.TabIndex = 2;
             this.filterLabel.Text = "Filter";
             // 
+            // volumeColumnHeader
+            // 
+            this.volumeColumnHeader.Text = "Daily Volume";
+            this.volumeColumnHeader.Width = 95;
+            // 
             // PairForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 280);
+            this.ClientSize = new System.Drawing.Size(652, 280);
             this.Controls.Add(this.pairPanel);
             this.Controls.Add(this.marketsGroupBox);
             this.Name = "PairForm";
@@ -249,6 +256,8 @@ namespace Views.Implementations
         private System.Windows.Forms.ColumnHeader minTradeSizeColumnHeader;
         [LocalizableClass]
         private System.Windows.Forms.ColumnHeader activeColumnHeader;
+        [LocalizableClass]
+        private System.Windows.Forms.ColumnHeader volumeColumnHeader;
 
         private System.Windows.Forms.ListBox marketListBox;
         private System.Windows.Forms.Panel pairPanel;

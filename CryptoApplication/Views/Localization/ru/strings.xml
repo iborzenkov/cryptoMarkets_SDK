@@ -59,6 +59,7 @@
 	<Item key="Views.Implementations.PairForm.pairColumnHeader_Text">Пара</Item>
 	<Item key="Views.Implementations.PairForm.activeColumnHeader_Text">Активна?</Item>
 	<Item key="Views.Implementations.PairForm.dailyChangeColumnHeader_Text">Днев.динамика</Item>
+	<Item key="Views.Implementations.PairForm.volumeColumnHeader_Text">Дневной объем</Item>
 	<Item key="Views.Implementations.PairForm.minTradeSizeColumnHeader_Text">Мин.позиция</Item>
 	<Item key="Views.Implementations.TradeForm.marketLabel_Text">Рынок</Item>
 	<Item key="Views.Implementations.TradeForm.pairLabel_Text">Пара</Item>
@@ -76,6 +77,9 @@
 	<Item key="InfoApiKeyRole">Информация</Item>
 	<Item key="TradeApiKeyRole">Торговля</Item>
 	<Item key="AccountApiKeyRole">Счет</Item>
+	<Item key="TradeLimitApiKeyRole">Лимитная торговля (позволяет оперировать отложенными ордерами)</Item>
+	<Item key="TradeMarketApiKeyRole">Рыночная торговля (позволяет оперировать рыночными ордерами)</Item>
+	<Item key="WithdrawApiKeyRole">Вывод средств</Item>
 	<Item key="Yes">Да</Item>
 	<Item key="No">Нет</Item>
 </Strings>

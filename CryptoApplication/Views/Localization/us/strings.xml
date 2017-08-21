@@ -59,6 +59,7 @@
 	<Item key="Views.Implementations.PairForm.pairColumnHeader_Text">Pair</Item>
 	<Item key="Views.Implementations.PairForm.activeColumnHeader_Text">Active?</Item>
 	<Item key="Views.Implementations.PairForm.dailyChangeColumnHeader_Text">Daily Change</Item>
+	<Item key="Views.Implementations.PairForm.volumeColumnHeader_Text">Daily Volume</Item>
 	<Item key="Views.Implementations.PairForm.minTradeSizeColumnHeader_Text">Min Trade Size</Item>
 	<Item key="Views.Implementations.TradeForm.marketLabel_Text">Market</Item>
 	<Item key="Views.Implementations.TradeForm.pairLabel_Text">Pair</Item>
@@ -76,6 +77,9 @@
 	<Item key="InfoApiKeyRole">Info</Item>
 	<Item key="TradeApiKeyRole">Trade</Item>
 	<Item key="AccountApiKeyRole">Account</Item>
+	<Item key="TradeLimitApiKeyRole">Limit Trade (allows to place LIMIT buy and sell orders)</Item>
+	<Item key="TradeMarketApiKeyRole">Market Trade (allows to place MARKET buy and sell orders)</Item>
+	<Item key="WithdrawApiKeyRole">Withdraw</Item>
 	<Item key="Yes">Yes</Item>
 	<Item key="No">No</Item>
 </Strings>

@@ -12,6 +12,9 @@ namespace Views
             {ApiKeyRole.Info, () => Locale.Instance.Localize("InfoApiKeyRole")},
             {ApiKeyRole.Trade, () => Locale.Instance.Localize("TradeApiKeyRole")},
             {ApiKeyRole.Account, () => Locale.Instance.Localize("AccountApiKeyRole")},
+            {ApiKeyRole.TradeLimit, () => Locale.Instance.Localize("TradeLimitApiKeyRole")},
+            {ApiKeyRole.TradeMarket, () => Locale.Instance.Localize("TradeMarketApiKeyRole")},
+            {ApiKeyRole.Withdraw, () => Locale.Instance.Localize("WithdrawApiKeyRole")},
         };
 
         public static string Caption(ApiKeyRole role)

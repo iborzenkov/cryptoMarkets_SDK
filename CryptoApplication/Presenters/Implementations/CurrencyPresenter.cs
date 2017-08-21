@@ -1,4 +1,5 @@
-﻿using DomainModel.Features;
+﻿using System;
+using DomainModel.Features;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Presenters.Implementations
 
             View.SetMarkets(Model.Markets);
 
+            View.ViewClosed += View_ViewClosed;
             View.MarketChanged += View_MarketChanged;
             View.FilterChanged += View_FilterChanged;
             View.ActiveOnlyChanged += View_ActiveOnlyChanged;
@@ -25,6 +27,17 @@ namespace Presenters.Implementations
 
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
+        }
+
+        private void Release()
+        {
+            View.ViewClosed -= View_ViewClosed;
+            View.MarketChanged -= View_MarketChanged;
+            View.FilterChanged -= View_FilterChanged;
+            View.ActiveOnlyChanged -= View_ActiveOnlyChanged;
+            View.ClearFilter -= View_ClearFilter;
+
+            Model.CurrenciesChanged -= Model_CurrenciesChanged;
         }
 
         private void View_ClearFilter()
@@ -57,6 +70,10 @@ namespace Presenters.Implementations
         {
             Model.SelectedMarket = market;
             Model.SetFilter(_filter, _activeOnly);
+        }
+        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        {
+            Release();
         }
     }
 }

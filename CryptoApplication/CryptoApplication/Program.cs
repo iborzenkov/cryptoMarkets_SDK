@@ -24,7 +24,7 @@ namespace CryptoApplication
             var marketModel = new BittrexModel();
             //var marketModel = new DummyModel();
 
-            var market = new Market("Bittrex", marketModel, new[] { ApiKeyRole.Info, ApiKeyRole.Trade, ApiKeyRole.Account });
+            var market = new Market("Bittrex", marketModel, new[] { ApiKeyRole.Info, ApiKeyRole.TradeLimit, ApiKeyRole.TradeMarket, ApiKeyRole.Withdraw });
 
             domainModel.AddMarket(market);
 

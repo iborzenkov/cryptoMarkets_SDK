@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Features\ApiKeyRoleCaption.cs" />
     <Compile Include="Features\CryptoAddress.cs" />
     <Compile Include="Features\Currency.cs" />
     <Compile Include="Features\Balance.cs" />

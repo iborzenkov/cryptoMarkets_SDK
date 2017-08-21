@@ -19,12 +19,12 @@ namespace Models.Implementations
         IEnumerable<Market> ITradeModel.Markets => _domainModel.Markets;
         public void NeedOrderBookOf(PairOfMarket pair)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void NeedBalanceOf(CurrencyOfMarket currency)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

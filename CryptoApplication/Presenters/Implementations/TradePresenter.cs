@@ -25,15 +25,19 @@ namespace Presenters.Implementations
                 View.Market = Model.Markets.First();
         }
 
+        private void Release()
+        {
+            View.MarketChanged -= View_MarketChanged;
+            View.PairChanged -= View_PairChanged;
+            View.ViewClosed -= View_ViewClosed;
+
+            //Model.TradeChanged -= Model_TradeChanged;
+            //Model.Release();
+        }
+
         private void View_ViewClosed(object sender, EventArgs eventArgs)
         {
             Release();
-        }
-
-        private void Release()
-        {
-            //Model.TradeChanged -= Model_TradeChanged;
-            //Model.Release();
         }
 
         /*private void Model_TradeChanged(object sender, ITrade trade)

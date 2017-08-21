@@ -10,6 +10,8 @@ namespace DomainModel.MarketModel.Updaters.PairStatistic
         void Start();
         void Stop();
 
+        ICollection<Features.PairStatistic> LastPairsStatistic { get; }
+
         event EventHandler<IEnumerable<Features.PairStatistic>> Changed;
     }
 }

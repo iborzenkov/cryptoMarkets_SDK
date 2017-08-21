@@ -51,11 +51,18 @@ namespace Models.Implementations
 
             _updater = PairStatisticUpdaterProvider.PairStatisticUpdater(market);
             _updater.Changed += PairStatisticUpdater_Changed;
+            if (_updater.LastPairsStatistic != null)
+                SetStatistics(_updater.LastPairsStatistic);
 
             _updater.Start();
         }
 
         private void PairStatisticUpdater_Changed(object sender, IEnumerable<PairStatistic> statistics)
+        {
+            SetStatistics(statistics);
+        }
+
+        private void SetStatistics(IEnumerable<PairStatistic> statistics)
         {
             Statistics = statistics;
             OnStatisticChanged();
@@ -129,7 +136,7 @@ namespace Models.Implementations
             PairsChanged?.Invoke(this, pairs);
         }
 
-        public void Release()
+        void IPairModel.Release()
         {
             PairStatisticUpdaterProvider.ReleaseUpdater(_updater);
         }

@@ -22,12 +22,23 @@ namespace Presenters.Implementations
 
             View.MarketChanged += View_MarketChanged;
             View.ViewClosed += View_ViewClosed;
-
             View.FilterChanged += View_FilterChanged;
+
             View.InitFilter();
 
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
+        }
+
+        private void Release()
+        {
+            View.MarketChanged -= View_MarketChanged;
+            View.ViewClosed -= View_ViewClosed;
+            View.FilterChanged -= View_FilterChanged;
+
+            Model.PairsChanged -= Model_PairsChanged;
+            Model.StatisticsChanged -= Model_StatisticsChanged;
+            Model.Release();
         }
 
         private void Model_StatisticsChanged(object sender, IEnumerable<PairStatistic> pairStatistics)
@@ -62,12 +73,6 @@ namespace Presenters.Implementations
         private void View_ViewClosed(object sender, EventArgs eventArgs)
         {
             Release();
-        }
-
-        private void Release()
-        {
-            Model.PairsChanged -= Model_PairsChanged;
-            Model.Release();
         }
     }
 }

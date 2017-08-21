@@ -13,11 +13,10 @@ namespace Views.Implementations
 {
     public partial class PairForm : Form, IPairView, ILocalizableView
     {
-        Guid _id;
         public PairForm()
         {
             InitializeComponent();
-            _id = Guid.NewGuid();
+
             Locale.Instance.RegisterView(this);
         }
 
@@ -56,7 +55,8 @@ namespace Views.Implementations
                         {
                             pair.Pair.ToString(),
                             IsActive(pair.IsActive),
-                            DailyChange(statistic)
+                            DailyChange(statistic),
+                            DailyVolume(statistic)
                         });
                         item.Checked = pair.IsActive;
                         item.Tag = pair;
@@ -68,6 +68,13 @@ namespace Views.Implementations
                     pairListView.EndUpdate();
                 }
             }));
+        }
+
+        private string DailyVolume(PairStatistic statistic)
+        {
+            return statistic == null
+                ? string.Empty
+                : $"{statistic.Volume.ToString(CultureInfo.InvariantCulture)}";
         }
 
         private string IsActive(bool isActive)
@@ -98,7 +105,6 @@ namespace Views.Implementations
         public void SetStatistics(IEnumerable<PairStatistic> statistics)
         {
             _statistics = statistics;
-            // todo: метод вызывается для первой формы из двух закрытых, видимо, что-то не уничтожается корректно
             pairListView.BeginInvoke(new Action(() =>
             {
                 pairListView.BeginUpdate();
@@ -116,6 +122,7 @@ namespace Views.Implementations
 
                         var statistic = pairStatistics.FirstOrDefault(s => s.Pair.Equals(pair.Pair));
                         pairListView.Items[i].SubItems[2].Text = DailyChange(statistic);
+                        pairListView.Items[i].SubItems[3].Text = DailyVolume(statistic);
                     }
                 }
                 finally
@@ -221,7 +228,7 @@ namespace Views.Implementations
 
             bool mode = _sorting.TryGetValue(column, out mode) ? !mode : true;
 
-            pairListView.ListViewItemSorter = new ListViewItemComparer(column, mode);
+            pairListView.ListViewItemSorter = new ListViewItemComparer(column, mode, _statistics);
             pairListView.Sort();
 
             if (_sorting.ContainsKey(column))
@@ -236,20 +243,19 @@ namespace Views.Implementations
     {
         private readonly int _column;
         private readonly bool _mode;
+        IEnumerable<PairStatistic> _statistics;
 
-        public ListViewItemComparer(int column, bool mode)
+        public ListViewItemComparer(int column, bool mode, IEnumerable<PairStatistic> statistics)
         {
             _column = column;
             _mode = mode;
+            _statistics = statistics;
         }
 
-        public int Compare(object x, object y)
+        private int CompareStrings(string x, string y)
         {
-            // todo: сделать "человеческую" сортировку
-            // todo: растиражировать её на другие формы
-            // todo: добавить столбец Volume - брать из BaseVolume
-            var value1 = ((ListViewItem)x).SubItems[_column].Text;
-            var value2 = ((ListViewItem)y).SubItems[_column].Text;
+            var value1 = x;
+            var value2 = y;
 
             if (!_mode)
             {
@@ -259,6 +265,42 @@ namespace Views.Implementations
             }
 
             return string.Compare(value1, value2, StringComparison.Ordinal);
+        }
+
+        private int CompareNumbers(double x, double y)
+        {
+            var value1 = x;
+            var value2 = y;
+
+            if (!_mode)
+            {
+                var tmp = value1;
+                value1 = value2;
+                value2 = tmp;
+            }
+
+            return value1.CompareTo(value2);
+        }
+
+        private PairStatistic Statistic(object obj)
+        {
+            var pair = ((ListViewItem)obj).Tag as PairOfMarket;
+            return _statistics.FirstOrDefault(s => s.Pair.Equals(pair.Pair));
+        }
+
+        public int Compare(object x, object y)
+        {
+            switch (_column)
+            {
+                case 2:
+                    return CompareNumbers(Statistic(x).DailyChangeOfLastPrice(), Statistic(y).DailyChangeOfLastPrice());
+                case 3:
+                    return CompareNumbers(Statistic(x).Volume, Statistic(y).Volume);
+            }
+
+            return CompareStrings(
+                ((ListViewItem)x).SubItems[_column].Text,
+                ((ListViewItem)y).SubItems[_column].Text);
         }
     }
 }
