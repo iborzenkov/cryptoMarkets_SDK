@@ -16,10 +16,20 @@ namespace Presenters.Implementations
             View.ShowPairs += View_ShowPairs;
             View.ShowApiKeys += View_ShowApiKeys;
             View.ShowBalances += View_ShowBalances;
-            View.ShowTrade += View_ShowTrade;
+            View.ShowMarketTrade += View_ShowMarketTrade;
+            View.ShowPendingTrade += View_ShowPendingTrade;
             View.Exit += View_Exit;
 
             _model = model;
+        }
+
+        private void View_ShowPendingTrade()
+        {
+            var form = new PendingTradeForm { MdiParent = View.MdiParentForm };
+
+            var tradePresenter = new PendingTradePresenter(form, new PendingTradeModel(_model.DomainModel));
+
+            tradePresenter.Run();
         }
 
         private void View_ShowApiKeys()
@@ -40,11 +50,11 @@ namespace Presenters.Implementations
             balancesPresenter.Run();
         }
 
-        private void View_ShowTrade()
+        private void View_ShowMarketTrade()
         {
-            var form = new TradeForm { MdiParent = View.MdiParentForm };
+            var form = new MarketTradeForm { MdiParent = View.MdiParentForm };
 
-            var tradePresenter = new TradePresenter(form, new TradeModel(_model.DomainModel));
+            var tradePresenter = new MarketTradePresenter(form, new MarketTradeModel(_model.DomainModel));
 
             tradePresenter.Run();
         }

@@ -16,8 +16,6 @@ namespace CryptoSdk.Dummy
             total = available + pending;
         }
 
-        public IApiKey ApiKey { get; set; }
-
         public IEnumerable<Balance> Balances(Market market)
         {
             var balances = new List<Balance>();

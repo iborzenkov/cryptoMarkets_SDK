@@ -1,13 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DomainModel.Strategies
+﻿namespace DomainModel.Strategies
 {
-    public class Strategy
+    public abstract class Strategy
     {
+        protected IStrategyDataUpdater Updater;
+
+        private bool _active;
+
+        protected Strategy()
+        {
+            MakeUpdater();
+
+        }
+
+        protected abstract void MakeUpdater();
+
         // DataUpdater(Market market, Pair pair, int Period)
+        public bool Active
+
+        {
+            get { return _active; }
+            set
+            {
+                _active = value;
+                Updater.Active = value;
+            }
+        }
     }
 }

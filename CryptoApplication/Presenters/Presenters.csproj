@@ -33,10 +33,11 @@
     <Compile Include="Implementations\BasePresenter.cs" />
     <Compile Include="Implementations\ApiKeyPresenter.cs" />
     <Compile Include="Implementations\BalancePresenter.cs" />
+    <Compile Include="Implementations\PendingTradePresenter.cs" />
     <Compile Include="Implementations\PairPresenter.cs" />
     <Compile Include="Implementations\CurrencyPresenter.cs" />
     <Compile Include="Implementations\MainPresenter.cs" />
-    <Compile Include="Implementations\TradePresenter.cs" />
+    <Compile Include="Implementations\MarketTradePresenter.cs" />
     <Compile Include="Implementations\OrderBookPresenter.cs" />
     <Compile Include="Interfaces\IPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

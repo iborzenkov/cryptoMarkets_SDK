@@ -84,7 +84,13 @@
     <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdaterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Strategies\IStrategyDataUpdater.cs" />
     <Compile Include="Strategies\Strategy.cs" />
+    <Compile Include="Strategies\StrategyDataUpdater.cs" />
+    <Compile Include="Strategies\StrategySettings.cs" />
+    <Compile Include="Strategies\Volume\VolumeStrategyDataUpdater.cs" />
+    <Compile Include="Strategies\Volume\VolumeStrategy.cs" />
+    <Compile Include="Strategies\Volume\VolumeStrategySettings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

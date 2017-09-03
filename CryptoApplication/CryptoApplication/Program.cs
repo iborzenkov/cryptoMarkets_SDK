@@ -1,10 +1,10 @@
-﻿using CryptoSdk.Dummy;
+﻿using CryptoSdk.Bittrex.Model;
+using CryptoSdk.Dummy;
 using DomainModel.Features;
 using Models.Implementations;
 using Presenters.Implementations;
 using System;
 using System.Windows.Forms;
-using CryptoSdk.Bittrex.Model;
 using Views.Implementations;
 
 namespace CryptoApplication
@@ -24,7 +24,10 @@ namespace CryptoApplication
             var marketModel = new BittrexModel();
             //var marketModel = new DummyModel();
 
-            var market = new Market("Bittrex", marketModel, new[] { ApiKeyRole.Info, ApiKeyRole.TradeLimit, ApiKeyRole.TradeMarket, ApiKeyRole.Withdraw });
+            var market = new Market("Bittrex", marketModel, new[]
+            {
+                ApiKeyRole.Info, ApiKeyRole.TradeLimit, ApiKeyRole.TradeMarket, ApiKeyRole.Withdraw
+            });
 
             domainModel.AddMarket(market);
 

@@ -41,6 +41,7 @@ namespace Views.Implementations
             // 
             // askListView
             // 
+            this.askListView.BackColor = System.Drawing.Color.Salmon;
             this.askListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.askPriceColumnHeader,
             this.askQuantityColumnHeader});
@@ -76,6 +77,7 @@ namespace Views.Implementations
             // 
             // bidListView
             // 
+            this.bidListView.BackColor = System.Drawing.Color.LimeGreen;
             this.bidListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.bidPriceColumnHeader,
             this.bidQuantityColumnHeader});

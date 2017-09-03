@@ -80,7 +80,9 @@ namespace Views.Implementations
 
         public event Action ShowBalances;
 
-        public event Action ShowTrade;
+        public event Action ShowMarketTrade;
+
+        public event Action ShowPendingTrade;
 
         public event Action Exit;
 
@@ -96,7 +98,7 @@ namespace Views.Implementations
 
         private void tradeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowTrade?.Invoke();
+            ShowMarketTrade?.Invoke();
         }
 
         private void pairsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,12 +108,17 @@ namespace Views.Implementations
 
         private void englishToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Localization.Locale.Instance.SetPackage("us");
+            Locale.Instance.SetPackage("us");
         }
 
         private void russianToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Localization.Locale.Instance.SetPackage("ru");
+            Locale.Instance.SetPackage("ru");
+        }
+
+        private void pendingTradeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPendingTrade?.Invoke();
         }
     }
 }
