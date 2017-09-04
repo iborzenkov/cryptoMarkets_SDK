@@ -1,4 +1,5 @@
-﻿using DomainModel.Features;
+﻿using System;
+using DomainModel.Features;
 using DomainModel.MarketModel;
 using System.Collections.Generic;
 
@@ -20,8 +21,9 @@ namespace CryptoSdk.Dummy
             return new OrderId("1");
         }
 
-        public bool Cancel(OrderId orderId)
+        public bool Cancel(Market market, OrderId orderId, out string errorMessage)
         {
+            errorMessage = String.Empty;
             return true;
         }
 

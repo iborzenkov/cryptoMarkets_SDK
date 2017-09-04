@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CryptoSdk;
+using CryptoSdk.Misc;
 using DomainModel;
 using DomainModel.Features;
 using Views.Interfaces;
@@ -74,6 +75,11 @@ namespace Views.Implementations
         void IPendingTradeView.SetIsMayTrade(bool value)
         {
             tradeButton.Enabled = value;
+        }
+
+        void IPendingTradeView.SetInfoMessage(string message)
+        {
+            
         }
 
         public event EventHandler<Market> MarketChanged;

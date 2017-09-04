@@ -28,6 +28,7 @@ namespace Views.Interfaces
         PairOfMarket Pair { get; set; }
 
         void SetIsMayTrade(bool value);
+        void SetInfoMessage(string message);
 
         event EventHandler<Market> MarketChanged;
         event EventHandler<PairOfMarket> PairChanged;

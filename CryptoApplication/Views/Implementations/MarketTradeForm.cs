@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using CryptoSdk;
+using CryptoSdk.Misc;
 using DomainModel;
 using DomainModel.Features;
 using Views.Interfaces;

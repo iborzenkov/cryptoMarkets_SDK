@@ -70,6 +70,43 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             return summary;
         }
 
+        private static TradePosition PositionFromString(string positionStr)
+        {
+            switch (positionStr)
+            {
+                case "LIMIT_SELL":
+                    return TradePosition.Sell;
+
+                case "LIMIT_BUY":
+                    return TradePosition.Sell;
+
+                default:
+                    throw new Exception($"{positionStr} is unknown position tag.");
+            }
+        }
+
+        public static Order ToOrder(this BittrexOpenedLimitOrderItemDataType openedLimitOrder)
+        {
+            Pair pair;
+            if (!TryParsePair(openedLimitOrder.Pair, out pair))
+                return null;
+
+            var order = new Order
+            {
+                Id = new OrderId(openedLimitOrder.Id),
+                Pair = pair,
+                Quantity = openedLimitOrder.Quantity,
+                Price = openedLimitOrder.Price,
+                Position = PositionFromString(openedLimitOrder.OrderType),
+            };
+
+            DateTime timeStamp;
+            if (DateTime.TryParse(openedLimitOrder.Opened, out timeStamp))
+                order.Opened = timeStamp;
+
+            return order;
+        }
+
         private static bool TryParsePair(string pairString, out Pair pair)
         {
             pair = null;

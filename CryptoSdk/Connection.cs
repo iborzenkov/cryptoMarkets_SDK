@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using CryptoSdk.Misc;
 using DomainModel;
 using DomainModel.Features;
 using DomainModel.MarketModel;

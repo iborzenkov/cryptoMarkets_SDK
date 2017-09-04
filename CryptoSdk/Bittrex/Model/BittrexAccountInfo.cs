@@ -9,34 +9,11 @@ using System.Linq;
 
 namespace CryptoSdk.Bittrex.Model
 {
-    public class BittrexAccountInfo : IAccountInfo
+    public class BittrexAccountInfo : BittrexPrivate, IAccountInfo
     {
-        private readonly IConnection _connection;
 
-        public BittrexAccountInfo(IConnection connection)
+        public BittrexAccountInfo(IConnection connection) : base(connection)
         {
-            _connection = connection;
-        }
-
-        private Tuple<string, string>[] GetParameters(IApiKey publicKey, IReadOnlyList<Tuple<string, string>> additionalParams = null)
-        {
-            var nonce = DateTime.Now.Ticks;
-
-            var commonParamsCount = 2;
-            var additionalParamsCount = additionalParams == null ? 0 : additionalParams.Count;
-            var parameters = new Tuple<string, string>[commonParamsCount + additionalParamsCount];
-            parameters[0] = Tuple.Create("apikey", publicKey.Key);
-            parameters[1] = Tuple.Create("nonce", nonce.ToString());
-
-            if (additionalParams != null)
-            {
-                for (int i = 0, n = commonParamsCount; i < additionalParams.Count; i++, n++)
-                {
-                    parameters[n] = additionalParams[i];
-                }
-            }
-
-            return parameters;
         }
 
         public IEnumerable<Balance> Balances(Market market)
@@ -44,7 +21,7 @@ namespace CryptoSdk.Bittrex.Model
             var apiKeys = market.ApiKeys(ApiKeyRole.Info);
 
             var result = new List<Balance>();
-            var query = _connection.PrivateGetQuery<BittrexBalancesDataType>(
+            var query = Connection.PrivateGetQuery<BittrexBalancesDataType>(
                 EndPoints.GetBalances, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey));
             if (query.Success)
             {
@@ -67,7 +44,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var apiKeys = market.ApiKeys(ApiKeyRole.Info);
 
-            var query = _connection.PrivateGetQuery<BittrexBalanceDataType>(
+            var query = Connection.PrivateGetQuery<BittrexBalanceDataType>(
                 EndPoints.GetBalance, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
                 balance = query.Balance.ToBalance(market, currency);

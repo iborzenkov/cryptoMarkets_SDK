@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bittrex\DataTypes\BittrexTradeDataType.cs" />
+    <Compile Include="Bittrex\Model\BaseBittrex.cs" />
+    <Compile Include="Bittrex\Model\BittrexPrivate.cs" />
     <Compile Include="Bittrex\Model\BittrexAccountInfo.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexBalancesDataType.cs" />
     <Compile Include="Bittrex\Model\BittrexInfo.cs" />

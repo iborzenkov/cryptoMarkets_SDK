@@ -5,11 +5,9 @@ namespace DomainModel.MarketModel
 {
     public interface IMarketTrade
     {
-        IApiKey ApiKey { get; set; }
-
         OrderId BuyLimit(PairOfMarket pair, double quantity, double rate, out string errorMessage);
         OrderId SellLimit(PairOfMarket pair, double quantity, double rate, out string errorMessage);
-        bool Cancel(OrderId orderId);
+        bool Cancel(Market market, OrderId orderId, out string errorMessage);
         IEnumerable<Order> OpenedOrders(PairOfMarket pair);
     }
 }

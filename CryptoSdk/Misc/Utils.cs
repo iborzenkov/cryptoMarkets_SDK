@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace CryptoSdk
+namespace CryptoSdk.Misc
 {
     public static class Utils
     {
