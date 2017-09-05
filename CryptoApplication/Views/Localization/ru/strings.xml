@@ -40,10 +40,14 @@
 	<Item key="Views.Implementations.OrderBookForm.intervalLabel_Text">Интервал, мс</Item>
 	<Item key="Views.Implementations.OrderBookForm.typeLabel_Text">Тип</Item>
 	<Item key="Views.Implementations.OrderBookForm.multiplierLabel_Text">Множитель</Item>
-	<Item key="Views.Implementations.OrderBookControl.askPriceColumnHeader_Text">Продажа (ask)</Item>
+	<Item key="Views.Implementations.OrderBookControl.askPriceColumnHeader_Text">Цена</Item>
 	<Item key="Views.Implementations.OrderBookControl.bidPriceColumnHeader_Text">Покупка (bid)</Item>
 	<Item key="Views.Implementations.OrderBookControl.askQuantityColumnHeader_Text">Количество</Item>
 	<Item key="Views.Implementations.OrderBookControl.bidQuantityColumnHeader_Text">Количество</Item>
+	<Item key="Views.Implementations.OrderBookControl.askSumColumnHeader_Text">Сумма</Item>
+	<Item key="Views.Implementations.OrderBookControl.bidSumColumnHeader_Text">Сумма</Item>
+	<Item key="Views.Implementations.OrderBookControl.askUsdEquivalentColumnHeader_Text">USD эквивалент</Item>
+	<Item key="Views.Implementations.OrderBookControl.bidUsdEquivalentColumnHeader_Text">USD эквивалент</Item>
 	<Item key="Views.Implementations.BalanceForm.marketsGroupBox_Text">Рынки</Item>
 	<Item key="Views.Implementations.BalanceForm.filterLabel_Text">Фильтр</Item>
 	<Item key="Views.Implementations.BalanceForm.refreshButton_Text">Обновить</Item>

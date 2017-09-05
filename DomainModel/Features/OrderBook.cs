@@ -89,6 +89,8 @@ namespace DomainModel.Features
 
         public double Quantity { get; }
 
+        public double SumQuantity { get; set; }
+
         public OrderBookPart(double price, double quantity)
         {
             Price = price;

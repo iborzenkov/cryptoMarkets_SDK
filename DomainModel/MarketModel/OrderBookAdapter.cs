@@ -21,19 +21,44 @@ namespace DomainModel.MarketModel
         private IList<OrderBookPart> GetBids(IEnumerable<OrderBookPart> bids)
         {
             var copyBids = bids.Select(bid => new OrderBookPart(bid.Price, bid.Quantity)).ToList();
-            return MultiplierPrice(TruncateBids(FilterBids(copyBids)));
+            return SumBids(MultiplierPrice(TruncateBids(FilterBids(copyBids))));
         }
 
         private IList<OrderBookPart> GetAsks(IEnumerable<OrderBookPart> asks)
         {
             var copyAsks = asks.Select(ask => new OrderBookPart(ask.Price, ask.Quantity)).ToList();
-            return MultiplierPrice(TruncateAsks(FilterAsks(copyAsks)));
+            return SumAsks(MultiplierPrice(TruncateAsks(FilterAsks(copyAsks))));
         }
 
         private IList<OrderBookPart> FilterBids(IList<OrderBookPart> bids)
         {
             if (Type == OrderBookType.Buy)
                 bids.Clear();
+            return bids;
+        }
+
+        private IList<OrderBookPart> SumAsks(IList<OrderBookPart> asks)
+        {
+            /*for (var i = 0; i < InternalBids.Count; i++)
+            {
+                InternalBids[i].SumQuantity =
+                    i > 0 ? InternalBids[i - 1].SumQuantity : 0
+                    + InternalBids[i].Quantity;
+            }*/
+
+            return asks;
+        }
+
+        private IList<OrderBookPart> SumBids(IList<OrderBookPart> bids)
+        {
+            for (var i = 0; i < bids.Count; i++)
+            {
+                // todo: исправить
+                bids[i].SumQuantity =
+                    i > 0 ? bids[i - 1].SumQuantity : 0
+                    + bids[i].Quantity;
+            }
+
             return bids;
         }
 

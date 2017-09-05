@@ -40,10 +40,14 @@
 	<Item key="Views.Implementations.OrderBookForm.intervalLabel_Text">Interval, ms</Item>
 	<Item key="Views.Implementations.OrderBookForm.typeLabel_Text">Type</Item>
 	<Item key="Views.Implementations.OrderBookForm.multiplierLabel_Text">Multiplier</Item>
-	<Item key="Views.Implementations.OrderBookControl.askPriceColumnHeader_Text">Ask</Item>
+	<Item key="Views.Implementations.OrderBookControl.askPriceColumnHeader_Text">Price</Item>
 	<Item key="Views.Implementations.OrderBookControl.bidPriceColumnHeader_Text">Bid</Item>
 	<Item key="Views.Implementations.OrderBookControl.askQuantityColumnHeader_Text">Quantity</Item>
 	<Item key="Views.Implementations.OrderBookControl.bidQuantityColumnHeader_Text">Quantity</Item>
+	<Item key="Views.Implementations.OrderBookControl.askSumColumnHeader_Text">Sum</Item>
+	<Item key="Views.Implementations.OrderBookControl.bidSumColumnHeader_Text">Sum</Item>
+	<Item key="Views.Implementations.OrderBookControl.askUsdEquivalentColumnHeader_Text">USD Equivalent</Item>
+	<Item key="Views.Implementations.OrderBookControl.bidUsdEquivalentColumnHeader_Text">USD Equivalent</Item>
 	<Item key="Views.Implementations.BalanceForm.marketsGroupBox_Text">Markets</Item>
 	<Item key="Views.Implementations.BalanceForm.filterLabel_Text">Filter</Item>
 	<Item key="Views.Implementations.BalanceForm.refreshButton_Text">Refresh</Item>

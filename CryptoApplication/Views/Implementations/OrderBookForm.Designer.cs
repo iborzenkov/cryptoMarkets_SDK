@@ -45,6 +45,8 @@ namespace Views.Implementations
             this.marketComboBox = new System.Windows.Forms.ComboBox();
             this.pairLabel = new System.Windows.Forms.Label();
             this.orderBookPartPanel = new System.Windows.Forms.Panel();
+            this.largePositionCheckBox = new System.Windows.Forms.CheckBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -61,6 +63,8 @@ namespace Views.Implementations
             // 
             // topPanel
             // 
+            this.topPanel.Controls.Add(this.textBox1);
+            this.topPanel.Controls.Add(this.largePositionCheckBox);
             this.topPanel.Controls.Add(this.multiplierComboBox);
             this.topPanel.Controls.Add(this.multiplierLabel);
             this.topPanel.Controls.Add(this.typeComboBox);
@@ -76,7 +80,7 @@ namespace Views.Implementations
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
             this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(287, 97);
+            this.topPanel.Size = new System.Drawing.Size(393, 97);
             this.topPanel.TabIndex = 1;
             // 
             // multiplierComboBox
@@ -110,7 +114,7 @@ namespace Views.Implementations
             // 
             this.typeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.typeComboBox.FormattingEnabled = true;
-            this.typeComboBox.Location = new System.Drawing.Point(58, 66);
+            this.typeComboBox.Location = new System.Drawing.Point(317, 37);
             this.typeComboBox.Name = "typeComboBox";
             this.typeComboBox.Size = new System.Drawing.Size(64, 21);
             this.typeComboBox.TabIndex = 11;
@@ -119,7 +123,7 @@ namespace Views.Implementations
             // typeLabel
             // 
             this.typeLabel.AutoSize = true;
-            this.typeLabel.Location = new System.Drawing.Point(12, 70);
+            this.typeLabel.Location = new System.Drawing.Point(271, 41);
             this.typeLabel.Name = "typeLabel";
             this.typeLabel.Size = new System.Drawing.Size(31, 13);
             this.typeLabel.TabIndex = 10;
@@ -127,7 +131,7 @@ namespace Views.Implementations
             // 
             // intervalTextBox
             // 
-            this.intervalTextBox.Location = new System.Drawing.Point(218, 66);
+            this.intervalTextBox.Location = new System.Drawing.Point(341, 66);
             this.intervalTextBox.Name = "intervalTextBox";
             this.intervalTextBox.Size = new System.Drawing.Size(40, 20);
             this.intervalTextBox.TabIndex = 9;
@@ -137,7 +141,7 @@ namespace Views.Implementations
             // intervalLabel
             // 
             this.intervalLabel.AutoSize = true;
-            this.intervalLabel.Location = new System.Drawing.Point(139, 69);
+            this.intervalLabel.Location = new System.Drawing.Point(262, 69);
             this.intervalLabel.Name = "intervalLabel";
             this.intervalLabel.Size = new System.Drawing.Size(61, 13);
             this.intervalLabel.TabIndex = 7;
@@ -203,14 +207,32 @@ namespace Views.Implementations
             this.orderBookPartPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.orderBookPartPanel.Location = new System.Drawing.Point(0, 97);
             this.orderBookPartPanel.Name = "orderBookPartPanel";
-            this.orderBookPartPanel.Size = new System.Drawing.Size(287, 319);
+            this.orderBookPartPanel.Size = new System.Drawing.Size(393, 319);
             this.orderBookPartPanel.TabIndex = 2;
+            // 
+            // largePositionCheckBox
+            // 
+            this.largePositionCheckBox.AutoSize = true;
+            this.largePositionCheckBox.Location = new System.Drawing.Point(15, 68);
+            this.largePositionCheckBox.Name = "largePositionCheckBox";
+            this.largePositionCheckBox.Size = new System.Drawing.Size(149, 17);
+            this.largePositionCheckBox.TabIndex = 15;
+            this.largePositionCheckBox.Text = "Highlight large positions, >";
+            this.largePositionCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(170, 66);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(40, 20);
+            this.textBox1.TabIndex = 16;
+            this.textBox1.Text = "1000";
             // 
             // OrderBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(287, 416);
+            this.ClientSize = new System.Drawing.Size(393, 416);
             this.Controls.Add(this.orderBookPartPanel);
             this.Controls.Add(this.topPanel);
             this.Name = "OrderBookForm";
@@ -246,5 +268,7 @@ namespace Views.Implementations
         private System.Windows.Forms.ComboBox typeComboBox;
         private System.Windows.Forms.Panel orderBookPartPanel;
         private System.Windows.Forms.ComboBox multiplierComboBox;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckBox largePositionCheckBox;
     }
 }

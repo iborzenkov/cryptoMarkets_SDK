@@ -38,8 +38,8 @@ namespace Views.Implementations
             SyncronizeColumnWidth(bidListView, askListView);
         }
 
-        private object askLock = new object();
-        private object bidLock = new object();
+        private readonly object _askLock = new object();
+        private readonly object _bidLock = new object();
 
         private void SetOrderBookClear(IOrderBook orderBook)
         {
@@ -50,12 +50,13 @@ namespace Views.Implementations
 
                 if (orderBook != null)
                 {
-                    lock (askLock)
+                    lock (_askLock)
                     {
                         foreach (var ask in orderBook.Asks)
                         {
                             var item = new ListViewItem { Text = ask.Price.ToString(CultureInfo.CurrentCulture) };
                             item.SubItems.Add(ask.Quantity.ToString(CultureInfo.CurrentCulture));
+                            item.SubItems.Add(ask.SumQuantity.ToString(CultureInfo.CurrentCulture));
                             askListView.Items.Add(item);
                         }
 
@@ -77,12 +78,13 @@ namespace Views.Implementations
 
                 if (orderBook != null)
                 {
-                    lock (bidLock)
+                    lock (_bidLock)
                     {
                         foreach (var bid in orderBook.Bids)
                         {
                             var item = new ListViewItem { Text = bid.Price.ToString(CultureInfo.CurrentCulture) };
                             item.SubItems.Add(bid.Quantity.ToString(CultureInfo.CurrentCulture));
+                            item.SubItems.Add(bid.SumQuantity.ToString(CultureInfo.CurrentCulture));
                             bidListView.Items.Add(item);
                         }
 
