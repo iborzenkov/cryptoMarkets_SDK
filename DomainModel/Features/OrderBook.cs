@@ -17,6 +17,9 @@ namespace DomainModel.Features
         IEnumerable<OrderBookPart> IOrderBook.Bids => InternalBids;
         IEnumerable<OrderBookPart> IOrderBook.Asks => InternalAsks;
 
+        public IEnumerable<int> LargeBidsIndexes => null;
+        public IEnumerable<int> LargeAsksIndexes => null;
+
         public OrderBook(Pair pair)
         {
             Pair = pair;

@@ -18,6 +18,25 @@ namespace DomainModel.MarketModel
         public IEnumerable<OrderBookPart> Bids => InternalBids ?? (InternalBids = GetBids(_orderBook.Bids));
         public IEnumerable<OrderBookPart> Asks => InternalAsks ?? (InternalAsks = GetAsks(_orderBook.Asks));
 
+        public IEnumerable<int> LargeBidsIndexes
+        {
+            get
+            {
+                var result = new List<int>();
+                ee
+                return result;
+            }
+        }
+
+        public IEnumerable<int> LargeAsksIndexes
+        {
+            get
+            {
+                var result = new List<int>();
+                return result;
+            }
+        }
+
         private IList<OrderBookPart> GetBids(IEnumerable<OrderBookPart> bids)
         {
             var copyBids = bids.Select(bid => new OrderBookPart(bid.Price, bid.Quantity)).ToList();

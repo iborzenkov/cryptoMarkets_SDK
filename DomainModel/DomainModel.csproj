@@ -84,6 +84,7 @@
     <Compile Include="MarketModel\Updaters\Balance\BalanceUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\Balance\BalanceUpdater.cs" />
     <Compile Include="MarketModel\Updaters\RefreshInterval.cs" />
+    <Compile Include="Mathematics.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdater.cs" />
     <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdaterProvider.cs" />

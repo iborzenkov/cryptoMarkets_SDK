@@ -7,5 +7,8 @@ namespace DomainModel.MarketModel
     {
         IEnumerable<OrderBookPart> Bids { get; }
         IEnumerable<OrderBookPart> Asks { get; }
+
+        IEnumerable<int> LargeBidsIndexes { get; }
+        IEnumerable<int> LargeAsksIndexes { get; }
     }
 }
