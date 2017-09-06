@@ -17,6 +17,8 @@ namespace Views.Interfaces
 
         void SetOrderBook(IOrderBook orderBook);
 
+        void SetUsdRate(double? usdRate);
+
         void SetOrderBookSettings(OrderBookSettings settings);
 
         PairOfMarket Pair { get; set; }

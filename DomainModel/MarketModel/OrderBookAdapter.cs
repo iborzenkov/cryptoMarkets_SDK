@@ -39,12 +39,11 @@ namespace DomainModel.MarketModel
 
         private IList<OrderBookPart> SumAsks(IList<OrderBookPart> asks)
         {
-            /*for (var i = 0; i < InternalBids.Count; i++)
+            for (var i = asks.Count - 1; i >= 0; i--)
             {
-                InternalBids[i].SumQuantity =
-                    i > 0 ? InternalBids[i - 1].SumQuantity : 0
-                    + InternalBids[i].Quantity;
-            }*/
+                var prevSum = i < asks.Count - 1 ? asks[i + 1].SumQuantity : 0;
+                asks[i].SumQuantity = prevSum + asks[i].Quantity;
+            }
 
             return asks;
         }
@@ -53,10 +52,8 @@ namespace DomainModel.MarketModel
         {
             for (var i = 0; i < bids.Count; i++)
             {
-                // todo: исправить
-                bids[i].SumQuantity =
-                    i > 0 ? bids[i - 1].SumQuantity : 0
-                    + bids[i].Quantity;
+                var prevSum = i > 0 ? bids[i - 1].SumQuantity : 0;
+                bids[i].SumQuantity = prevSum + bids[i].Quantity;
             }
 
             return bids;

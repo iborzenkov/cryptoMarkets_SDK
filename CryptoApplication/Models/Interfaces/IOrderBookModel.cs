@@ -16,5 +16,6 @@ namespace Models.Interfaces
         void Release();
 
         event EventHandler<IOrderBook> OrderBookChanged;
+        event EventHandler<double?> UsdRateChanged;
     }
 }

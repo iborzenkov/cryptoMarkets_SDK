@@ -16,6 +16,7 @@ namespace Presenters.Implementations
         {
             Model = model;
             Model.OrderBookChanged += Model_OrderBookChanged;
+            Model.UsdRateChanged += Model_UsdRateChanged;
 
             View.SetMarkets(Model.Markets);
             View.SetOrderBookSettings(Model.OrderBookSettings);
@@ -27,6 +28,11 @@ namespace Presenters.Implementations
 
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
+        }
+
+        private void Model_UsdRateChanged(object sender, double? usdRate)
+        {
+            View.SetUsdRate(usdRate);
         }
 
         private void Release()

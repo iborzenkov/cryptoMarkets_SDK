@@ -57,6 +57,7 @@ namespace Views.Implementations
                             var item = new ListViewItem { Text = ask.Price.ToString(CultureInfo.CurrentCulture) };
                             item.SubItems.Add(ask.Quantity.ToString(CultureInfo.CurrentCulture));
                             item.SubItems.Add(ask.SumQuantity.ToString(CultureInfo.CurrentCulture));
+                            item.SubItems.Add(GetUsdEquivalent(ask.Quantity));
                             askListView.Items.Add(item);
                         }
 
@@ -85,6 +86,7 @@ namespace Views.Implementations
                             var item = new ListViewItem { Text = bid.Price.ToString(CultureInfo.CurrentCulture) };
                             item.SubItems.Add(bid.Quantity.ToString(CultureInfo.CurrentCulture));
                             item.SubItems.Add(bid.SumQuantity.ToString(CultureInfo.CurrentCulture));
+                            item.SubItems.Add(GetUsdEquivalent(bid.Quantity));
                             bidListView.Items.Add(item);
                         }
 
@@ -98,6 +100,11 @@ namespace Views.Implementations
 
                 bidListView.EndUpdate();
             }));
+        }
+
+        private string GetUsdEquivalent(double quantity)
+        {
+            return _usdRate.HasValue ? Math.Round(quantity * _usdRate.Value).ToString(CultureInfo.CurrentCulture) : string.Empty;
         }
 
         private void SetOrderBookByItem(IOrderBook orderBook)
@@ -206,6 +213,13 @@ namespace Views.Implementations
         {
             SetOrderBookClear(orderBook);
             //SetOrderBookByItem(orderBook);
+        }
+
+        private double? _usdRate;
+
+        void IOrderBookPartView.SetUsdRate(double? usdRate)
+        {
+            _usdRate = usdRate;
         }
 
         public void Close()

@@ -14,6 +14,8 @@ namespace CryptoSdk.Dummy
             yield return new PairOfMarket(PairDummy.BtcEth, market, 0.000001);
             yield return new PairOfMarket(PairDummy.EthLtc, market, 0.000001);
             yield return new PairOfMarket(PairDummy.BtcDoge, market, 0.000001, false);
+            yield return new PairOfMarket(PairDummy.BtcUsdt, market, 0.000001);
+            yield return new PairOfMarket(PairDummy.LtcUsdt, market, 0.000001);
         }
 
         public IEnumerable<CurrencyOfMarket> Currencies(Market market)
@@ -22,13 +24,15 @@ namespace CryptoSdk.Dummy
             yield return new CurrencyOfMarket(CurrencyDummy.Ltc, market, 0.01);
             yield return new CurrencyOfMarket(CurrencyDummy.Eth, market, 0.01);
             yield return new CurrencyOfMarket(CurrencyDummy.Doge, market, 0.01, false);
+            yield return new CurrencyOfMarket(CurrencyDummy.Usdt, market, 0.01);
         }
 
         public Tick Tick(Pair pair)
         {
             var bid = new Random().NextDouble();
             var ask = bid - 0.0001;
-            return new Tick(bid, ask);
+            var last = (bid + ask) / 2;
+            return new Tick(bid, ask, last);
         }
 
         public OrderBook OrderBook(Pair pair, int depth = 10, OrderBookType orderBookType = OrderBookType.Both)

@@ -66,6 +66,11 @@ namespace Views.Implementations
             OrderBookPartView.SetOrderBook(orderBook);
         }
 
+        void IOrderBookView.SetUsdRate(double? usdRate)
+        {
+            OrderBookPartView.SetUsdRate(usdRate);
+        }
+
         void IOrderBookView.SetOrderBookSettings(OrderBookSettings settings)
         {
             var changed = false;

@@ -9,10 +9,11 @@ namespace DomainModel.Features
         public IMarketModel Model { get; }
         private readonly IApiKeyProvider _apiKeyProvider;
 
-        public Market(string name, IMarketModel model, IEnumerable<ApiKeyRole> apiKeyRoles)
+        public Market(string name, IMarketModel model, IEnumerable<ApiKeyRole> apiKeyRoles, string usdCurrencyTag)
         {
             Name = name;
             Model = model;
+            UsdCurrencyTag = usdCurrencyTag;
             SpecifiedRoles = apiKeyRoles.ToArray();
 
             _apiKeyProvider = new ApiKeyProvider(SpecifiedRoles);
@@ -33,6 +34,8 @@ namespace DomainModel.Features
 
         public ApiKeyRole[] SpecifiedRoles;
         IReadOnlyCollection<ApiKeyPair> IApiKeyProvider.ApiKeys => _apiKeyProvider.ApiKeys;
+        public CurrencyOfMarket Usd => Currencies.FirstOrDefault(c => c.Currency.Name == UsdCurrencyTag);
+        private string UsdCurrencyTag { get; }
 
         void IApiKeyProvider.SetPrivateApiKey(ApiKeyRole role, IApiKey apiKey)
         {

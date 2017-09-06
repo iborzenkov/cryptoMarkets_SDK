@@ -33,15 +33,15 @@ namespace Views.Implementations
             this.askListView = new System.Windows.Forms.ListView();
             this.askPriceColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.askQuantityColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.askSumColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.askUsdEquivalentColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitter = new System.Windows.Forms.Splitter();
             this.bidListView = new System.Windows.Forms.ListView();
             this.bidPriceColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bidQuantityColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.askUsdEquivalentColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.bidUsdEquivalentColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.askSumColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bidSumColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.bidUsdEquivalentColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.SuspendLayout();
             // 
             // askListView
@@ -55,6 +55,7 @@ namespace Views.Implementations
             this.askListView.Dock = System.Windows.Forms.DockStyle.Top;
             this.askListView.FullRowSelect = true;
             this.askListView.GridLines = true;
+            this.askListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.askListView.Location = new System.Drawing.Point(0, 0);
             this.askListView.Name = "askListView";
             this.askListView.Size = new System.Drawing.Size(395, 147);
@@ -72,6 +73,16 @@ namespace Views.Implementations
             // 
             this.askQuantityColumnHeader.Text = "Quantity";
             this.askQuantityColumnHeader.Width = 90;
+            // 
+            // askSumColumnHeader
+            // 
+            this.askSumColumnHeader.Text = "Sum";
+            this.askSumColumnHeader.Width = 100;
+            // 
+            // askUsdEquivalentColumnHeader
+            // 
+            this.askUsdEquivalentColumnHeader.Text = "USD Equivalent";
+            this.askUsdEquivalentColumnHeader.Width = 90;
             // 
             // splitter
             // 
@@ -112,6 +123,16 @@ namespace Views.Implementations
             this.bidQuantityColumnHeader.Text = "Quantity";
             this.bidQuantityColumnHeader.Width = 90;
             // 
+            // bidSumColumnHeader
+            // 
+            this.bidSumColumnHeader.Text = "Sum";
+            this.bidSumColumnHeader.Width = 100;
+            // 
+            // bidUsdEquivalentColumnHeader
+            // 
+            this.bidUsdEquivalentColumnHeader.Text = "USD Equivalent";
+            this.bidUsdEquivalentColumnHeader.Width = 90;
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 274);
@@ -119,26 +140,6 @@ namespace Views.Implementations
             this.statusStrip1.Size = new System.Drawing.Size(395, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // askUsdEquivalentColumnHeader
-            // 
-            this.askUsdEquivalentColumnHeader.Text = "USD Equivalent";
-            this.askUsdEquivalentColumnHeader.Width = 90;
-            // 
-            // bidUsdEquivalentColumnHeader
-            // 
-            this.bidUsdEquivalentColumnHeader.Text = "USD Equivalent";
-            this.bidUsdEquivalentColumnHeader.Width = 90;
-            // 
-            // askSumColumnHeader
-            // 
-            this.askSumColumnHeader.Text = "Sum";
-            this.askSumColumnHeader.Width = 100;
-            // 
-            // bidSumColumnHeader
-            // 
-            this.bidSumColumnHeader.Text = "Sum";
-            this.bidSumColumnHeader.Width = 100;
             // 
             // OrderBookControl
             // 

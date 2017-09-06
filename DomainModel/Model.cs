@@ -3,6 +3,7 @@ using DomainModel.MarketModel.Updaters.Balance;
 using DomainModel.MarketModel.Updaters.OrderBook;
 using System.Collections.Generic;
 using DomainModel.MarketModel.Updaters.PairStatistic;
+using DomainModel.MarketModel.Updaters.PairTick;
 
 namespace DomainModel
 {
@@ -22,5 +23,7 @@ namespace DomainModel
         IBalanceUpdaterProvider IModel.BalanceUpdaterProvider { get; } = new BalanceUpdaterProvider();
 
         IPairStatisticUpdaterProvider IModel.PairStatisticUpdaterProvider { get; } = new PairStatisticUpdaterProvider();
+
+        IPairTickUpdaterProvider IModel.PairTickUpdaterProvider { get; } = new PairTickUpdaterProvider();
     }
 }

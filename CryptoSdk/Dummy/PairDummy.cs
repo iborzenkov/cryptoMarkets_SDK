@@ -8,5 +8,7 @@ namespace CryptoSdk.Dummy
         public static readonly Pair BtcEth = new Pair(CurrencyDummy.Btc, CurrencyDummy.Eth);
         public static readonly Pair EthLtc = new Pair(CurrencyDummy.Eth, CurrencyDummy.Ltc);
         public static readonly Pair BtcDoge = new Pair(CurrencyDummy.Btc, CurrencyDummy.Doge);
+        public static readonly Pair BtcUsdt = new Pair(CurrencyDummy.Btc, CurrencyDummy.Usdt);
+        public static readonly Pair LtcUsdt = new Pair(CurrencyDummy.Ltc, CurrencyDummy.Usdt);
     }
 }

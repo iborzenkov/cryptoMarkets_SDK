@@ -8,5 +8,6 @@ namespace CryptoSdk.Dummy
         public static readonly Currency Ltc = new Currency("LTC", "Litecoin");
         public static readonly Currency Eth = new Currency("ETH", "Etherium");
         public static readonly Currency Doge = new Currency("DOGE", "Dogecoin");
+        public static readonly Currency Usdt = new Currency("USDT", "USD Eqivalent");
     }
 }
