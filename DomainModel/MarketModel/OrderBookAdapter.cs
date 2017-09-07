@@ -23,7 +23,7 @@ namespace DomainModel.MarketModel
             get
             {
                 var result = new List<int>();
-                ee
+                
                 return result;
             }
         }

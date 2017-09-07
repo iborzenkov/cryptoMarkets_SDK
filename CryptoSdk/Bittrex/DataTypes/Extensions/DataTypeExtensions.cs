@@ -28,6 +28,32 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             return pair;
         }
 
+        public static MarketHistory ToHistory(this BittrexMarketHistoryItemDataType historyDataType, Pair pair)
+        {
+            DateTime timeStamp;
+            if (!DateTime.TryParse(historyDataType.TimeStamp, out timeStamp))
+                throw new Exception("TimeStamp is a required field");
+
+            TradePosition orderType;
+
+            switch (historyDataType.OrderType.ToLower())
+            {
+                case "buy":
+                    orderType = TradePosition.Buy;
+                    break;
+                case "sell":
+                    orderType = TradePosition.Sell;
+                    break;
+                default:
+                    throw new Exception($"Unknown trade tag: {historyDataType.OrderType}");
+            }
+
+            var history = new MarketHistory(pair, historyDataType.Id.ToString(), timeStamp, 
+                historyDataType.Quantity, historyDataType.Price, historyDataType.Total, orderType);
+
+            return history;
+        }
+        
         public static Balance ToBalance(this BittrexBalanceItemDataType balanceItemDataType, Market market, Currency currency)
         {
             var balance = new Balance(

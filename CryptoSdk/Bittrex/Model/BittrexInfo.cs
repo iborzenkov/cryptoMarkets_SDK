@@ -63,6 +63,21 @@ namespace CryptoSdk.Bittrex.Model
                     summary.PreviousDayPrice, summary.CountOpenedBuyOrders, summary.CountOpenedSellOrders)).ToList();
         }
 
+        ICollection<MarketHistory> IMarketInfo.MarketHistory(Pair pair)
+        {
+            var result = new List<MarketHistory>();
+
+            var parameters = new Tuple<string, string>[1];
+            parameters[0] = new Tuple<string, string>("market", BittrexPairs.AsString(pair));
+
+            var query = Connection.PublicGetQuery<BittrexMarketHistoryDataType>(EndPoints.GetMarketHistory, parameters);
+            if (query.Success)
+                result.AddRange(
+                    query.Items.Select(item => item.ToHistory(pair)));
+
+            return result;
+        }
+
         OrderBook IMarketInfo.OrderBook(Pair pair, int depth, OrderBookType orderBookType)
         {
             OrderBook result = null;

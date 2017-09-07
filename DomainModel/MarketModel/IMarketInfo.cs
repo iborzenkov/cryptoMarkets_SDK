@@ -27,5 +27,7 @@ namespace DomainModel.MarketModel
         OrderBook OrderBook(Pair pair, int depth = 10, OrderBookType orderBookType = OrderBookType.Both);
 
         ICollection<PairStatistic> PairsStatistic();
+
+        ICollection<MarketHistory> MarketHistory(Pair pair);
     }
 }

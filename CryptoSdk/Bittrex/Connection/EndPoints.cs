@@ -9,6 +9,7 @@
         public static string GetMarketSummary { get; } = "public/getmarketsummary";
         public static string GetMarketSummaries { get; } = "public/getmarketsummaries";
         public static string GetOrderBook { get; } = "public/getorderbook";
+        public static string GetMarketHistory { get; } = "public/getmarkethistory";
         public static string GetBalances { get; } = "account/getbalances";
         public static string GetBalance { get; } = "account/getbalance";
         public static string BuyLimit { get; } = "market/buylimit";

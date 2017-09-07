@@ -47,6 +47,7 @@
     <Compile Include="Features\Currency.cs" />
     <Compile Include="Features\Balance.cs" />
     <Compile Include="Features\Order.cs" />
+    <Compile Include="Features\MarketHistory.cs" />
     <Compile Include="Features\PairStatistic.cs" />
     <Compile Include="MarketModel\ApiKeyProvider.cs" />
     <Compile Include="MarketModel\IApiKeyProvider.cs" />

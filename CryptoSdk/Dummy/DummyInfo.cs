@@ -70,5 +70,14 @@ namespace CryptoSdk.Dummy
 
             return result;
         }
+
+        public ICollection<MarketHistory> MarketHistory(Pair pair)
+        {
+            var result = new List<MarketHistory>();
+            result.Add(new MarketHistory(pair, "id1", DateTime.Now, 12, 0.12, 34, TradePosition.Buy));
+            result.Add(new MarketHistory(pair, "id2", DateTime.Now, 2, 0.45, 8, TradePosition.Sell));
+
+            return result;
+        }
     }
 }
