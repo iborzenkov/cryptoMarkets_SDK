@@ -28,11 +28,11 @@ namespace Views.Interfaces
         void SetIsMayTrade(bool value);
         void SetIsMayTrade2(bool value);
 
-        event EventHandler<Market> MarketChanged;
-        event EventHandler<PairOfMarket> PairChanged;
-        event Action TradeParamsChanged; 
-        event Action TradeParams2Changed;
-        event Action Trade;
-        event Action Trade2;
+        event Action<Market> MarketChanged;
+        event Action<PairOfMarket> PairChanged;
+        event Action<TradeParams> TradeParamsChanged; 
+        event Action<TradeParams> TradeParams2Changed;
+        event Action<TradeParams> Trade;
+        event Action<TradeParams> Trade2;
     }
 }

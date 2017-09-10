@@ -40,6 +40,7 @@
 	<Item key="Views.Implementations.OrderBookForm.intervalLabel_Text">Interval, ms</Item>
 	<Item key="Views.Implementations.OrderBookForm.typeLabel_Text">Type</Item>
 	<Item key="Views.Implementations.OrderBookForm.multiplierLabel_Text">Multiplier</Item>
+	<Item key="Views.Implementations.OrderBookForm.largePositionCheckBox_Text">Highlight large positions</Item>
 	<Item key="Views.Implementations.OrderBookControl.askPriceColumnHeader_Text">Price</Item>
 	<Item key="Views.Implementations.OrderBookControl.bidPriceColumnHeader_Text">Bid</Item>
 	<Item key="Views.Implementations.OrderBookControl.askQuantityColumnHeader_Text">Quantity</Item>
@@ -55,6 +56,8 @@
 	<Item key="Views.Implementations.BalanceForm.shortNameColumnHeader_Text">Short Name</Item>
 	<Item key="Views.Implementations.BalanceForm.availableColumnHeader_Text">Available</Item>
 	<Item key="Views.Implementations.BalanceForm.pendingColumnHeader_Text">Pending</Item>
+	<Item key="Views.Implementations.BalanceForm.sumUsdEquivalentcolumnHeader_Text">Usd Equivalent</Item>
+	<Item key="Views.Implementations.BalanceForm.reservedColumnHeader_Text">Reserved</Item>
 	<Item key="Views.Implementations.ApiKeyForm.marketsGroupBox_Text">Markets</Item>
 	<Item key="Views.Implementations.ApiKeyForm.apiKeysGroupBox_Text">API keys</Item>
 	<Item key="Views.Implementations.PairForm.marketsGroupBox_Text">Markets</Item>
@@ -108,4 +111,5 @@
 	<Item key="WithdrawApiKeyRole">Withdraw</Item>
 	<Item key="Yes">Yes</Item>
 	<Item key="No">No</Item>
+	<Item key="Total">Total</Item>
 </Strings>

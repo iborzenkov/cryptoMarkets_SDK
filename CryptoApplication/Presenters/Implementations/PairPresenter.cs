@@ -41,17 +41,17 @@ namespace Presenters.Implementations
             Model.Release();
         }
 
-        private void Model_StatisticsChanged(object sender, IEnumerable<PairStatistic> pairStatistics)
+        private void Model_StatisticsChanged(IEnumerable<PairStatistic> pairStatistics)
         {
             View.SetStatistics(pairStatistics);
         }
 
-        private void Model_PairsChanged(object sender, IEnumerable<PairOfMarket> pairs)
+        private void Model_PairsChanged(IEnumerable<PairOfMarket> pairs)
         {
             View.SetPairs(pairs);
         }
 
-        private void View_FilterChanged(object sender, PairViewFilter filter)
+        private void View_FilterChanged(PairViewFilter filter)
         {
             _filter = filter;
             Model.SetFilter(_filter);
@@ -64,13 +64,13 @@ namespace Presenters.Implementations
             PairToken = string.Empty
         };
 
-        private void View_MarketChanged(object sender, Market market)
+        private void View_MarketChanged(Market market)
         {
             Model.SelectedMarket = market;
             Model.SetFilter(_filter);
         }
 
-        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        private void View_ViewClosed()
         {
             Release();
         }

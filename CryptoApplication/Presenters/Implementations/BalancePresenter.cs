@@ -17,6 +17,7 @@ namespace Presenters.Implementations
             Model.BalancesChanged += Model_BalancesChanged;
 
             View.SetMarkets(Model.Markets);
+            View.SetUsdRate(Model.GetUsdRateChanged);
 
             View.ViewClosed += View_ViewClosed;
             View.MarketChanged += View_MarketChanged;
@@ -39,7 +40,7 @@ namespace Presenters.Implementations
             Model.BalancesChanged -= Model_BalancesChanged;
         }
 
-        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        private void View_ViewClosed()
         {
             Release();
         }
@@ -55,12 +56,12 @@ namespace Presenters.Implementations
             Model.SetFilter(_filter);
         }
 
-        private void Model_BalancesChanged(object sender, IEnumerable<Balance> balances)
+        private void Model_BalancesChanged(IEnumerable<Balance> balances)
         {
             View.SetBalances(balances);
         }
 
-        private void View_FilterChanged(object sender, string filter)
+        private void View_FilterChanged(string filter)
         {
             _filter = filter;
             Model.SetFilter(_filter);
@@ -68,7 +69,7 @@ namespace Presenters.Implementations
 
         private string _filter;
 
-        private void View_MarketChanged(object sender, Market market)
+        private void View_MarketChanged(Market market)
         {
             Model.SelectedMarket = market;
             Model.SetFilter(_filter);

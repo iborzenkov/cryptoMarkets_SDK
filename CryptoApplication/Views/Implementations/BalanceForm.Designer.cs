@@ -43,8 +43,13 @@ namespace Views.Implementations
             this.shortNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.availableColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pendingColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.sumUsdEquivalentcolumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.totalUsdEquivalentLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.reservedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marketsGroupBox.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // marketsGroupBox
@@ -77,7 +82,7 @@ namespace Views.Implementations
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(200, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(320, 45);
+            this.panel1.Size = new System.Drawing.Size(455, 45);
             this.panel1.TabIndex = 5;
             // 
             // refreshButton
@@ -123,14 +128,16 @@ namespace Views.Implementations
             this.currencyColumnHeader,
             this.shortNameColumnHeader,
             this.availableColumnHeader,
-            this.pendingColumnHeader});
+            this.reservedColumnHeader,
+            this.pendingColumnHeader,
+            this.sumUsdEquivalentcolumnHeader});
             this.balanceListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.balanceListView.FullRowSelect = true;
             this.balanceListView.GridLines = true;
             this.balanceListView.Location = new System.Drawing.Point(200, 45);
             this.balanceListView.MultiSelect = false;
             this.balanceListView.Name = "balanceListView";
-            this.balanceListView.Size = new System.Drawing.Size(320, 179);
+            this.balanceListView.Size = new System.Drawing.Size(455, 179);
             this.balanceListView.TabIndex = 6;
             this.balanceListView.UseCompatibleStateImageBehavior = false;
             this.balanceListView.View = System.Windows.Forms.View.Details;
@@ -155,11 +162,35 @@ namespace Views.Implementations
             this.pendingColumnHeader.Text = "Pending";
             this.pendingColumnHeader.Width = 80;
             // 
+            // sumUsdEquivalentcolumnHeader
+            // 
+            this.sumUsdEquivalentcolumnHeader.Text = "Usd Equivalent";
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.totalUsdEquivalentLabel});
+            this.statusStrip.Location = new System.Drawing.Point(200, 202);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(455, 22);
+            this.statusStrip.TabIndex = 7;
+            // 
+            // totalUsdEquivalentLabel
+            // 
+            this.totalUsdEquivalentLabel.Name = "totalUsdEquivalentLabel";
+            this.totalUsdEquivalentLabel.Size = new System.Drawing.Size(63, 17);
+            this.totalUsdEquivalentLabel.Text = "Total: $134";
+            // 
+            // reservedColumnHeader
+            // 
+            this.reservedColumnHeader.Text = "Reserved";
+            // 
             // BalanceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 224);
+            this.ClientSize = new System.Drawing.Size(655, 224);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.balanceListView);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.marketsGroupBox);
@@ -169,7 +200,10 @@ namespace Views.Implementations
             this.marketsGroupBox.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -189,11 +223,17 @@ namespace Views.Implementations
         private System.Windows.Forms.ColumnHeader availableColumnHeader;
         [LocalizableClass]
         private System.Windows.Forms.ColumnHeader pendingColumnHeader;
+        [LocalizableClass]
+        private System.Windows.Forms.ColumnHeader sumUsdEquivalentcolumnHeader;
+        [LocalizableClass]
+        private System.Windows.Forms.ColumnHeader reservedColumnHeader;
 
         private System.Windows.Forms.ListBox marketListBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button clearFilterButton;
         private System.Windows.Forms.TextBox filterTextBox;
         private System.Windows.Forms.ListView balanceListView;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel totalUsdEquivalentLabel;
     }
 }

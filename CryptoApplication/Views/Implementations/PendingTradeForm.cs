@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using CryptoSdk;
-using CryptoSdk.Misc;
+﻿using CryptoSdk.Misc;
 using DomainModel;
 using DomainModel.Features;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Timers;
+using System.Windows.Forms;
 using Views.Interfaces;
 using Views.Localization;
+using Timer = System.Timers.Timer;
 
 namespace Views.Implementations
 {
     public partial class PendingTradeForm : Form, IPendingTradeView
     {
+        private const int InfoTimerInterval = 10 * 1000; // 10 seconds
+
         public PendingTradeForm()
         {
             InitializeComponent();
+
+            _infoTimer = new Timer(InfoTimerInterval);
+            _infoTimer.Elapsed += InfoTimer_Elapsed;
 
             Locale.Instance.RegisterView(this);
         }
@@ -79,23 +86,39 @@ namespace Views.Implementations
 
         void IPendingTradeView.SetInfoMessage(string message)
         {
-            
+            ShowInfoMessage(message);
         }
 
-        public event EventHandler<Market> MarketChanged;
-        public event EventHandler<PairOfMarket> PairChanged;
-        public event EventHandler ViewClosed;
-        public event Action TradeParamsChanged;
-        public event Action Trade;
-
-        protected virtual void OnPairChanged(PairOfMarket pair)
+        void IPendingTradeView.SetBalanceInfo(double availableQuantity)
         {
-            PairChanged?.Invoke(this, pair);
+            var pair = TradePosition == TradePosition.Buy ? Pair.Pair.QuoteCurrency.Name: Pair.Pair.BaseCurrency.Name;
+            availableQuantityLabel.Text = $"{availableQuantity.ToString(CultureInfo.CurrentCulture)} {pair}";
+        }
+
+        void IPendingTradeView.SetPriceInfo(double currentPrice)
+        {
+            var pair = TradePosition == TradePosition.Buy ? Pair.Pair.BaseCurrency.Name : Pair.Pair.QuoteCurrency.Name;
+            priceValueLabel.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {pair}";
+        }
+
+        public event Action<Market> MarketChanged;
+
+        public event Action<PairOfMarket> PairChanged;
+
+        public event Action ViewClosed;
+
+        public event Action<PendingTradeParams> TradeParamsChanged;
+
+        public event Action<PendingTradeParams> Trade;
+
+        private void OnPairChanged(PairOfMarket pair)
+        {
+            PairChanged?.Invoke(pair);
         }
 
         private void marketComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -105,9 +128,10 @@ namespace Views.Implementations
 
         private void TradeForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _infoTimer.Elapsed -= InfoTimer_Elapsed;
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private double Quantity
@@ -119,7 +143,18 @@ namespace Views.Implementations
             }
         }
 
-        public TradeParams TradeParams => !double.IsNaN(Quantity) ? new TradeParams(TradePosition, Quantity) : null;
+        private double Price
+        {
+            get
+            {
+                double price;
+                return priceTextBox.Text.TryParseToDouble(out price) ? price : double.NaN;
+            }
+        }
+
+        public PendingTradeParams TradeParams => !double.IsNaN(Quantity) && !double.IsNaN(Price)
+            ? new PendingTradeParams(TradePosition, Quantity, Price)
+            : null;
 
         private TradePosition TradePosition => buyLimitRadioButton.Checked ? TradePosition.Buy : TradePosition.Sell;
 
@@ -128,10 +163,9 @@ namespace Views.Implementations
             OnTradeParamsChanged();
         }
 
-        private void OnTradeParamsChanged()
+        private void priceTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (TradeParams != null)
-                TradeParamsChanged?.Invoke();
+            OnTradeParamsChanged();
         }
 
         private void radioButton_CheckedChanged(object sender, EventArgs e)
@@ -139,9 +173,49 @@ namespace Views.Implementations
             OnTradeParamsChanged();
         }
 
+        private void OnTradeParamsChanged()
+        {
+            if (TradeParams != null)
+                TradeParamsChanged?.Invoke(TradeParams);
+        }
+
         private void tradeButton_Click(object sender, EventArgs e)
         {
-            Trade?.Invoke();
+            Trade?.Invoke(TradeParams);
+        }
+
+        private void infoMessageStatusLabel_Click(object sender, EventArgs e)
+        {
+            HideInfoMessage();
+        }
+
+        private readonly Timer _infoTimer;
+
+        private void InfoTimer_Elapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            HideInfoMessage();
+        }
+
+        private void ShowInfoMessage(string message)
+        {
+            infoMessageStatusLabel.Text = message;
+            _infoTimer.Start();
+
+            availableLabel.Visible = false;
+            availableQuantityLabel.Visible = false;
+            priceStatusLabel.Visible = false;
+            priceValueLabel.Visible = false;
+        }
+
+        private void HideInfoMessage()
+        {
+            infoMessageStatusLabel.Text = string.Empty;
+            _infoTimer.Stop();
+
+            availableLabel.Visible = true;
+            availableQuantityLabel.Visible = true;
+            priceStatusLabel.Visible = true;
+            priceValueLabel.Visible = true;
         }
     }
 }

@@ -11,8 +11,10 @@ namespace Models.Interfaces
 
         void SetFilter(string filter);
 
-        event EventHandler<IEnumerable<Balance>> BalancesChanged;
+        double? GetUsdRateChanged(Currency currency);
 
         void Refresh();
+
+        event Action<IEnumerable<Balance>> BalancesChanged;
     }
 }

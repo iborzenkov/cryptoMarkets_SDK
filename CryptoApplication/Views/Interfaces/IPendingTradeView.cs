@@ -29,10 +29,12 @@ namespace Views.Interfaces
 
         void SetIsMayTrade(bool value);
         void SetInfoMessage(string message);
+        void SetBalanceInfo(double availableQuantity);
+        void SetPriceInfo(double currentPrice);
 
-        event EventHandler<Market> MarketChanged;
-        event EventHandler<PairOfMarket> PairChanged;
-        event Action TradeParamsChanged; 
-        event Action Trade;
+        event Action<Market> MarketChanged;
+        event Action<PairOfMarket> PairChanged;
+        event Action<PendingTradeParams> TradeParamsChanged; 
+        event Action<PendingTradeParams> Trade;
     }
 }

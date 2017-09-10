@@ -11,6 +11,6 @@ namespace Models.Interfaces
 
         void SetFilter(string filter, bool activeOnly);
 
-        event EventHandler<IEnumerable<CurrencyOfMarket>> CurrenciesChanged;
+        event Action<IEnumerable<CurrencyOfMarket>> CurrenciesChanged;
     }
 }

@@ -5,7 +5,7 @@ namespace DomainModel.MarketModel.Updaters.PairTick
 {
     public interface IPairTickUpdater
     {
-        //int RefreshInterval { get; set; }
+        int RefreshInterval { get; set; }
         //RefreshInterval RefreshInterval { get; }
 
         void Start();
@@ -14,6 +14,8 @@ namespace DomainModel.MarketModel.Updaters.PairTick
 
         Tick LastPairTick { get; }
 
-        event EventHandler<Tick> Changed;
+        PairOfMarket Pair { get; }
+
+        event Action<Tick> Changed;
     }
 }

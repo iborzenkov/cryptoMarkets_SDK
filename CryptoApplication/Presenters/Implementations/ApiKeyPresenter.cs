@@ -40,34 +40,34 @@ namespace Presenters.Implementations
             Model.ApiKeysChanged -= Model_ApiKeysChanged;
         }
 
-        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        private void View_ViewClosed()
         {
             Release();
         }
 
-        private void View_PrivateApiKeyChanged(object sender, Tuple<ApiKeyRole, IApiKey> apiKeyInfo)
+        private void View_PrivateApiKeyChanged(Tuple<ApiKeyRole, IApiKey> apiKeyInfo)
         {
             ApiKeyProvider.SetPrivateApiKey(apiKeyInfo.Item1, apiKeyInfo.Item2);
         }
 
         private IApiKeyProvider ApiKeyProvider => Model.SelectedMarket;
 
-        private void View_PublicApiKeyChanged(object sender, Tuple<ApiKeyRole, IApiKey> apiKeyInfo)
+        private void View_PublicApiKeyChanged(Tuple<ApiKeyRole, IApiKey> apiKeyInfo)
         {
             ApiKeyProvider.SetPublicApiKey(apiKeyInfo.Item1, apiKeyInfo.Item2);
         }
 
-        private void Model_ApiKeyRolesChanged(object sender, IEnumerable<ApiKeyRole> apiKeyRoles)
+        private void Model_ApiKeyRolesChanged(IEnumerable<ApiKeyRole> apiKeyRoles)
         {
             View.SetApiKeyRoles(apiKeyRoles);
         }
 
-        private void Model_ApiKeysChanged(object sender, ApiKeyPair apiKeyPairs)
+        private void Model_ApiKeysChanged(ApiKeyPair apiKeyPairs)
         {
             View.SetApiKeys(apiKeyPairs);
         }
 
-        private void View_MarketChanged(object sender, Market market)
+        private void View_MarketChanged(Market market)
         {
             Model.SelectedMarket = market;
         }

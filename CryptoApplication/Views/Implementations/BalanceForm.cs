@@ -20,7 +20,7 @@ namespace Views.Implementations
 
         private void marketListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         private void clearFilterButton_Click(object sender, EventArgs e)
@@ -31,14 +31,14 @@ namespace Views.Implementations
 
         private void filterTextBox_TextChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            FilterChanged?.Invoke(Filter);
         }
 
         private void BalanceForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         public string Filter => filterTextBox.Text;
@@ -74,18 +74,10 @@ namespace Views.Implementations
                 if (balances == null)
                     return;
 
-                foreach (var balance in balances)
-                {
-                    var item = new ListViewItem(new[]
-                    {
-                        balance.Currency.LongName,
-                        balance.Currency.Name,
-                        balance.Available.ToString(CultureInfo.InvariantCulture),
-                        balance.Pending.ToString(CultureInfo.InvariantCulture),
-                    });
-                    item.Tag = balance;
-                    balanceListView.Items.Add(item);
-                }
+                var balancesArray = balances as Balance[] ?? balances.ToArray();
+
+                FillListView(balancesArray);
+                SetTotalUsdEquivalent(balancesArray);
             }
             finally
             {
@@ -93,17 +85,63 @@ namespace Views.Implementations
             }
         }
 
-        public event EventHandler<Market> MarketChanged;
+        private void FillListView(IEnumerable<Balance> balancesArray)
+        {
+            foreach (var balance in balancesArray)
+            {
+                var item = new ListViewItem(new[]
+                {
+                    balance.Currency.LongName,
+                    balance.Currency.Name,
+                    balance.Available.ToString(CultureInfo.InvariantCulture),
+                    balance.Reserved.ToString(CultureInfo.InvariantCulture),
+                    balance.Pending.ToString(CultureInfo.InvariantCulture),
+                    GetUsdEquivalent(balance.Currency, balance.Total),
+                }) {Tag = balance};
+                balanceListView.Items.Add(item);
+            }
+        }
 
-        public event EventHandler<CurrencyOfMarket> CurrencyChanged;
+        private void SetTotalUsdEquivalent(IEnumerable<Balance> balances)
+        {
+            double total = 0;
+            foreach (var balance in balances)
+            {
+                var usdEquivalent = UsdEquivalent(balance.Currency, balance.Total);
+                total = usdEquivalent.HasValue ? total + usdEquivalent.Value : total;
+            }
+            totalUsdEquivalentLabel.Text = $"{Locale.Instance.Localize("Total")}: ${(int)Math.Round(total)}";
+        }
 
-        public event EventHandler<string> FilterChanged;
+        private double? UsdEquivalent(Currency currency, double quantity)
+        {
+            return _getUsdRate.Invoke(currency) * quantity;
+        }
+
+        private string GetUsdEquivalent(Currency currency, double quantity)
+        {
+            var usdEquivalent = UsdEquivalent(currency, quantity);
+            return usdEquivalent.HasValue
+                ? ((int)Math.Round(usdEquivalent.Value)).ToString(CultureInfo.CurrentCulture) 
+                : string.Empty;
+        }
+
+        private GetUsdRateDelegate _getUsdRate;
+
+        void IBalanceView.SetUsdRate(GetUsdRateDelegate getUsdRate)
+        {
+            _getUsdRate = getUsdRate;
+        }
+
+        public event Action<Market> MarketChanged;
+
+        public event Action<string> FilterChanged;
 
         public event Action ClearFilter;
 
         public event Action RefreshBalances;
 
-        public event EventHandler ViewClosed;
+        public event Action ViewClosed;
 
         #endregion IBalanceView
 

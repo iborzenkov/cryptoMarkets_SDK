@@ -154,7 +154,7 @@ namespace Views.Implementations
             IApiKey apiKey;
             ApiKeyRole role;
             if (ApiKeyFromControls(sender, out apiKey, out role))
-                PublicApiKeyChanged?.Invoke(this, new Tuple<ApiKeyRole, IApiKey>(role, apiKey));
+                PublicApiKeyChanged?.Invoke(new Tuple<ApiKeyRole, IApiKey>(role, apiKey));
         }
 
         private void PrivateTextBox_TextChanged(object sender, EventArgs eventArgs)
@@ -162,27 +162,27 @@ namespace Views.Implementations
             IApiKey apiKey;
             ApiKeyRole role;
             if (ApiKeyFromControls(sender, out apiKey, out role))
-                PrivateApiKeyChanged?.Invoke(this, new Tuple<ApiKeyRole, IApiKey>(role, apiKey));
+                PrivateApiKeyChanged?.Invoke(new Tuple<ApiKeyRole, IApiKey>(role, apiKey));
         }
 
-        public event EventHandler<Market> MarketChanged;
+        public event Action<Market> MarketChanged;
 
-        public event EventHandler ViewClosed;
+        public event Action ViewClosed;
 
-        public event EventHandler<Tuple<ApiKeyRole, IApiKey>> PrivateApiKeyChanged;
+        public event Action<Tuple<ApiKeyRole, IApiKey>> PrivateApiKeyChanged;
 
-        public event EventHandler<Tuple<ApiKeyRole, IApiKey>> PublicApiKeyChanged;
+        public event Action<Tuple<ApiKeyRole, IApiKey>> PublicApiKeyChanged;
 
         private void ApiKeyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private void marketListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         public Market Market

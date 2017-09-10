@@ -19,7 +19,7 @@ namespace Views.Implementations
             Application.Run(this);
         }
 
-        public event EventHandler ViewClosed;
+        public event Action ViewClosed;
 
         private void orderbooksToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -47,7 +47,7 @@ namespace Views.Implementations
 
         private void OnViewClosed()
         {
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

@@ -15,9 +15,10 @@ namespace Views.Interfaces
 
         void SetStatistics(IEnumerable<PairStatistic> statistics);
 
-        event EventHandler<Market> MarketChanged;
-
-        event EventHandler<PairViewFilter> FilterChanged;
         void InitFilter();
+
+        event Action<Market> MarketChanged;
+
+        event Action<PairViewFilter> FilterChanged;
     }
 }

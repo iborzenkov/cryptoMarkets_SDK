@@ -81,6 +81,18 @@ namespace Views.Implementations
                 changed = true;
             }
 
+            if (HighlightLargePositions != settings.HighlightLargePositions)
+            {
+                largePositionCheckBox.Checked = settings.HighlightLargePositions;
+                changed = true;
+            }
+
+            if (Math.Abs(LargeVolumeKoef - settings.LargeVolumeKoef) > 0.00001)
+            {
+                largeVolumeKoefTrackBar.Value = (int)Math.Round(settings.LargeVolumeKoef * 100);
+                changed = true;
+            }
+
             if (RefreshInterval != settings.RefreshInterval)
             {
                 intervalTextBox.Text = settings.RefreshInterval.ToString();
@@ -109,6 +121,10 @@ namespace Views.Implementations
 
         private int Multiplier => (int)Math.Pow(10, multiplierComboBox.SelectedIndex);
 
+        private double LargeVolumeKoef => largeVolumeKoefTrackBar.Value / 100.0;
+
+        private bool HighlightLargePositions => largePositionCheckBox.Checked; 
+
         private OrderBookType Type => (OrderBookType)typeComboBox.SelectedItem;
 
         public Market Market
@@ -135,7 +151,7 @@ namespace Views.Implementations
 
         private void marketComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,7 +163,7 @@ namespace Views.Implementations
         {
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private void depthNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -167,30 +183,42 @@ namespace Views.Implementations
 
         private void OnPairChanged(PairOfMarket pair)
         {
-            PairChanged?.Invoke(this, pair);
+            PairChanged?.Invoke(pair);
         }
 
         private void OnOrderBookSettingsChanged()
         {
-            OrderBookSettingsChanged?.Invoke(this,
+            OrderBookSettingsChanged?.Invoke(
                 new OrderBookSettings
                 {
                     Depth = Depth,
                     OrderBookType = Type,
                     RefreshInterval = RefreshInterval,
                     Multiplier = Multiplier,
+                    HighlightLargePositions = HighlightLargePositions,
+                    LargeVolumeKoef = LargeVolumeKoef,
                 });
         }
 
-        public event EventHandler<PairOfMarket> PairChanged;
+        public event Action<PairOfMarket> PairChanged;
 
-        public event EventHandler<Market> MarketChanged;
+        public event Action<Market> MarketChanged;
 
-        public event EventHandler<OrderBookSettings> OrderBookSettingsChanged;
+        public event Action<OrderBookSettings> OrderBookSettingsChanged;
 
-        public event EventHandler ViewClosed;
+        public event Action ViewClosed;
 
         private void multiplierComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OnOrderBookSettingsChanged();
+        }
+
+        private void largeVolumeKoefTrackBar_Scroll(object sender, EventArgs e)
+        {
+            OnOrderBookSettingsChanged();
+        }
+
+        private void largePositionCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             OnOrderBookSettingsChanged();
         }

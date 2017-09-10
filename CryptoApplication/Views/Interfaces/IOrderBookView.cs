@@ -10,7 +10,6 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
 
-        //void SetSelectedMarket(Market market);
         Market Market { get; set; }
 
         void SetPairs(IEnumerable<PairOfMarket> pairs);
@@ -23,10 +22,10 @@ namespace Views.Interfaces
 
         PairOfMarket Pair { get; set; }
 
-        event EventHandler<Market> MarketChanged;
+        event Action<Market> MarketChanged;
 
-        event EventHandler<PairOfMarket> PairChanged;
+        event Action<PairOfMarket> PairChanged;
 
-        event EventHandler<OrderBookSettings> OrderBookSettingsChanged;
+        event Action<OrderBookSettings> OrderBookSettingsChanged;
     }
 }

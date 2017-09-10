@@ -8,6 +8,6 @@ namespace Views.Interfaces
 
         void Close();
 
-        event EventHandler ViewClosed;
+        event Action ViewClosed;
     }
 }

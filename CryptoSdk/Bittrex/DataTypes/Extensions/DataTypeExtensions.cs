@@ -58,7 +58,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
         {
             var balance = new Balance(
                 market, currency, CryptoAddress.FromString(balanceItemDataType.CryptoAddress),
-                balanceItemDataType.Balance, balanceItemDataType.Available, balanceItemDataType.Pending);
+                balanceItemDataType.Available, balanceItemDataType.Balance - balanceItemDataType.Available, balanceItemDataType.Pending);
 
             return balance;
         }

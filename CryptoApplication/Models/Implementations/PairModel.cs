@@ -72,10 +72,10 @@ namespace Models.Implementations
 
         private void OnStatisticChanged()
         {
-            StatisticsChanged?.Invoke(this, Statistics);
+            StatisticsChanged?.Invoke(Statistics);
         }
 
-        public event EventHandler<IEnumerable<PairStatistic>> StatisticsChanged;
+        public event Action<IEnumerable<PairStatistic>> StatisticsChanged;
 
         IEnumerable<Market> IPairModel.Markets => _domainModel.Markets;
         private IPairStatisticUpdater _updater;
@@ -129,11 +129,11 @@ namespace Models.Implementations
             OnPairsChanged(result);
         }
 
-        public event EventHandler<IEnumerable<PairOfMarket>> PairsChanged;
+        public event Action<IEnumerable<PairOfMarket>> PairsChanged;
 
         private void OnPairsChanged(IEnumerable<PairOfMarket> pairs)
         {
-            PairsChanged?.Invoke(this, pairs);
+            PairsChanged?.Invoke(pairs);
         }
 
         void IPairModel.Release()

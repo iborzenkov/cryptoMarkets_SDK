@@ -48,7 +48,7 @@ namespace Views.Implementations
             this.quantityLabel = new System.Windows.Forms.Label();
             this.priceLabel = new System.Windows.Forms.Label();
             this.quoteCurrencyLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.priceTextBox = new System.Windows.Forms.TextBox();
             this.tradeButton = new System.Windows.Forms.Button();
             this.quantityTextBox = new System.Windows.Forms.TextBox();
             this.baseCurrencyLabel = new System.Windows.Forms.Label();
@@ -59,9 +59,10 @@ namespace Views.Implementations
             this.pairComboBox = new System.Windows.Forms.ComboBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.availableLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.AvailableQuantityLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.availableQuantityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.priceStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.priceValueLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.infoMessageStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.topPanel.SuspendLayout();
             this.myOrdersGroupBox.SuspendLayout();
             this.ordersContextMenuStrip.SuspendLayout();
@@ -165,7 +166,7 @@ namespace Views.Implementations
             this.iWantToGroupBox.Controls.Add(this.quantityLabel);
             this.iWantToGroupBox.Controls.Add(this.priceLabel);
             this.iWantToGroupBox.Controls.Add(this.quoteCurrencyLabel);
-            this.iWantToGroupBox.Controls.Add(this.textBox1);
+            this.iWantToGroupBox.Controls.Add(this.priceTextBox);
             this.iWantToGroupBox.Controls.Add(this.tradeButton);
             this.iWantToGroupBox.Controls.Add(this.quantityTextBox);
             this.iWantToGroupBox.Controls.Add(this.baseCurrencyLabel);
@@ -215,12 +216,13 @@ namespace Views.Implementations
             this.quoteCurrencyLabel.TabIndex = 17;
             this.quoteCurrencyLabel.Text = "BTC";
             // 
-            // textBox1
+            // priceTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(162, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(71, 20);
-            this.textBox1.TabIndex = 16;
+            this.priceTextBox.Location = new System.Drawing.Point(162, 22);
+            this.priceTextBox.Name = "priceTextBox";
+            this.priceTextBox.Size = new System.Drawing.Size(71, 20);
+            this.priceTextBox.TabIndex = 16;
+            this.priceTextBox.TextChanged += new System.EventHandler(this.priceTextBox_TextChanged);
             // 
             // tradeButton
             // 
@@ -306,8 +308,9 @@ namespace Views.Implementations
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoMessageStatusLabel,
             this.availableLabel,
-            this.AvailableQuantityLabel,
+            this.availableQuantityLabel,
             this.priceStatusLabel,
             this.priceValueLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 315);
@@ -322,11 +325,11 @@ namespace Views.Implementations
             this.availableLabel.Size = new System.Drawing.Size(58, 17);
             this.availableLabel.Text = "Available:";
             // 
-            // AvailableQuantityLabel
+            // availableQuantityLabel
             // 
-            this.AvailableQuantityLabel.Name = "AvailableQuantityLabel";
-            this.AvailableQuantityLabel.Size = new System.Drawing.Size(105, 17);
-            this.AvailableQuantityLabel.Text = "0.00123456789 BTC";
+            this.availableQuantityLabel.Name = "availableQuantityLabel";
+            this.availableQuantityLabel.Size = new System.Drawing.Size(105, 17);
+            this.availableQuantityLabel.Text = "0.00123456789 BTC";
             // 
             // priceStatusLabel
             // 
@@ -340,6 +343,12 @@ namespace Views.Implementations
             this.priceValueLabel.Name = "priceValueLabel";
             this.priceValueLabel.Size = new System.Drawing.Size(77, 17);
             this.priceValueLabel.Text = "1.123456 ETH";
+            // 
+            // infoMessageStatusLabel
+            // 
+            this.infoMessageStatusLabel.Name = "infoMessageStatusLabel";
+            this.infoMessageStatusLabel.Size = new System.Drawing.Size(0, 17);
+            this.infoMessageStatusLabel.Click += new System.EventHandler(this.infoMessageStatusLabel_Click);
             // 
             // PendingTradeForm
             // 
@@ -407,12 +416,13 @@ namespace Views.Implementations
         private System.Windows.Forms.Label baseCurrencyLabel;
         private System.Windows.Forms.TextBox quantityTextBox;
         private System.Windows.Forms.Label quoteCurrencyLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox priceTextBox;
         private System.Windows.Forms.ContextMenuStrip ordersContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ListView balanceListView;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel AvailableQuantityLabel;
+        private System.Windows.Forms.ToolStripStatusLabel availableQuantityLabel;
         private System.Windows.Forms.ToolStripStatusLabel priceValueLabel;
+        private System.Windows.Forms.ToolStripStatusLabel infoMessageStatusLabel;
     }
 }

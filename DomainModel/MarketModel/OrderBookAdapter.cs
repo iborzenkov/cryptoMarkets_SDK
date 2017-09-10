@@ -11,6 +11,8 @@ namespace DomainModel.MarketModel
         private int _depth;
         private OrderBookType _type;
         private int _multiplier;
+        private double _largeVolumeKoef = 0.25;
+        private bool _highlightLargePositions = true;
 
         private IList<OrderBookPart> InternalBids { get; set; }
         private IList<OrderBookPart> InternalAsks { get; set; }
@@ -18,24 +20,35 @@ namespace DomainModel.MarketModel
         public IEnumerable<OrderBookPart> Bids => InternalBids ?? (InternalBids = GetBids(_orderBook.Bids));
         public IEnumerable<OrderBookPart> Asks => InternalAsks ?? (InternalAsks = GetAsks(_orderBook.Asks));
 
-        public IEnumerable<int> LargeBidsIndexes
+        private IEnumerable<int> LargeIndexes(IEnumerable<OrderBookPart> parts)
         {
-            get
-            {
-                var result = new List<int>();
-                
+            var result = new List<int>();
+
+            if (!HighlightLargePositions)
                 return result;
+
+            var orderBookParts = parts.ToArray();
+            if (!orderBookParts.Any())
+                return result;
+
+            var prices = orderBookParts.Select(b => b.Quantity).ToArray();
+            var firstPercentile = Mathematics.Percentile(prices, 0.5 - LargeVolumeKoef);
+            var thirdPercentile = Mathematics.Percentile(prices, 0.5 + LargeVolumeKoef);
+            var diff = thirdPercentile - firstPercentile;
+            var minLimit = firstPercentile - 3 * diff;
+            var maxLimit = thirdPercentile + 3 * diff;
+
+            for (var i = 0; i < orderBookParts.Length; i++)
+            {
+                if (orderBookParts[i].Quantity <= minLimit || orderBookParts[i].Quantity >= maxLimit)
+                    result.Add(i);
             }
+            return result;
         }
 
-        public IEnumerable<int> LargeAsksIndexes
-        {
-            get
-            {
-                var result = new List<int>();
-                return result;
-            }
-        }
+        public IEnumerable<int> LargeBidsIndexes => LargeIndexes(Bids);
+
+        public IEnumerable<int> LargeAsksIndexes => LargeIndexes(Asks);
 
         private IList<OrderBookPart> GetBids(IEnumerable<OrderBookPart> bids)
         {
@@ -146,6 +159,26 @@ namespace DomainModel.MarketModel
             set
             {
                 _multiplier = value;
+                ClearCache();
+            }
+        }
+
+        public double LargeVolumeKoef
+        {
+            get { return _largeVolumeKoef; }
+            set
+            {
+                _largeVolumeKoef = value;
+                ClearCache();
+            }
+        }
+
+        public bool HighlightLargePositions
+        {
+            get { return _highlightLargePositions; }
+            set
+            {
+                _highlightLargePositions = value;
                 ClearCache();
             }
         }

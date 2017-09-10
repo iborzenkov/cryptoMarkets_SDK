@@ -17,7 +17,7 @@ namespace Models.Implementations
             _domainModel = domainModel;
         }
 
-        Market IBalanceModel.SelectedMarket
+        public Market SelectedMarket
         {
             get { return _selectedMarket; }
             set
@@ -52,14 +52,21 @@ namespace Models.Implementations
 
         void IBalanceModel.Refresh()
         {
+            SelectedMarket.UsdEquivalent.NeedUpdate();
+
             OnBalancesChanged(_selectedMarket?.Balances);
         }
 
-        public event EventHandler<IEnumerable<Balance>> BalancesChanged;
+        public event Action<IEnumerable<Balance>> BalancesChanged;
 
         private void OnBalancesChanged(IEnumerable<Balance> balances)
         {
-            BalancesChanged?.Invoke(this, balances);
+            BalancesChanged?.Invoke(balances);
+        }
+
+        public double? GetUsdRateChanged(Currency currency)
+        {
+            return SelectedMarket.UsdEquivalent.UsdRate(currency);
         }
     }
 }

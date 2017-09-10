@@ -51,11 +51,11 @@ namespace Models.Implementations
             OnCurrenciesChanged(filtered);
         }
 
-        public event EventHandler<IEnumerable<CurrencyOfMarket>> CurrenciesChanged;
+        public event Action<IEnumerable<CurrencyOfMarket>> CurrenciesChanged;
 
         private void OnCurrenciesChanged(IEnumerable<CurrencyOfMarket> currencies)
         {
-            CurrenciesChanged?.Invoke(this, currencies);
+            CurrenciesChanged?.Invoke(currencies);
         }
     }
 }

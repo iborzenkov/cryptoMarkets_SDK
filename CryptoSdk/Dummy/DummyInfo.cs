@@ -8,23 +8,32 @@ namespace CryptoSdk.Dummy
 {
     public class DummyInfo : IMarketInfo
     {
+        private List<PairOfMarket> _pairs;
+        private List<CurrencyOfMarket> _currencies;
+
         public IEnumerable<PairOfMarket> Pairs(Market market)
         {
-            yield return new PairOfMarket(PairDummy.BtcLtc, market, 0.000001);
-            yield return new PairOfMarket(PairDummy.BtcEth, market, 0.000001);
-            yield return new PairOfMarket(PairDummy.EthLtc, market, 0.000001);
-            yield return new PairOfMarket(PairDummy.BtcDoge, market, 0.000001, false);
-            yield return new PairOfMarket(PairDummy.BtcUsdt, market, 0.000001);
-            yield return new PairOfMarket(PairDummy.LtcUsdt, market, 0.000001);
+            return _pairs ?? (_pairs = new List<PairOfMarket>
+            {
+                new PairOfMarket(PairDummy.BtcLtc, market, 0.000001),
+                new PairOfMarket(PairDummy.BtcEth, market, 0.000001),
+                new PairOfMarket(PairDummy.EthLtc, market, 0.000001),
+                new PairOfMarket(PairDummy.BtcDoge, market, 0.000001, false),
+                new PairOfMarket(PairDummy.BtcUsdt, market, 0.000001),
+                new PairOfMarket(PairDummy.LtcUsdt, market, 0.000001)
+            });
         }
 
         public IEnumerable<CurrencyOfMarket> Currencies(Market market)
         {
-            yield return new CurrencyOfMarket(CurrencyDummy.Btc, market, 0.01);
-            yield return new CurrencyOfMarket(CurrencyDummy.Ltc, market, 0.01);
-            yield return new CurrencyOfMarket(CurrencyDummy.Eth, market, 0.01);
-            yield return new CurrencyOfMarket(CurrencyDummy.Doge, market, 0.01, false);
-            yield return new CurrencyOfMarket(CurrencyDummy.Usdt, market, 0.01);
+            return _currencies ?? (_currencies = new List<CurrencyOfMarket>
+            {
+                new CurrencyOfMarket(CurrencyDummy.Btc, market, 0.01),
+                new CurrencyOfMarket(CurrencyDummy.Ltc, market, 0.01),
+                new CurrencyOfMarket(CurrencyDummy.Eth, market, 0.01),
+                new CurrencyOfMarket(CurrencyDummy.Doge, market, 0.01, false),
+                new CurrencyOfMarket(CurrencyDummy.Usdt, market, 0.01),
+            });
         }
 
         public Tick Tick(Pair pair)

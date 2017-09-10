@@ -9,8 +9,8 @@ namespace Models.Interfaces
         IEnumerable<Market> Markets { get; }
         Market SelectedMarket { get; set; }
 
-        event EventHandler<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
+        event Action<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
 
-        event EventHandler<ApiKeyPair> ApiKeysChanged;
+        event Action<ApiKeyPair> ApiKeysChanged;
     }
 }

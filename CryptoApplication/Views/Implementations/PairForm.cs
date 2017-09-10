@@ -132,20 +132,20 @@ namespace Views.Implementations
             }));
         }
 
-        public event EventHandler<Market> MarketChanged;
+        public event Action<Market> MarketChanged;
 
-        public event EventHandler<PairViewFilter> FilterChanged;
+        public event Action<PairViewFilter> FilterChanged;
 
         void IPairView.InitFilter()
         {
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
         }
 
-        public event EventHandler ViewClosed;
+        public event Action ViewClosed;
 
         private void marketListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         public Market Market
@@ -186,40 +186,45 @@ namespace Views.Implementations
 
         private void filterTextBox_TextChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
         }
 
         private void PairForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private void activeOnlyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
         }
 
         private void clearFilterButton_Click(object sender, EventArgs e)
         {
             filterTextBox.Clear();
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
         }
 
         private void positiveDailyChangeRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
         }
 
         private void negativeDailyChangeRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
         }
 
         private void allDailyChangeRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            ChangedFilter();
+        }
+
+        private void ChangedFilter()
+        {
+            FilterChanged?.Invoke(Filter);
         }
 
         private void pairListView_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -243,7 +248,7 @@ namespace Views.Implementations
     {
         private readonly int _column;
         private readonly bool _mode;
-        IEnumerable<PairStatistic> _statistics;
+        readonly IEnumerable<PairStatistic> _statistics;
 
         public ListViewItemComparer(int column, bool mode, IEnumerable<PairStatistic> statistics)
         {

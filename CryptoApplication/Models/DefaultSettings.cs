@@ -14,6 +14,8 @@ namespace Models
                 OrderBookType = OrderBookType.Both,
                 RefreshInterval = 1000,
                 Multiplier = 1,
+                HighlightLargePositions = true,
+                LargeVolumeKoef = 0.25,
             };
         }
 

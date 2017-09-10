@@ -36,16 +36,16 @@ namespace Models.Implementations
                     apiKeys = ((IApiKeyProvider)_selectedMarket).ApiKeys;
                 }
 
-                ApiKeyRolesChanged?.Invoke(this, apiKeyRoles);
+                ApiKeyRolesChanged?.Invoke(apiKeyRoles);
                 foreach (var pair in apiKeys)
                 {
-                    ApiKeysChanged?.Invoke(this, pair);
+                    ApiKeysChanged?.Invoke(pair);
                 }
             }
         }
 
-        public event EventHandler<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
+        public event Action<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
 
-        public event EventHandler<ApiKeyPair> ApiKeysChanged;
+        public event Action<ApiKeyPair> ApiKeysChanged;
     }
 }

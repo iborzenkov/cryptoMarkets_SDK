@@ -1,5 +1,4 @@
-﻿using System;
-using DomainModel.Features;
+﻿using DomainModel.Features;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,18 +45,18 @@ namespace Presenters.Implementations
             Model.SetFilter(_filter, _activeOnly);
         }
 
-        private void Model_CurrenciesChanged(object sender, IEnumerable<CurrencyOfMarket> currencies)
+        private void Model_CurrenciesChanged(IEnumerable<CurrencyOfMarket> currencies)
         {
             View.SetCurrencies(currencies);
         }
 
-        private void View_ActiveOnlyChanged(object sender, bool activeOnly)
+        private void View_ActiveOnlyChanged(bool activeOnly)
         {
             _activeOnly = activeOnly;
             Model.SetFilter(_filter, _activeOnly);
         }
 
-        private void View_FilterChanged(object sender, string filter)
+        private void View_FilterChanged(string filter)
         {
             _filter = filter;
             Model.SetFilter(_filter, _activeOnly);
@@ -66,12 +65,13 @@ namespace Presenters.Implementations
         private bool _activeOnly;
         private string _filter;
 
-        private void View_MarketChanged(object sender, Market market)
+        private void View_MarketChanged(Market market)
         {
             Model.SelectedMarket = market;
             Model.SetFilter(_filter, _activeOnly);
         }
-        private void View_ViewClosed(object sender, EventArgs eventArgs)
+
+        private void View_ViewClosed()
         {
             Release();
         }

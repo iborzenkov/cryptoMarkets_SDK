@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace Views.Interfaces
 {
+    public delegate double? GetUsdRateDelegate(Currency currency);
+
     public interface IBalanceView : IView
     {
         void SetMarkets(IEnumerable<Market> markets);
@@ -12,11 +14,11 @@ namespace Views.Interfaces
 
         void SetBalances(IEnumerable<Balance> balances);
 
-        event EventHandler<Market> MarketChanged;
+        void SetUsdRate(GetUsdRateDelegate getUsdRate);
 
-        event EventHandler<CurrencyOfMarket> CurrencyChanged;
+        event Action<Market> MarketChanged;
 
-        event EventHandler<string> FilterChanged;
+        event Action<string> FilterChanged;
 
         event Action ClearFilter;
 

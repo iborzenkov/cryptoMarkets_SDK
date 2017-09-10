@@ -49,6 +49,7 @@
     <Compile Include="Features\Order.cs" />
     <Compile Include="Features\MarketHistory.cs" />
     <Compile Include="Features\PairStatistic.cs" />
+    <Compile Include="Features\UsdEquivalent.cs" />
     <Compile Include="MarketModel\ApiKeyProvider.cs" />
     <Compile Include="MarketModel\IApiKeyProvider.cs" />
     <Compile Include="IniFile.cs" />

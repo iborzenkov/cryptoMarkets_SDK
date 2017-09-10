@@ -5,8 +5,6 @@ using DomainModel.MarketModel.Updaters.OrderBook;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
-using DomainModel.MarketModel.Updaters;
-using DomainModel.MarketModel.Updaters.PairTick;
 using IModel = DomainModel.IModel;
 
 namespace Models.Implementations
@@ -23,7 +21,6 @@ namespace Models.Implementations
         }
 
         private IOrderBookUpdaterProvider OrderBookUpdaterProvider => _domainModel.OrderBookUpdaterProvider;
-        private IPairTickUpdaterProvider PairTickUpdaterProvider => _domainModel.PairTickUpdaterProvider;
 
         IEnumerable<Market> IOrderBookModel.Markets => _domainModel.Markets;
 
@@ -35,57 +32,23 @@ namespace Models.Implementations
                 _updater.Changed -= OrderBookUpdater_Changed;
                 _updater = null;
             }
-
-            if (_usdRateUpdater != null)
-            {
-                PairTickUpdaterProvider.ReleaseUpdater(_usdRateUpdater);
-                _usdRateUpdater.Changed -= PairUsdRateUpdaterChanged;
-                _usdRateUpdater = null;
-            }
         }
 
         private void ResetUsdRate()
         {
-            UsdRateChanged?.Invoke(this, null);
+            UsdRateChanged?.Invoke(null);
         }
 
-        private readonly RefreshInterval _usdRateRefreshInterval = RefreshInterval.InMinutes(5);
+        private PairOfMarket _pair;
 
         private void SetUpdaters(PairOfMarket pair)
         {
+            _pair = pair;
+
             _updater = OrderBookUpdaterProvider.OrderBookUpdater(pair);
             _updater.Changed += OrderBookUpdater_Changed;
             SetUpdaterSettings();
             _updater.Start();
-
-            _usdPair = GetUsdPair(pair);
-            if (_usdPair != null)
-            {
-                _usdRateUpdater = PairTickUpdaterProvider.PairTickUpdater(_usdPair, _usdRateRefreshInterval);
-                _usdRateUpdater.Changed += PairUsdRateUpdaterChanged;
-                _usdRateUpdater.Start();
-            }
-        }
-
-        private PairOfMarket GetUsdPair(PairOfMarket pair)
-        {
-            var usdCurrency = pair.Market.Usd;
-            if (usdCurrency == null)
-                return null;
-
-            var currency = pair.Pair.QuoteCurrency;
-            foreach (var pairOfMarket in pair.Market.Pairs)
-            {
-                if (pairOfMarket.Pair.QuoteCurrency.Equals(currency) &&
-                    pairOfMarket.Pair.BaseCurrency.Equals(usdCurrency.Currency))
-                    return pairOfMarket;
-
-                if (pairOfMarket.Pair.QuoteCurrency.Equals(usdCurrency.Currency) &&
-                    pairOfMarket.Pair.BaseCurrency.Equals(currency))
-                    return pairOfMarket;
-            }
-
-            return null;
         }
 
         void IOrderBookModel.NeedOrderBookOf(PairOfMarket pair)
@@ -104,10 +67,8 @@ namespace Models.Implementations
         }
 
         private IOrderBookUpdater _updater;
-        private IPairTickUpdater _usdRateUpdater;
 
         private OrderBookSettings _orderBookSettings;
-        private PairOfMarket _usdPair;
 
         public OrderBookSettings OrderBookSettings
         {
@@ -123,6 +84,8 @@ namespace Models.Implementations
                 OrderBookAdapter.Depth = _orderBookSettings.Depth;
                 OrderBookAdapter.Type = _orderBookSettings.OrderBookType;
                 OrderBookAdapter.Multiplier = _orderBookSettings.Multiplier;
+                OrderBookAdapter.HighlightLargePositions = _orderBookSettings.HighlightLargePositions;
+                OrderBookAdapter.LargeVolumeKoef = _orderBookSettings.LargeVolumeKoef;
 
                 if (OrderBook != null)
                     OnOrderBookChanged();
@@ -149,13 +112,9 @@ namespace Models.Implementations
             OnOrderBookChanged();
         }
 
-        private void PairUsdRateUpdaterChanged(object sender, Tick tick)
-        {
-            OnUsdRateChanged(tick);
-        }
+        public event Action<IOrderBook> OrderBookChanged;
 
-        public event EventHandler<IOrderBook> OrderBookChanged;
-        public event EventHandler<double?> UsdRateChanged;
+        public event Action<double?> UsdRateChanged;
 
         public void Release()
         {
@@ -164,21 +123,9 @@ namespace Models.Implementations
 
         private void OnOrderBookChanged()
         {
-            OrderBookChanged?.Invoke(this, OrderBookAdapter);
-        }
+            OrderBookChanged?.Invoke(OrderBookAdapter);
 
-        protected virtual void OnUsdRateChanged(Tick tick)
-        {
-            double? price = null;
-
-            if (tick != null)
-            {
-                price = tick.Last;
-                if (_usdPair.Pair.QuoteCurrency.Equals(_usdPair.Market.Usd.Currency))
-                    price = 1 / price;
-            }
-
-            UsdRateChanged?.Invoke(this, price);
+            UsdRateChanged?.Invoke(_pair.Market.UsdEquivalent.UsdRate(_pair.Pair.QuoteCurrency));
         }
     }
 }

@@ -35,5 +35,10 @@ namespace DomainModel.Features
         {
             return $"{BaseCurrency.Name}-{QuoteCurrency.Name}";
         }
+
+        public bool HasCurrency(Currency currency)
+        {
+            return BaseCurrency.Equals(currency) || QuoteCurrency.Equals(currency);
+        }
     }
 }

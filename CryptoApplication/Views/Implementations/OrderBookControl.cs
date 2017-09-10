@@ -1,5 +1,8 @@
-﻿using DomainModel.MarketModel;
+﻿using DomainModel.Features;
+using DomainModel.MarketModel;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
@@ -46,60 +49,115 @@ namespace Views.Implementations
             askListView.BeginInvoke(new Action(() =>
             {
                 askListView.BeginUpdate();
-                askListView.Items.Clear();
-
-                if (orderBook != null)
+                try
                 {
+                    var selectedPrice = GetSelectedPrice(askListView);
+                    askListView.Items.Clear();
+
+                    if (orderBook == null)
+                        return;
+
                     lock (_askLock)
                     {
-                        foreach (var ask in orderBook.Asks)
-                        {
-                            var item = new ListViewItem { Text = ask.Price.ToString(CultureInfo.CurrentCulture) };
-                            item.SubItems.Add(ask.Quantity.ToString(CultureInfo.CurrentCulture));
-                            item.SubItems.Add(ask.SumQuantity.ToString(CultureInfo.CurrentCulture));
-                            item.SubItems.Add(GetUsdEquivalent(ask.Quantity));
-                            askListView.Items.Add(item);
-                        }
-
-                        if (askListView.Items.Count > 0)
-                        {
-                            askListView.FocusedItem = askListView.Items[askListView.Items.Count - 1];
-                            askListView.Items[askListView.Items.Count - 1].EnsureVisible();
-                        }
+                        FillListView(orderBook.Asks, askListView);
+                        HighlightLargePositions(orderBook.LargeAsksIndexes, askListView, Color.IndianRed);
+                        FocusLastItem(askListView);
+                        SelectPriceIfPossible(selectedPrice, askListView);
                     }
                 }
-
-                askListView.EndUpdate();
+                finally
+                {
+                    askListView.EndUpdate();
+                }
             }));
 
             bidListView.BeginInvoke(new Action(() =>
             {
                 bidListView.BeginUpdate();
-                bidListView.Items.Clear();
-
-                if (orderBook != null)
+                try
                 {
+                    var selectedPrice = GetSelectedPrice(bidListView);
+                    bidListView.Items.Clear();
+
+                    if (orderBook == null)
+                        return;
+
                     lock (_bidLock)
                     {
-                        foreach (var bid in orderBook.Bids)
-                        {
-                            var item = new ListViewItem { Text = bid.Price.ToString(CultureInfo.CurrentCulture) };
-                            item.SubItems.Add(bid.Quantity.ToString(CultureInfo.CurrentCulture));
-                            item.SubItems.Add(bid.SumQuantity.ToString(CultureInfo.CurrentCulture));
-                            item.SubItems.Add(GetUsdEquivalent(bid.Quantity));
-                            bidListView.Items.Add(item);
-                        }
-
-                        if (bidListView.Items.Count > 0)
-                        {
-                            bidListView.FocusedItem = bidListView.Items[0];
-                            bidListView.Items[0].EnsureVisible();
-                        }
+                        FillListView(orderBook.Bids, bidListView);
+                        HighlightLargePositions(orderBook.LargeBidsIndexes, bidListView, Color.ForestGreen);
+                        FocusFirstItem(bidListView);
+                        SelectPriceIfPossible(selectedPrice, bidListView);
                     }
                 }
-
-                bidListView.EndUpdate();
+                finally
+                {
+                    bidListView.EndUpdate();
+                }
             }));
+        }
+
+        private void FocusLastItem(ListView listView)
+        {
+            SetFocusedItem(listView, true);
+        }
+
+        private void FocusFirstItem(ListView listView)
+        {
+            SetFocusedItem(listView, false);
+        }
+
+        private void SetFocusedItem(ListView listView, bool isLastItemFocused)
+        {
+            if (listView.Items.Count > 0)
+            {
+                var item = isLastItemFocused ? listView.Items[listView.Items.Count - 1] : listView.Items[0];
+                listView.FocusedItem = item;
+                item.EnsureVisible();
+            }
+        }
+
+        private void HighlightLargePositions(IEnumerable<int> indexes, ListView listView, Color color)
+        {
+            foreach (var index in indexes)
+            {
+                listView.Items[index].BackColor = color;
+            }
+        }
+
+        private void FillListView(IEnumerable<OrderBookPart> parts, ListView listView)
+        {
+            foreach (var part in parts)
+            {
+                var item = new ListViewItem { Text = part.Price.ToString(CultureInfo.CurrentCulture) };
+                item.SubItems.Add(part.Quantity.ToString(CultureInfo.CurrentCulture));
+                item.SubItems.Add(part.SumQuantity.ToString(CultureInfo.CurrentCulture));
+                item.SubItems.Add(GetUsdEquivalent(part.Quantity));
+                listView.Items.Add(item);
+            }
+        }
+
+        private string GetSelectedPrice(ListView listView)
+        {
+            var selectedPrice = string.Empty;
+            if (listView.SelectedItems.Count > 0)
+                selectedPrice = listView.SelectedItems[0].Text;
+            return selectedPrice;
+        }
+
+        private void SelectPriceIfPossible(string selectedPrice, ListView listView)
+        {
+            if (!string.IsNullOrEmpty(selectedPrice))
+            {
+                for (var i = 0; i < listView.Items.Count; i++)
+                {
+                    if (listView.Items[i].Text == selectedPrice)
+                    {
+                        listView.SelectedIndices.Add(i);
+                        break;
+                    }
+                }
+            }
         }
 
         private string GetUsdEquivalent(double quantity)

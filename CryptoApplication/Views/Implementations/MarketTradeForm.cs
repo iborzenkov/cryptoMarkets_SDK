@@ -83,22 +83,22 @@ namespace Views.Implementations
             tradeButton2.Enabled = value;
         }
 
-        public event EventHandler<Market> MarketChanged;
-        public event EventHandler<PairOfMarket> PairChanged;
-        public event EventHandler ViewClosed;
-        public event Action TradeParamsChanged;
-        public event Action TradeParams2Changed;
-        public event Action Trade;
-        public event Action Trade2;
+        public event Action<Market> MarketChanged;
+        public event Action<PairOfMarket> PairChanged;
+        public event Action ViewClosed;
+        public event Action<TradeParams> TradeParamsChanged;
+        public event Action<TradeParams> TradeParams2Changed;
+        public event Action<TradeParams> Trade;
+        public event Action<TradeParams> Trade2;
 
         protected virtual void OnPairChanged(PairOfMarket pair)
         {
-            PairChanged?.Invoke(this, pair);
+            PairChanged?.Invoke(pair);
         }
 
         private void marketComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace Views.Implementations
         {
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private double Quantity
@@ -145,13 +145,13 @@ namespace Views.Implementations
         private void OnTradeParamsChanged()
         {
             if (TradeParams != null)
-                TradeParamsChanged?.Invoke();
+                TradeParamsChanged?.Invoke(TradeParams);
         }
 
         private void OnTradeParamsChanged2()
         {
             if (TradeParams2 != null)
-                TradeParams2Changed?.Invoke();
+                TradeParams2Changed?.Invoke(TradeParams2);
         }
 
         private void radioButton_CheckedChanged(object sender, EventArgs e)
@@ -171,12 +171,12 @@ namespace Views.Implementations
 
         private void tradeButton_Click(object sender, EventArgs e)
         {
-            Trade?.Invoke();
+            Trade?.Invoke(TradeParams);
         }
 
         private void tradeButton2_Click(object sender, EventArgs e)
         {
-            Trade2?.Invoke();
+            Trade2?.Invoke(TradeParams2);
         }
     }
 }

@@ -2,7 +2,6 @@
 using DomainModel.MarketModel;
 using Models;
 using Models.Interfaces;
-using System;
 using System.Linq;
 using Views.Interfaces;
 
@@ -30,7 +29,7 @@ namespace Presenters.Implementations
                 View.Market = Model.Markets.First();
         }
 
-        private void Model_UsdRateChanged(object sender, double? usdRate)
+        private void Model_UsdRateChanged(double? usdRate)
         {
             View.SetUsdRate(usdRate);
         }
@@ -46,27 +45,27 @@ namespace Presenters.Implementations
             Model.Release();
         }
 
-        private void View_OrderBookSettingsChanged(object sender, OrderBookSettings settings)
+        private void View_OrderBookSettingsChanged(OrderBookSettings settings)
         {
             Model.OrderBookSettings = settings;
         }
 
-        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        private void View_ViewClosed()
         {
             Release();
         }
 
-        private void Model_OrderBookChanged(object sender, IOrderBook orderBook)
+        private void Model_OrderBookChanged(IOrderBook orderBook)
         {
             View.SetOrderBook(orderBook);
         }
 
-        private void View_PairChanged(object sender, PairOfMarket pair)
+        private void View_PairChanged(PairOfMarket pair)
         {
             Model.NeedOrderBookOf(View.Pair);
         }
 
-        private void View_MarketChanged(object sender, Market market)
+        private void View_MarketChanged(Market market)
         {
             var selectedPair = View.Pair;
 

@@ -20,13 +20,27 @@ namespace Presenters.Implementations
             View.MarketChanged += View_MarketChanged;
             View.PairChanged += View_PairChanged;
             View.ViewClosed += View_ViewClosed;
+            View.Trade += View_Trade;
+            View.TradeParamsChanged += View_TradeParamsChanged;
 
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
         }
 
+        private void View_TradeParamsChanged(PendingTradeParams pendingTradeParams)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void View_Trade(PendingTradeParams pendingTradeParams)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Release()
         {
+            View.TradeParamsChanged -= View_TradeParamsChanged;
+            View.Trade -= View_Trade;
             View.MarketChanged -= View_MarketChanged;
             View.PairChanged -= View_PairChanged;
             View.ViewClosed -= View_ViewClosed;
@@ -35,7 +49,7 @@ namespace Presenters.Implementations
             //Model.Release();
         }
 
-        private void View_ViewClosed(object sender, EventArgs eventArgs)
+        private void View_ViewClosed()
         {
             Release();
         }
@@ -45,12 +59,12 @@ namespace Presenters.Implementations
             //View.SetTrade(trade);
         }*/
 
-        private void View_PairChanged(object sender, PairOfMarket pair)
+        private void View_PairChanged(PairOfMarket pair)
         {
             //Model.NeedTradeOf(View.Pair);
         }
 
-        private void View_MarketChanged(object sender, Market market)
+        private void View_MarketChanged(Market market)
         {
             var selectedPair = View.Pair;
 

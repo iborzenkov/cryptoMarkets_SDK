@@ -13,8 +13,7 @@ namespace Models.Interfaces
 
         void Release();
 
-        event EventHandler<IEnumerable<PairStatistic>> StatisticsChanged;
-
-        event EventHandler<IEnumerable<PairOfMarket>> PairsChanged;
+        event Action<IEnumerable<PairStatistic>> StatisticsChanged;
+        event Action<IEnumerable<PairOfMarket>> PairsChanged;
     }
 }

@@ -17,6 +17,7 @@ namespace DomainModel.Features
             SpecifiedRoles = apiKeyRoles.ToArray();
 
             _apiKeyProvider = new ApiKeyProvider(SpecifiedRoles);
+            UsdEquivalent = new UsdEquivalent(this);
         }
 
         private IEnumerable<PairOfMarket> _pairs;
@@ -26,6 +27,8 @@ namespace DomainModel.Features
         public IEnumerable<PairOfMarket> Pairs => _pairs ?? (_pairs = Model.Info.Pairs(this));
         public IEnumerable<CurrencyOfMarket> Currencies => _currencies ?? (_currencies = Model.Info.Currencies(this));
         public IEnumerable<Balance> Balances => Model.Account.Balances(this);
+
+        public UsdEquivalent UsdEquivalent { get; private set; }
 
         public override string ToString()
         {

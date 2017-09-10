@@ -15,10 +15,10 @@ namespace Views.Interfaces
 
         void SetApiKeys(ApiKeyPair apiKeyPair);
 
-        event EventHandler<Market> MarketChanged;
+        event Action<Market> MarketChanged;
 
-        event EventHandler<Tuple<ApiKeyRole, IApiKey>> PrivateApiKeyChanged;
+        event Action<Tuple<ApiKeyRole, IApiKey>> PrivateApiKeyChanged;
 
-        event EventHandler<Tuple<ApiKeyRole, IApiKey>> PublicApiKeyChanged;
+        event Action<Tuple<ApiKeyRole, IApiKey>> PublicApiKeyChanged;
     }
 }

@@ -78,25 +78,25 @@ namespace Views.Implementations
             return Locale.Instance.Localize(key);
         }
 
-        public event EventHandler<Market> MarketChanged;
+        public event Action<Market> MarketChanged;
 
-        public event EventHandler<string> FilterChanged;
+        public event Action<string> FilterChanged;
 
-        public event EventHandler<bool> ActiveOnlyChanged;
+        public event Action<bool> ActiveOnlyChanged;
 
         public event Action ClearFilter;
 
         void ICurrencyView.InitFilter()
         {
-            FilterChanged?.Invoke(this, Filter);
-            ActiveOnlyChanged?.Invoke(this, activeOnlyCheckBox.Checked);
+            FilterChanged?.Invoke(Filter);
+            ActiveOnlyChanged?.Invoke(activeOnlyCheckBox.Checked);
         }
 
-        public event EventHandler ViewClosed;
+        public event Action ViewClosed;
 
         private void marketListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(this, Market);
+            MarketChanged?.Invoke(Market);
         }
 
         public Market Market
@@ -119,19 +119,19 @@ namespace Views.Implementations
 
         private void filterTextBox_TextChanged(object sender, EventArgs e)
         {
-            FilterChanged?.Invoke(this, Filter);
+            FilterChanged?.Invoke(Filter);
         }
 
         private void CurrencyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Locale.Instance.UnRegisterView(this);
 
-            ViewClosed?.Invoke(this, EventArgs.Empty);
+            ViewClosed?.Invoke();
         }
 
         private void activeOnlyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            ActiveOnlyChanged?.Invoke(this, activeOnlyCheckBox.Checked);
+            ActiveOnlyChanged?.Invoke(activeOnlyCheckBox.Checked);
         }
 
         private void clearFilterButton_Click(object sender, EventArgs e)

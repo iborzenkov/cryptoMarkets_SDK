@@ -12,11 +12,11 @@ namespace Views.Interfaces
 
         void SetCurrencies(IEnumerable<CurrencyOfMarket> currencies);
 
-        event EventHandler<Market> MarketChanged;
+        event Action<Market> MarketChanged;
 
-        event EventHandler<string> FilterChanged;
+        event Action<string> FilterChanged;
 
-        event EventHandler<bool> ActiveOnlyChanged;
+        event Action<bool> ActiveOnlyChanged;
 
         event Action ClearFilter;
         void InitFilter();

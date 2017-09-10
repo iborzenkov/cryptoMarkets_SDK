@@ -33,6 +33,7 @@ namespace Views.Implementations
         {
             this.pairComboBox = new System.Windows.Forms.ComboBox();
             this.topPanel = new System.Windows.Forms.Panel();
+            this.largePositionCheckBox = new System.Windows.Forms.CheckBox();
             this.multiplierComboBox = new System.Windows.Forms.ComboBox();
             this.multiplierLabel = new System.Windows.Forms.Label();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
@@ -45,10 +46,10 @@ namespace Views.Implementations
             this.marketComboBox = new System.Windows.Forms.ComboBox();
             this.pairLabel = new System.Windows.Forms.Label();
             this.orderBookPartPanel = new System.Windows.Forms.Panel();
-            this.largePositionCheckBox = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.largeVolumeKoefTrackBar = new System.Windows.Forms.TrackBar();
             this.topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.largeVolumeKoefTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // pairComboBox
@@ -63,7 +64,7 @@ namespace Views.Implementations
             // 
             // topPanel
             // 
-            this.topPanel.Controls.Add(this.textBox1);
+            this.topPanel.Controls.Add(this.largeVolumeKoefTrackBar);
             this.topPanel.Controls.Add(this.largePositionCheckBox);
             this.topPanel.Controls.Add(this.multiplierComboBox);
             this.topPanel.Controls.Add(this.multiplierLabel);
@@ -82,6 +83,17 @@ namespace Views.Implementations
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(393, 97);
             this.topPanel.TabIndex = 1;
+            // 
+            // largePositionCheckBox
+            // 
+            this.largePositionCheckBox.AutoSize = true;
+            this.largePositionCheckBox.Location = new System.Drawing.Point(15, 68);
+            this.largePositionCheckBox.Name = "largePositionCheckBox";
+            this.largePositionCheckBox.Size = new System.Drawing.Size(137, 17);
+            this.largePositionCheckBox.TabIndex = 15;
+            this.largePositionCheckBox.Text = "Highlight large positions";
+            this.largePositionCheckBox.UseVisualStyleBackColor = true;
+            this.largePositionCheckBox.CheckedChanged += new System.EventHandler(this.largePositionCheckBox_CheckedChanged);
             // 
             // multiplierComboBox
             // 
@@ -210,23 +222,17 @@ namespace Views.Implementations
             this.orderBookPartPanel.Size = new System.Drawing.Size(393, 319);
             this.orderBookPartPanel.TabIndex = 2;
             // 
-            // largePositionCheckBox
+            // largeVolumeKoefTrackBar
             // 
-            this.largePositionCheckBox.AutoSize = true;
-            this.largePositionCheckBox.Location = new System.Drawing.Point(15, 68);
-            this.largePositionCheckBox.Name = "largePositionCheckBox";
-            this.largePositionCheckBox.Size = new System.Drawing.Size(149, 17);
-            this.largePositionCheckBox.TabIndex = 15;
-            this.largePositionCheckBox.Text = "Highlight large positions, >";
-            this.largePositionCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(170, 66);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(40, 20);
-            this.textBox1.TabIndex = 16;
-            this.textBox1.Text = "1000";
+            this.largeVolumeKoefTrackBar.Location = new System.Drawing.Point(152, 65);
+            this.largeVolumeKoefTrackBar.Maximum = 49;
+            this.largeVolumeKoefTrackBar.Minimum = 1;
+            this.largeVolumeKoefTrackBar.Name = "largeVolumeKoefTrackBar";
+            this.largeVolumeKoefTrackBar.Size = new System.Drawing.Size(104, 45);
+            this.largeVolumeKoefTrackBar.TabIndex = 16;
+            this.largeVolumeKoefTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.largeVolumeKoefTrackBar.Value = 25;
+            this.largeVolumeKoefTrackBar.Scroll += new System.EventHandler(this.largeVolumeKoefTrackBar_Scroll);
             // 
             // OrderBookForm
             // 
@@ -241,6 +247,7 @@ namespace Views.Implementations
             this.topPanel.ResumeLayout(false);
             this.topPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.largeVolumeKoefTrackBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -259,6 +266,8 @@ namespace Views.Implementations
         private System.Windows.Forms.Label typeLabel;
         [LocalizableClass]
         private System.Windows.Forms.Label multiplierLabel;
+        [LocalizableClass]
+        private System.Windows.Forms.CheckBox largePositionCheckBox;
 
         private System.Windows.Forms.ComboBox pairComboBox;
         private System.Windows.Forms.Panel topPanel;
@@ -268,7 +277,6 @@ namespace Views.Implementations
         private System.Windows.Forms.ComboBox typeComboBox;
         private System.Windows.Forms.Panel orderBookPartPanel;
         private System.Windows.Forms.ComboBox multiplierComboBox;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.CheckBox largePositionCheckBox;
+        private System.Windows.Forms.TrackBar largeVolumeKoefTrackBar;
     }
 }
