@@ -24,6 +24,8 @@ namespace Views.Implementations
             _infoTimer = new Timer(InfoTimerInterval);
             _infoTimer.Elapsed += InfoTimer_Elapsed;
 
+            SetCurrencyLabels();
+
             Locale.Instance.RegisterView(this);
         }
 
@@ -55,6 +57,43 @@ namespace Views.Implementations
             }
         }
 
+        void IPendingTradeView.SetOpenedOrders(IEnumerable<Order> orders)
+        {
+            openedOrdersListView.BeginInvoke(new Action(() =>
+            {
+                openedOrdersListView.BeginUpdate();
+                try
+                {
+                    openedOrdersListView.Items.Clear();
+                    if (orders == null)
+                        return;
+
+                    foreach (var order in orders)
+                    {
+                        var item = new ListViewItem(new[]
+                        {
+                            order.Market.Name,
+                            order.Pair.ToString(),
+                            TradePositionAsString(order.Position),
+                            order.Price.ToString(CultureInfo.CurrentCulture),
+                            order.Quantity.ToString(CultureInfo.CurrentCulture),
+                        });
+                        item.Tag = order;
+                        openedOrdersListView.Items.Add(item);
+                    }
+                }
+                finally
+                {
+                    openedOrdersListView.EndUpdate();
+                }
+            }));
+        }
+
+        private string TradePositionAsString(TradePosition position)
+        {
+            return Locale.Instance.Localize(position == TradePosition.Buy ? "Buy" : "Sell");
+        }
+
         public Market Market
         {
             get { return marketComboBox.SelectedItem as Market; }
@@ -72,12 +111,24 @@ namespace Views.Implementations
                 if (pairComboBox.SelectedItem == value)
                     return;
 
-                baseCurrencyLabel.Text = Pair.Pair.BaseCurrency.Name;
-
                 pairComboBox.SelectedItem = value;
+
+                SetCurrencyLabels();
+
                 OnPairChanged(Pair);
             }
         }
+
+        private void SetCurrencyLabels()
+        {
+            iWantToGroupBox.Enabled = Pair != null;
+            baseCurrencyLabel.Text = Pair != null ? Pair.Pair.BaseCurrency.Name : string.Empty;
+            quoteCurrencyLabel.Text = Pair != null ? Pair.Pair.QuoteCurrency.Name : string.Empty;
+        }
+
+        private OrderId SelectedOrderId => openedOrdersListView.FocusedItem.Tag as OrderId;
+
+        public TradePosition Position => buyLimitRadioButton.Checked ? TradePosition.Buy : TradePosition.Sell;
 
         void IPendingTradeView.SetIsMayTrade(bool value)
         {
@@ -110,6 +161,7 @@ namespace Views.Implementations
         public event Action<PendingTradeParams> TradeParamsChanged;
 
         public event Action<PendingTradeParams> Trade;
+        public event Action<OrderId> RemoveOrder;
 
         private void OnPairChanged(PairOfMarket pair)
         {
@@ -123,6 +175,7 @@ namespace Views.Implementations
 
         private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SetCurrencyLabels();
             OnPairChanged(Pair);
         }
 
@@ -216,6 +269,11 @@ namespace Views.Implementations
             availableQuantityLabel.Visible = true;
             priceStatusLabel.Visible = true;
             priceValueLabel.Visible = true;
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RemoveOrder?.Invoke(SelectedOrderId);
         }
     }
 }

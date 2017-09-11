@@ -36,7 +36,7 @@ namespace Views.Implementations
             this.myOrdersGroupBox = new System.Windows.Forms.GroupBox();
             this.ordersContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.balanceListView = new System.Windows.Forms.ListView();
+            this.openedOrdersListView = new System.Windows.Forms.ListView();
             this.marketColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pairColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.orderTypeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -58,11 +58,11 @@ namespace Views.Implementations
             this.pairLabel = new System.Windows.Forms.Label();
             this.pairComboBox = new System.Windows.Forms.ComboBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.infoMessageStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.availableLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.availableQuantityLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.priceStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.priceValueLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.infoMessageStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.topPanel.SuspendLayout();
             this.myOrdersGroupBox.SuspendLayout();
             this.ordersContextMenuStrip.SuspendLayout();
@@ -87,7 +87,7 @@ namespace Views.Implementations
             // myOrdersGroupBox
             // 
             this.myOrdersGroupBox.ContextMenuStrip = this.ordersContextMenuStrip;
-            this.myOrdersGroupBox.Controls.Add(this.balanceListView);
+            this.myOrdersGroupBox.Controls.Add(this.openedOrdersListView);
             this.myOrdersGroupBox.Location = new System.Drawing.Point(15, 138);
             this.myOrdersGroupBox.Name = "myOrdersGroupBox";
             this.myOrdersGroupBox.Size = new System.Drawing.Size(399, 174);
@@ -107,25 +107,26 @@ namespace Views.Implementations
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
-            // balanceListView
+            // openedOrdersListView
             // 
-            this.balanceListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.openedOrdersListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.marketColumnHeader,
             this.pairColumnHeader,
             this.orderTypeColumnHeader,
             this.priceColumnHeader,
             this.quantityColumnHeader});
-            this.balanceListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.balanceListView.FullRowSelect = true;
-            this.balanceListView.GridLines = true;
-            this.balanceListView.Location = new System.Drawing.Point(3, 16);
-            this.balanceListView.MultiSelect = false;
-            this.balanceListView.Name = "balanceListView";
-            this.balanceListView.Size = new System.Drawing.Size(393, 155);
-            this.balanceListView.TabIndex = 7;
-            this.balanceListView.UseCompatibleStateImageBehavior = false;
-            this.balanceListView.View = System.Windows.Forms.View.Details;
+            this.openedOrdersListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openedOrdersListView.FullRowSelect = true;
+            this.openedOrdersListView.GridLines = true;
+            this.openedOrdersListView.Location = new System.Drawing.Point(3, 16);
+            this.openedOrdersListView.MultiSelect = false;
+            this.openedOrdersListView.Name = "openedOrdersListView";
+            this.openedOrdersListView.Size = new System.Drawing.Size(393, 155);
+            this.openedOrdersListView.TabIndex = 7;
+            this.openedOrdersListView.UseCompatibleStateImageBehavior = false;
+            this.openedOrdersListView.View = System.Windows.Forms.View.Details;
             // 
             // marketColumnHeader
             // 
@@ -174,7 +175,7 @@ namespace Views.Implementations
             this.iWantToGroupBox.Controls.Add(this.sellLimitRadioButton);
             this.iWantToGroupBox.Location = new System.Drawing.Point(15, 39);
             this.iWantToGroupBox.Name = "iWantToGroupBox";
-            this.iWantToGroupBox.Size = new System.Drawing.Size(334, 93);
+            this.iWantToGroupBox.Size = new System.Drawing.Size(358, 93);
             this.iWantToGroupBox.TabIndex = 3;
             this.iWantToGroupBox.TabStop = false;
             this.iWantToGroupBox.Text = "I want to";
@@ -192,7 +193,7 @@ namespace Views.Implementations
             // quantityLabel
             // 
             this.quantityLabel.AutoSize = true;
-            this.quantityLabel.Location = new System.Drawing.Point(94, 50);
+            this.quantityLabel.Location = new System.Drawing.Point(94, 48);
             this.quantityLabel.Name = "quantityLabel";
             this.quantityLabel.Size = new System.Drawing.Size(46, 13);
             this.quantityLabel.TabIndex = 19;
@@ -210,7 +211,7 @@ namespace Views.Implementations
             // quoteCurrencyLabel
             // 
             this.quoteCurrencyLabel.AutoSize = true;
-            this.quoteCurrencyLabel.Location = new System.Drawing.Point(236, 51);
+            this.quoteCurrencyLabel.Location = new System.Drawing.Point(236, 48);
             this.quoteCurrencyLabel.Name = "quoteCurrencyLabel";
             this.quoteCurrencyLabel.Size = new System.Drawing.Size(28, 13);
             this.quoteCurrencyLabel.TabIndex = 17;
@@ -226,7 +227,7 @@ namespace Views.Implementations
             // 
             // tradeButton
             // 
-            this.tradeButton.Location = new System.Drawing.Point(270, 38);
+            this.tradeButton.Location = new System.Drawing.Point(284, 38);
             this.tradeButton.Name = "tradeButton";
             this.tradeButton.Size = new System.Drawing.Size(57, 23);
             this.tradeButton.TabIndex = 6;
@@ -236,7 +237,7 @@ namespace Views.Implementations
             // 
             // quantityTextBox
             // 
-            this.quantityTextBox.Location = new System.Drawing.Point(162, 48);
+            this.quantityTextBox.Location = new System.Drawing.Point(162, 45);
             this.quantityTextBox.Name = "quantityTextBox";
             this.quantityTextBox.Size = new System.Drawing.Size(71, 20);
             this.quantityTextBox.TabIndex = 7;
@@ -245,7 +246,7 @@ namespace Views.Implementations
             // baseCurrencyLabel
             // 
             this.baseCurrencyLabel.AutoSize = true;
-            this.baseCurrencyLabel.Location = new System.Drawing.Point(236, 29);
+            this.baseCurrencyLabel.Location = new System.Drawing.Point(236, 25);
             this.baseCurrencyLabel.Name = "baseCurrencyLabel";
             this.baseCurrencyLabel.Size = new System.Drawing.Size(29, 13);
             this.baseCurrencyLabel.TabIndex = 8;
@@ -319,6 +320,12 @@ namespace Views.Implementations
             this.statusStrip.TabIndex = 6;
             this.statusStrip.Text = "statusStrip1";
             // 
+            // infoMessageStatusLabel
+            // 
+            this.infoMessageStatusLabel.Name = "infoMessageStatusLabel";
+            this.infoMessageStatusLabel.Size = new System.Drawing.Size(0, 17);
+            this.infoMessageStatusLabel.Click += new System.EventHandler(this.infoMessageStatusLabel_Click);
+            // 
             // availableLabel
             // 
             this.availableLabel.Name = "availableLabel";
@@ -343,12 +350,6 @@ namespace Views.Implementations
             this.priceValueLabel.Name = "priceValueLabel";
             this.priceValueLabel.Size = new System.Drawing.Size(77, 17);
             this.priceValueLabel.Text = "1.123456 ETH";
-            // 
-            // infoMessageStatusLabel
-            // 
-            this.infoMessageStatusLabel.Name = "infoMessageStatusLabel";
-            this.infoMessageStatusLabel.Size = new System.Drawing.Size(0, 17);
-            this.infoMessageStatusLabel.Click += new System.EventHandler(this.infoMessageStatusLabel_Click);
             // 
             // PendingTradeForm
             // 
@@ -419,7 +420,7 @@ namespace Views.Implementations
         private System.Windows.Forms.TextBox priceTextBox;
         private System.Windows.Forms.ContextMenuStrip ordersContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
-        private System.Windows.Forms.ListView balanceListView;
+        private System.Windows.Forms.ListView openedOrdersListView;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel availableQuantityLabel;
         private System.Windows.Forms.ToolStripStatusLabel priceValueLabel;

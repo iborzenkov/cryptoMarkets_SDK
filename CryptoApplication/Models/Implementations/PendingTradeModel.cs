@@ -23,5 +23,15 @@ namespace Models.Implementations
         public void NeedBalanceOf(CurrencyOfMarket currency)
         {
         }
+
+        public double Available(Currency currency)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public double Price(Currency currency)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Models.Interfaces;
 using System;
 using System.Linq;
+using DomainModel;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -22,9 +23,17 @@ namespace Presenters.Implementations
             View.ViewClosed += View_ViewClosed;
             View.Trade += View_Trade;
             View.TradeParamsChanged += View_TradeParamsChanged;
+            View.RemoveOrder += View_RemoveOrder;
 
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
+
+            View.SetOpenedOrders(Model.OpenedOrders);
+        }
+
+        private void View_RemoveOrder(OrderId id)
+        {
+            throw new NotImplementedException();
         }
 
         private void View_TradeParamsChanged(PendingTradeParams pendingTradeParams)
@@ -61,6 +70,12 @@ namespace Presenters.Implementations
 
         private void View_PairChanged(PairOfMarket pair)
         {
+            var available = Model.Available(View.Position == TradePosition.Buy ? pair.Pair.BaseCurrency : pair.Pair.QuoteCurrency);
+            View.SetBalanceInfo(available);
+
+            var price = Model.Price(View.Position == TradePosition.Buy ? pair.Pair.QuoteCurrency : pair.Pair.BaseCurrency);
+            View.SetPriceInfo(price);
+            
             //Model.NeedTradeOf(View.Pair);
         }
 
@@ -74,6 +89,8 @@ namespace Presenters.Implementations
 
             if (selectedPair != null)
                 View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+
+            //View.SetOpenedOrders();
         }
     }
 }

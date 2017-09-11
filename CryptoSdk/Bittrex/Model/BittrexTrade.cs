@@ -92,25 +92,26 @@ namespace CryptoSdk.Bittrex.Model
             return false;
         }
 
-        public IEnumerable<Order> OpenedOrders(PairOfMarket pair)
+        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
         {
             var result = new List<Order>();
+            var apiKeys = market.ApiKeys(ApiKeyRole.TradeLimit);
 
-            var apiKeys = pair.Market.ApiKeys(ApiKeyRole.TradeLimit);
-
-            var parameters = new List<Tuple<string, string>>
-            {
-                Tuple.Create("market", pair.ToString()),
-            };
+            var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", pair.ToString()) };
 
             var query = Connection.PrivateGetQuery<BittrexOpenedLimitOrderDataType>(
                 EndPoints.GetOpenedOrders, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
             {
-                result.AddRange(query.Orders.Select(order => order.ToOrder()));
+                result.AddRange(query.Orders.Select(order => order.ToOrder(market)));
             }
 
             return result;
+        }
+
+        public IEnumerable<Order> OpenedOrders(Market market)
+        {
+            return OpenedOrders(market, null);
         }
     }
 }

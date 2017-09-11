@@ -23,9 +23,11 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
         void SetPairs(IEnumerable<PairOfMarket> pairs);
+        void SetOpenedOrders(IEnumerable<Order> orders);
 
         Market Market { get; set; }
         PairOfMarket Pair { get; set; }
+        TradePosition Position { get; }
 
         void SetIsMayTrade(bool value);
         void SetInfoMessage(string message);
@@ -36,5 +38,6 @@ namespace Views.Interfaces
         event Action<PairOfMarket> PairChanged;
         event Action<PendingTradeParams> TradeParamsChanged; 
         event Action<PendingTradeParams> Trade;
+        event Action<OrderId> RemoveOrder;
     }
 }

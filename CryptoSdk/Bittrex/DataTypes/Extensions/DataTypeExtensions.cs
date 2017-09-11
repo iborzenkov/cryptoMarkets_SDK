@@ -111,24 +111,19 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             }
         }
 
-        public static Order ToOrder(this BittrexOpenedLimitOrderItemDataType openedLimitOrder)
+        public static Order ToOrder(this BittrexOpenedLimitOrderItemDataType openedLimitOrder, Market market)
         {
             Pair pair;
             if (!TryParsePair(openedLimitOrder.Pair, out pair))
                 return null;
 
-            var order = new Order
-            {
-                Id = new OrderId(openedLimitOrder.Id),
-                Pair = pair,
-                Quantity = openedLimitOrder.Quantity,
-                Price = openedLimitOrder.Price,
-                Position = PositionFromString(openedLimitOrder.OrderType),
-            };
-
             DateTime timeStamp;
+            DateTime? opened = null;
             if (DateTime.TryParse(openedLimitOrder.Opened, out timeStamp))
-                order.Opened = timeStamp;
+                opened = timeStamp;
+            var order = new Order(
+                new OrderId(openedLimitOrder.Id), market, pair, 
+                openedLimitOrder.Quantity, openedLimitOrder.Price, PositionFromString(openedLimitOrder.OrderType), opened);
 
             return order;
         }

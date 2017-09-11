@@ -112,4 +112,6 @@
 	<Item key="Yes">Yes</Item>
 	<Item key="No">No</Item>
 	<Item key="Total">Total</Item>
+<Item key="Buy">Buy</Item>
+<Item key="Sell">Sell</Item>
 </Strings>

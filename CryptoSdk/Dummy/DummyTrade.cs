@@ -1,7 +1,7 @@
-﻿using System;
-using DomainModel.Features;
+﻿using DomainModel.Features;
 using DomainModel.MarketModel;
 using System.Collections.Generic;
+using DomainModel;
 
 namespace CryptoSdk.Dummy
 {
@@ -23,20 +23,28 @@ namespace CryptoSdk.Dummy
 
         public bool Cancel(Market market, OrderId orderId, out string errorMessage)
         {
-            errorMessage = String.Empty;
+            errorMessage = string.Empty;
             return true;
         }
 
-        public IEnumerable<Order> OpenedOrders(PairOfMarket pair)
+        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
         {
-            var result = new List<Order>();
-
-            var order = new Order
+            var result = new List<Order>
             {
-                Id = new OrderId("1"),
+                new Order(new OrderId("1"), market, pair, 123, 0.145, TradePosition.Buy),
+                new Order(new OrderId("2"), market, pair, 34, 0.785, TradePosition.Sell)
             };
+            
+            return result;
+        }
 
-            result.Add(order);
+        public IEnumerable<Order> OpenedOrders(Market market)
+        {
+            var result = new List<Order>
+            {
+                new Order(new OrderId("3"), market, PairDummy.BtcEth, 123, 0.145, TradePosition.Buy),
+                new Order(new OrderId("4"), market, PairDummy.BtcUsdt, 34, 0.785, TradePosition.Sell)
+            };
 
             return result;
         }

@@ -112,4 +112,6 @@
 	<Item key="Yes">Да</Item>
 	<Item key="No">Нет</Item>
 	<Item key="Total">Всего</Item>
+<Item key="Buy">Покупка</Item>
+<Item key="Sell">Продажа</Item>
 </Strings>
