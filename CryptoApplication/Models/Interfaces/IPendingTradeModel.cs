@@ -6,7 +6,7 @@ namespace Models.Interfaces
     public interface IPendingTradeModel
     {
         IEnumerable<Market> Markets { get; }
-        IEnumerable<Order> OpenedOrders { get; }
+        IEnumerable<Order> OpenedOrders(Market market);
 
         void NeedOrderBookOf(PairOfMarket pair);
 

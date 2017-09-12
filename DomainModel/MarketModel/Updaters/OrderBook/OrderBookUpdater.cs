@@ -1,12 +1,41 @@
 ﻿using DomainModel.Features;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace DomainModel.MarketModel.Updaters.OrderBook
 {
-    public class OrderBookUpdater : IOrderBookUpdater
+    public class OrderBookUpdaterParameters
+    {
+        public int Depth { get; set; }
+        public OrderBookType OrderBookType { get; set; }
+
+        public OrderBookUpdaterParameters(int depth, OrderBookType orderBookType)
+        {
+            Depth = depth;
+            OrderBookType = orderBookType;
+        }
+    }
+
+    internal class OrderBookUpdater : Updater<IOrderBook, PairOfMarket>
+    {
+        private const int DefaultRefreshInterval = 1000;
+
+        private readonly IMarketInfo _marketInfo;
+
+        public OrderBookUpdater(PairOfMarket pair, int refreshInterval = DefaultRefreshInterval) : base(refreshInterval)
+        {
+            OwnerFeature = pair;
+            _marketInfo = OwnerFeature.Market.Model.Info;
+        }
+
+        public int Depth => ((OrderBookUpdaterParameters)Parameters).Depth;
+        public OrderBookType OrderBookType => ((OrderBookUpdaterParameters)Parameters).OrderBookType;
+
+        protected override void OnTimer()
+        {
+            OnChanged(_marketInfo.OrderBook(OwnerFeature.Pair, Depth, OrderBookType));
+        }
+    }
+
+    /*public class OrderBookUpdater : IOrderBookUpdater
     {
         private const int DefaultRefreshInterval = 1000;
 
@@ -28,11 +57,11 @@ namespace DomainModel.MarketModel.Updaters.OrderBook
             RefreshInterval = refreshInterval;
         }
 
-        /*private void Timer_Elapsed(object sender, ElapsedEventArgs elapsedEventArgs)
-        {
-            var orderBook = _marketInfo.OrderBook(_pair.Pair, Depth, OrderBookType);
-            OnChanged(orderBook);
-        }*/
+        //private void Timer_Elapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        //{
+        //    var orderBook = _marketInfo.OrderBook(_pair.Pair, Depth, OrderBookType);
+        //    OnChanged(orderBook);
+        //}
 
         public int Depth { get; set; } = 50;
         public OrderBookType OrderBookType { get; set; } = OrderBookType.Both;
@@ -109,5 +138,5 @@ namespace DomainModel.MarketModel.Updaters.OrderBook
 
             Changed?.Invoke(this, orderBook);
         }
-    }
+    }*/
 }

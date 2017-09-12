@@ -3,7 +3,14 @@ using System.Collections.Generic;
 
 namespace DomainModel.MarketModel.Updaters.OrderBook
 {
-    public class OrderBookUpdaterProvider : IOrderBookUpdaterProvider
+    internal class OrderBookUpdaterProvider : UpdaterProvider<IOrderBook, PairOfMarket>, IOrderBookUpdaterProvider
+    {
+        protected override Updater<IOrderBook, PairOfMarket> MakeUpdater(PairOfMarket owner)
+        {
+            return new OrderBookUpdater(owner);
+        }
+    }
+    /*public class OrderBookUpdaterProvider : IOrderBookUpdaterProvider
     {
         private readonly Dictionary<PairOfMarket, IOrderBookUpdater> _orderBookUpdaters = new Dictionary<PairOfMarket, IOrderBookUpdater>();
         private readonly Dictionary<IOrderBookUpdater, int> _orderBookUpdaterReferences = new Dictionary<IOrderBookUpdater, int>();
@@ -40,5 +47,5 @@ namespace DomainModel.MarketModel.Updaters.OrderBook
             else
                 _orderBookUpdaterReferences.Add(updater, references);
         }
-    }
+    }*/
 }

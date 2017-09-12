@@ -28,7 +28,7 @@ namespace DomainModel.Features
         public IEnumerable<CurrencyOfMarket> Currencies => _currencies ?? (_currencies = Model.Info.Currencies(this));
         public IEnumerable<Balance> Balances => Model.Account.Balances(this);
 
-        public UsdEquivalent UsdEquivalent { get; private set; }
+        public UsdEquivalent UsdEquivalent { get; }
 
         public override string ToString()
         {

@@ -16,6 +16,12 @@ namespace Models.Implementations
 
         IEnumerable<Market> IPendingTradeModel.Markets => _domainModel.Markets;
 
+        IEnumerable<Order> IPendingTradeModel.OpenedOrders(Market market)
+        {
+            return null;
+            //market
+        }
+
         public void NeedOrderBookOf(PairOfMarket pair)
         {
         }

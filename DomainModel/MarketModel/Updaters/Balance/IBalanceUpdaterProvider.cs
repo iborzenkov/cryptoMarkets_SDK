@@ -2,10 +2,7 @@ using DomainModel.Features;
 
 namespace DomainModel.MarketModel.Updaters.Balance
 {
-    public interface IBalanceUpdaterProvider
+    public interface IBalanceUpdaterProvider : IUpdaterProvider<Features.Balance, CurrencyOfMarket>
     {
-        IBalanceUpdater BalanceUpdater(CurrencyOfMarket currency);
-
-        void ReleaseUpdater(IBalanceUpdater balanceUpdater);
     }
 }

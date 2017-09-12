@@ -5,6 +5,7 @@ using DomainModel.MarketModel.Updaters.OrderBook;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
+using DomainModel.MarketModel.Updaters;
 using IModel = DomainModel.IModel;
 
 namespace Models.Implementations
@@ -45,11 +46,14 @@ namespace Models.Implementations
         {
             _pair = pair;
 
-            _updater = OrderBookUpdaterProvider.OrderBookUpdater(pair);
+            _updater = OrderBookUpdaterProvider.GetUpdater(pair, _refreshInterval);
             _updater.Changed += OrderBookUpdater_Changed;
             SetUpdaterSettings();
             _updater.Start();
         }
+
+        private readonly RefreshInterval _refreshInterval = RefreshInterval.InMilliseconds(DefaultInterval);
+        private static int DefaultInterval = 1000;
 
         void IOrderBookModel.NeedOrderBookOf(PairOfMarket pair)
         {
@@ -66,7 +70,7 @@ namespace Models.Implementations
             SetUpdaters(pair);
         }
 
-        private IOrderBookUpdater _updater;
+        private IUpdater<IOrderBook,PairOfMarket> _updater;
 
         private OrderBookSettings _orderBookSettings;
 
@@ -97,15 +101,14 @@ namespace Models.Implementations
             if (_updater == null)
                 return;
 
-            _updater.Depth = 100; //OrderBookSettings.Depth;
-            _updater.OrderBookType = OrderBookType.Both; //OrderBookSettings.OrderBookType;
+            _updater.Parameters = new OrderBookUpdaterParameters(100, OrderBookType.Both);
             _updater.RefreshInterval = OrderBookSettings.RefreshInterval;
         }
 
         private IOrderBook OrderBook { get; set; }
         private OrderBookAdapter OrderBookAdapter { get; } = new OrderBookAdapter();
 
-        private void OrderBookUpdater_Changed(object sender, IOrderBook orderBook)
+        private void OrderBookUpdater_Changed(IOrderBook orderBook)
         {
             OrderBook = orderBook;
             OrderBookAdapter.SetOrderBook(OrderBook);

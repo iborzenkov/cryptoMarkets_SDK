@@ -28,7 +28,7 @@ namespace Presenters.Implementations
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
 
-            View.SetOpenedOrders(Model.OpenedOrders);
+            //View.SetOpenedOrders(Model.OpenedOrders);
         }
 
         private void View_RemoveOrder(OrderId id)
@@ -90,7 +90,7 @@ namespace Presenters.Implementations
             if (selectedPair != null)
                 View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
 
-            //View.SetOpenedOrders();
+            //View.SetOpenedOrders(Model.OpenedOrders(market));
         }
     }
 }

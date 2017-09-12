@@ -1,11 +1,9 @@
 using DomainModel.Features;
+using System.Collections.Generic;
 
 namespace DomainModel.MarketModel.Updaters.PairStatistic
 {
-    public interface IPairStatisticUpdaterProvider
+    public interface IPairStatisticUpdaterProvider : IUpdaterProvider<ICollection<Features.PairStatistic>, Market>
     {
-        IPairStatisticUpdater PairStatisticUpdater(Market market);
-
-        void ReleaseUpdater(IPairStatisticUpdater updater);
     }
 }

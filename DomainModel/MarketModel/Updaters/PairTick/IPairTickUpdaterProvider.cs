@@ -2,10 +2,7 @@ using DomainModel.Features;
 
 namespace DomainModel.MarketModel.Updaters.PairTick
 {
-    public interface IPairTickUpdaterProvider
+    public interface IPairTickUpdaterProvider : IUpdaterProvider<Tick, PairOfMarket>
     {
-        IPairTickUpdater PairTickUpdater(PairOfMarket pair, RefreshInterval refreshInterval);
-
-        void ReleaseUpdater(IPairTickUpdater updater);
     }
 }

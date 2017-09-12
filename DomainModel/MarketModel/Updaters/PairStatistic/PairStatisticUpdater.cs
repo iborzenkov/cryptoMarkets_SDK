@@ -1,83 +1,23 @@
-﻿using System;
+﻿using DomainModel.Features;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace DomainModel.MarketModel.Updaters.PairStatistic
 {
-    public class PairStatisticUpdater : IPairStatisticUpdater
+    internal class PairStatisticUpdater : Updater<ICollection<Features.PairStatistic>, Market>
     {
-        private const int DefaultRefreshInterval = 30 * 1000; // once an hour
+        private const int DefaultRefreshInterval = 30 * 1000;
 
-        private readonly Timer _timer;
-        private int _refreshInterval;
-        private bool _isActive;
         private readonly IMarketInfo _marketInfo;
-        public ICollection<Features.PairStatistic> LastPairsStatistic { get; private set; }
 
-        public PairStatisticUpdater(IMarketInfo marketInfo, int refreshInterval = DefaultRefreshInterval)
+        public PairStatisticUpdater(Market market, int refreshInterval = DefaultRefreshInterval) : base(refreshInterval)
         {
-            _marketInfo = marketInfo;
-
-            _timer = new Timer(TimerCallback);
-
-            RefreshInterval = refreshInterval;
+            OwnerFeature = market;
+            _marketInfo = OwnerFeature.Model.Info;
         }
 
-        public int RefreshInterval
+        protected override void OnTimer()
         {
-            get { return _refreshInterval; }
-            set
-            {
-                if (value == _refreshInterval)
-                    return;
-
-                _refreshInterval = value;
-                ChangeTimer();
-            }
-        }
-
-        private bool IsActive
-        {
-            get
-            {
-                return _isActive;
-            }
-            set
-            {
-                if (value == _isActive)
-                    return;
-
-                _isActive = value;
-                ChangeTimer();
-            }
-        }
-
-        private void TimerCallback(object state)
-        {
-            LastPairsStatistic = _marketInfo.PairsStatistic();
-            OnChanged(LastPairsStatistic);
-        }
-
-        private void ChangeTimer()
-        {
-            _timer.Change(_isActive ? 0 : Timeout.Infinite, RefreshInterval);
-        }
-
-        void IPairStatisticUpdater.Start()
-        {
-            IsActive = true;
-        }
-
-        void IPairStatisticUpdater.Stop()
-        {
-            IsActive = false;
-        }
-
-        public event EventHandler<IEnumerable<Features.PairStatistic>> Changed;
-
-        private void OnChanged(IEnumerable<Features.PairStatistic> pairsStatistic)
-        {
-            Changed?.Invoke(this, pairsStatistic);
+            OnChanged(_marketInfo.PairsStatistic());
         }
     }
 }

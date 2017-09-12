@@ -4,6 +4,7 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DomainModel.MarketModel.Updaters;
 using IModel = DomainModel.IModel;
 
 namespace Models.Implementations
@@ -36,6 +37,8 @@ namespace Models.Implementations
 
         private void NeedStatisticsOf(Market market)
         {
+            ReleaseUpdater();
+
             if (market == null)
             {
                 Statistics = null;
@@ -43,21 +46,26 @@ namespace Models.Implementations
                 return;
             }
 
-            if (_updater != null)
-            {
-                PairStatisticUpdaterProvider.ReleaseUpdater(_updater);
-                _updater.Changed -= PairStatisticUpdater_Changed;
-            }
+            _statisticUpdater = PairStatisticUpdaterProvider.GetUpdater(market, _refreshInterval);
+            _statisticUpdater.Changed += PairStatisticUpdater_Changed;
+            if (_statisticUpdater.LastValue != null)
+                SetStatistics(_statisticUpdater.LastValue);
 
-            _updater = PairStatisticUpdaterProvider.PairStatisticUpdater(market);
-            _updater.Changed += PairStatisticUpdater_Changed;
-            if (_updater.LastPairsStatistic != null)
-                SetStatistics(_updater.LastPairsStatistic);
-
-            _updater.Start();
+            _statisticUpdater.Start();
         }
 
-        private void PairStatisticUpdater_Changed(object sender, IEnumerable<PairStatistic> statistics)
+        private void ReleaseUpdater()
+        {
+            if (_statisticUpdater != null)
+            {
+                PairStatisticUpdaterProvider.ReleaseUpdater(_statisticUpdater);
+                _statisticUpdater.Changed -= PairStatisticUpdater_Changed;
+            }
+        }
+
+        private readonly RefreshInterval _refreshInterval = RefreshInterval.InMinutes(1);
+
+        private void PairStatisticUpdater_Changed(ICollection<PairStatistic> statistics)
         {
             SetStatistics(statistics);
         }
@@ -78,7 +86,7 @@ namespace Models.Implementations
         public event Action<IEnumerable<PairStatistic>> StatisticsChanged;
 
         IEnumerable<Market> IPairModel.Markets => _domainModel.Markets;
-        private IPairStatisticUpdater _updater;
+        private IUpdater<ICollection<PairStatistic>, Market> _statisticUpdater;
 
         void IPairModel.SetFilter(PairViewFilter filter)
         {
@@ -138,7 +146,7 @@ namespace Models.Implementations
 
         void IPairModel.Release()
         {
-            PairStatisticUpdaterProvider.ReleaseUpdater(_updater);
+            ReleaseUpdater();
         }
     }
 }

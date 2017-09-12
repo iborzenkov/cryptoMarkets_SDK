@@ -2,25 +2,10 @@
 
 namespace DomainModel.MarketModel.Updaters.OrderBook
 {
-    public class OrderBookSignal
+    public class OrderBookSignal : Signal<IOrderBook>
     {
-        private readonly Func<IOrderBook, bool> _condition;
-        private readonly Action _action;
-
-        public OrderBookSignal(Func<IOrderBook, bool> condition, Action action)
+        public OrderBookSignal(Func<IOrderBook, bool> condition, Action action) : base(condition, action)
         {
-            _condition = condition;
-            _action = action;
-
-            IsActive = true;
-        }
-
-        public bool IsActive { get; set; }
-
-        public void Check(IOrderBook orderBook)
-        {
-            if (_condition(orderBook))
-                _action.Invoke();
         }
     }
 }
