@@ -1,7 +1,7 @@
+using DomainModel;
 using DomainModel.Features;
 using System;
 using System.Collections.Generic;
-using DomainModel;
 
 namespace Views.Interfaces
 {
@@ -22,22 +22,33 @@ namespace Views.Interfaces
     public interface IPendingTradeView : IView
     {
         void SetMarkets(IEnumerable<Market> markets);
+
         void SetPairs(IEnumerable<PairOfMarket> pairs);
+
         void SetOpenedOrders(IEnumerable<Order> orders);
 
         Market Market { get; set; }
         PairOfMarket Pair { get; set; }
-        TradePosition Position { get; }
+        TradePosition Position { get; set; }
 
         void SetIsMayTrade(bool value);
+
         void SetInfoMessage(string message);
+
         void SetBalanceInfo(double availableQuantity);
+
         void SetPriceInfo(double currentPrice);
 
+        void SelectOpenedOrder(OrderId id);
+
         event Action<Market> MarketChanged;
+
         event Action<PairOfMarket> PairChanged;
-        event Action<PendingTradeParams> TradeParamsChanged; 
-        event Action<PendingTradeParams> Trade;
+
+        event Action<PendingTradeParams> TradeParamsChanged;
+
+        event Action Trade;
+
         event Action<OrderId> RemoveOrder;
     }
 }

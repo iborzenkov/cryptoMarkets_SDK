@@ -15,7 +15,7 @@ namespace DomainModel.MarketModel.Updaters.PairStatistic
             _marketInfo = OwnerFeature.Model.Info;
         }
 
-        protected override void OnTimer()
+        protected override void UpdateFeature()
         {
             OnChanged(_marketInfo.PairsStatistic());
         }

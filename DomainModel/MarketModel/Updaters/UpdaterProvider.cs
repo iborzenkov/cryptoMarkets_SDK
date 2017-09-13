@@ -10,18 +10,18 @@ namespace DomainModel.MarketModel.Updaters
     {
         private readonly Dictionary<TOwnerUpdatableFeature, Updater<TUpdatableFeature, TOwnerUpdatableFeature>> _ownerToUpdaterDictionary = 
             new Dictionary<TOwnerUpdatableFeature, Updater<TUpdatableFeature, TOwnerUpdatableFeature>>();
-        private readonly Dictionary<IUpdater<TUpdatableFeature, TOwnerUpdatableFeature>, KeyValuePair<TOwnerUpdatableFeature, RefreshInterval>> _updatersToPairAndIntervalDictionary =
-            new Dictionary<IUpdater<TUpdatableFeature, TOwnerUpdatableFeature>, KeyValuePair<TOwnerUpdatableFeature, RefreshInterval>>();
+        private readonly Dictionary<IUpdater<TUpdatableFeature, TOwnerUpdatableFeature>, KeyValuePair<TOwnerUpdatableFeature, TimeInterval>> _updatersToPairAndIntervalDictionary =
+            new Dictionary<IUpdater<TUpdatableFeature, TOwnerUpdatableFeature>, KeyValuePair<TOwnerUpdatableFeature, TimeInterval>>();
 
         protected abstract Updater<TUpdatableFeature, TOwnerUpdatableFeature> MakeUpdater(TOwnerUpdatableFeature owner);
 
-        public IUpdater<TUpdatableFeature, TOwnerUpdatableFeature> GetUpdater(TOwnerUpdatableFeature owner, RefreshInterval refreshInterval)
+        public IUpdater<TUpdatableFeature, TOwnerUpdatableFeature> GetUpdater(TOwnerUpdatableFeature owner, TimeInterval refreshInterval)
         {
             Updater<TUpdatableFeature, TOwnerUpdatableFeature> updater;
 
             IUpdater<TUpdatableFeature, TOwnerUpdatableFeature> result = null;
 
-            var data = new KeyValuePair<TOwnerUpdatableFeature, RefreshInterval>(owner, refreshInterval);
+            var data = new KeyValuePair<TOwnerUpdatableFeature, TimeInterval>(owner, refreshInterval);
             if (!_ownerToUpdaterDictionary.TryGetValue(owner, out updater))
             {
                 updater = MakeUpdater(owner);

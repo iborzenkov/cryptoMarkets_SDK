@@ -29,7 +29,7 @@ namespace DomainModel.MarketModel.Updaters.OrderBook
         public int Depth => ((OrderBookUpdaterParameters)Parameters).Depth;
         public OrderBookType OrderBookType => ((OrderBookUpdaterParameters)Parameters).OrderBookType;
 
-        protected override void OnTimer()
+        protected override void UpdateFeature()
         {
             OnChanged(_marketInfo.OrderBook(OwnerFeature.Pair, Depth, OrderBookType));
         }

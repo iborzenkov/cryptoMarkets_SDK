@@ -55,10 +55,10 @@ namespace DomainModel.MarketModel.Updaters
 
         private void TimerCallback(object state)
         {
-            OnTimer();
+            UpdateNow();
         }
 
-        protected abstract void OnTimer();
+        protected abstract void UpdateFeature();
 
         private void ChangeTimer()
         {
@@ -92,10 +92,24 @@ namespace DomainModel.MarketModel.Updaters
         protected void OnChanged(TUpdatableFeature feature)
         {
             LastValue = feature;
+            _lastTimeStamp = DateTime.Now;
 
             _signals.Where(s => s.IsActive).ForEach(s => s.Check(feature));
 
             Changed?.Invoke(feature);
+        }
+
+        private DateTime? _lastTimeStamp;
+
+        public void ImmediatelyUpdateIfOlder(TimeInterval refreshInterval)
+        {
+            if (!_lastTimeStamp.HasValue || (DateTime.Now - _lastTimeStamp.Value).Milliseconds > refreshInterval.Value)
+                UpdateNow();
+        }
+
+        public void UpdateNow()
+        {
+            UpdateFeature();
         }
     }
 }

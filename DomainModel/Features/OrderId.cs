@@ -13,5 +13,10 @@ namespace DomainModel.Features
         {
             return Id;
         }
+
+        public bool Equals(OrderId other)
+        {
+            return other != null && Id.Equals(other.Id);
+        }
     }
 }

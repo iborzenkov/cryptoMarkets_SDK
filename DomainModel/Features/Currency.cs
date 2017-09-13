@@ -24,7 +24,7 @@ namespace DomainModel.Features
 
         public override string ToString()
         {
-            return LongName;
+            return Name;
         }
     }
 }

@@ -43,6 +43,8 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Features\ApiKeyRoleCaption.cs" />
+    <Compile Include="Features\Sell.cs" />
+    <Compile Include="Features\Buy.cs" />
     <Compile Include="Features\CryptoAddress.cs" />
     <Compile Include="Features\Currency.cs" />
     <Compile Include="Features\Balance.cs" />
@@ -69,6 +71,9 @@
     <Compile Include="IModel.cs" />
     <Compile Include="MarketModel\IMarketTrade.cs" />
     <Compile Include="Features\OrderId.cs" />
+    <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\OpenedOrders\IOpenedOrdersProvider.cs" />
     <Compile Include="MarketModel\Updaters\UpdaterDecorator.cs" />
     <Compile Include="MarketModel\Updaters\Signal.cs" />
     <Compile Include="MarketModel\Updaters\IUpdater.cs" />
@@ -87,7 +92,7 @@
     <Compile Include="MarketModel\Updaters\OrderBook\IOrderBookUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\Balance\BalanceUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\Balance\BalanceUpdater.cs" />
-    <Compile Include="MarketModel\Updaters\RefreshInterval.cs" />
+    <Compile Include="MarketModel\Updaters\TimeInterval.cs" />
     <Compile Include="Mathematics.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdater.cs" />

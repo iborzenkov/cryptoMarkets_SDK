@@ -14,7 +14,7 @@ namespace DomainModel.MarketModel.Updaters.Balance
             _accountInfo = OwnerFeature.Market.Model.Account;
         }
 
-        protected override void OnTimer()
+        protected override void UpdateFeature()
         {
             OnChanged(_accountInfo.Balance(OwnerFeature));
         }

@@ -8,6 +8,9 @@ namespace DomainModel.Features
         {
             BaseCurrency = baseCurrency;
             QuoteCurrency = quoteCurrency;
+
+            Buy = new Buy(this);
+            Sell = new Sell(this);
         }
 
         /// <summary>
@@ -40,5 +43,8 @@ namespace DomainModel.Features
         {
             return BaseCurrency.Equals(currency) || QuoteCurrency.Equals(currency);
         }
+
+        public Buy Buy { get; }
+        public Sell Sell { get; }
     }
 }

@@ -63,7 +63,7 @@ namespace Models.Implementations
             }
         }
 
-        private readonly RefreshInterval _refreshInterval = RefreshInterval.InMinutes(1);
+        private readonly TimeInterval _refreshInterval = TimeInterval.InMinutes(1);
 
         private void PairStatisticUpdater_Changed(ICollection<PairStatistic> statistics)
         {

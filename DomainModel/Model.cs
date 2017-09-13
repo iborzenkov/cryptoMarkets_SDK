@@ -1,9 +1,10 @@
 ﻿using DomainModel.Features;
 using DomainModel.MarketModel.Updaters.Balance;
+using DomainModel.MarketModel.Updaters.OpenedOrders;
 using DomainModel.MarketModel.Updaters.OrderBook;
-using System.Collections.Generic;
 using DomainModel.MarketModel.Updaters.PairStatistic;
 using DomainModel.MarketModel.Updaters.PairTick;
+using System.Collections.Generic;
 
 namespace DomainModel
 {
@@ -25,5 +26,7 @@ namespace DomainModel
         IPairStatisticUpdaterProvider IModel.PairStatisticUpdaterProvider { get; } = new PairStatisticUpdaterProvider();
 
         IPairTickUpdaterProvider IModel.PairTickUpdaterProvider { get; } = new PairTickUpdaterProvider();
+
+        IOpenedOrdersUpdaterProvider IModel.OpenedOrdersProvider { get; } = new OpenedOrdersUpdaterProvider();
     }
 }

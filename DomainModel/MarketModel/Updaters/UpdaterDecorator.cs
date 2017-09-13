@@ -5,9 +5,9 @@ namespace DomainModel.MarketModel.Updaters
     internal class UpdaterDecorator<TUpdatableFeature, TOwnerFeature> : IUpdater<TUpdatableFeature, TOwnerFeature>
     {
         private readonly Updater<TUpdatableFeature, TOwnerFeature> _updater;
-        private readonly RefreshInterval _refreshInterval;
+        private readonly TimeInterval _refreshInterval;
 
-        public UpdaterDecorator(Updater<TUpdatableFeature, TOwnerFeature> updater, RefreshInterval refreshInterval)
+        public UpdaterDecorator(Updater<TUpdatableFeature, TOwnerFeature> updater, TimeInterval refreshInterval)
         {
             _updater = updater;
             _refreshInterval = refreshInterval;
@@ -52,6 +52,16 @@ namespace DomainModel.MarketModel.Updaters
         public void RemoveSignal(Signal<TUpdatableFeature> signal)
         {
             _updater.RemoveSignal(signal);
+        }
+
+        public void ImmediatelyUpdateIfOlder(TimeInterval refreshInterval)
+        {
+            _updater.ImmediatelyUpdateIfOlder(refreshInterval);
+        }
+
+        public void UpdateNow()
+        {
+            _updater.UpdateNow();
         }
 
         public TUpdatableFeature LastValue => _updater.LastValue;

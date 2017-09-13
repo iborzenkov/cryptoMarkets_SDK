@@ -52,7 +52,7 @@ namespace Models.Implementations
             _updater.Start();
         }
 
-        private readonly RefreshInterval _refreshInterval = RefreshInterval.InMilliseconds(DefaultInterval);
+        private readonly TimeInterval _refreshInterval = TimeInterval.InMilliseconds(DefaultInterval);
         private static int DefaultInterval = 1000;
 
         void IOrderBookModel.NeedOrderBookOf(PairOfMarket pair)

@@ -16,6 +16,9 @@ namespace DomainModel.MarketModel.Updaters
 
         void RemoveSignal(Signal<TUpdatableFeature> signal);
 
+        void ImmediatelyUpdateIfOlder(TimeInterval refreshInterval);
+        void UpdateNow();
+
         TUpdatableFeature LastValue { get; }
 
         TOwnerFeature OwnerFeature { get; }

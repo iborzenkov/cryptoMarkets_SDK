@@ -1,8 +1,7 @@
 ﻿using DomainModel.Features;
 using Models.Interfaces;
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using DomainModel;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -14,9 +13,12 @@ namespace Presenters.Implementations
         public PendingTradePresenter(IPendingTradeView view, IPendingTradeModel model) : base(view)
         {
             Model = model;
-            //Model.TradeChanged += Model_TradeChanged;
+            Model.BalanceChanged += Model_BalanceChanged;
+            Model.OpenedOrdersChanged += Model_OpenedOrdersChanged;
+            Model.TickChanged += Model_TickChanged;
 
             View.SetMarkets(Model.Markets);
+            View.Position = Model.Position;
 
             View.MarketChanged += View_MarketChanged;
             View.PairChanged += View_PairChanged;
@@ -27,23 +29,6 @@ namespace Presenters.Implementations
 
             if (Model.Markets.Any())
                 View.Market = Model.Markets.First();
-
-            //View.SetOpenedOrders(Model.OpenedOrders);
-        }
-
-        private void View_RemoveOrder(OrderId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void View_TradeParamsChanged(PendingTradeParams pendingTradeParams)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void View_Trade(PendingTradeParams pendingTradeParams)
-        {
-            throw new NotImplementedException();
         }
 
         private void Release()
@@ -53,9 +38,48 @@ namespace Presenters.Implementations
             View.MarketChanged -= View_MarketChanged;
             View.PairChanged -= View_PairChanged;
             View.ViewClosed -= View_ViewClosed;
+            View.RemoveOrder -= View_RemoveOrder;
 
-            //Model.TradeChanged -= Model_TradeChanged;
-            //Model.Release();
+            Model.BalanceChanged -= Model_BalanceChanged;
+            Model.OpenedOrdersChanged -= Model_OpenedOrdersChanged;
+            Model.TickChanged -= Model_TickChanged;
+
+            Model.Release();
+        }
+
+        private void Model_TickChanged(Tick tick)
+        {
+            View.SetPriceInfo(tick.Last);
+        }
+
+        private void Model_OpenedOrdersChanged(IEnumerable<Order> openedOrders)
+        {
+            View.SetOpenedOrders(openedOrders);
+        }
+
+        private void Model_BalanceChanged(Balance balance)
+        {
+            View.SetBalanceInfo(balance.Available);
+        }
+
+        private void View_RemoveOrder(OrderId id)
+        {
+            Model.RemoveOrder(id);
+        }
+
+        private void View_TradeParamsChanged(PendingTradeParams pendingTradeParams)
+        {
+            Model.Position = pendingTradeParams.Position;
+            Model.Quantity = pendingTradeParams.Quantity;
+            Model.Price = pendingTradeParams.Price;
+        }
+
+        private void View_Trade()
+        {
+            var id = Model.Trade();
+
+            if (id != null)
+                View.SelectOpenedOrder(id);
         }
 
         private void View_ViewClosed()
@@ -63,20 +87,9 @@ namespace Presenters.Implementations
             Release();
         }
 
-        /*private void Model_TradeChanged(object sender, ITrade trade)
-        {
-            //View.SetTrade(trade);
-        }*/
-
         private void View_PairChanged(PairOfMarket pair)
         {
-            var available = Model.Available(View.Position == TradePosition.Buy ? pair.Pair.BaseCurrency : pair.Pair.QuoteCurrency);
-            View.SetBalanceInfo(available);
-
-            var price = Model.Price(View.Position == TradePosition.Buy ? pair.Pair.QuoteCurrency : pair.Pair.BaseCurrency);
-            View.SetPriceInfo(price);
-            
-            //Model.NeedTradeOf(View.Pair);
+            Model.PairChanged(pair);
         }
 
         private void View_MarketChanged(Market market)
@@ -90,7 +103,7 @@ namespace Presenters.Implementations
             if (selectedPair != null)
                 View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
 
-            //View.SetOpenedOrders(Model.OpenedOrders(market));
+            Model.MarketChanged(market);
         }
     }
 }

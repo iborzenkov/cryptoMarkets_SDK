@@ -39,7 +39,7 @@ namespace CryptoSdk.Bittrex.Model
         public Balance Balance(Market market, Currency currency)
         {
             Balance balance = null;
-            var parameters = new Tuple<string, string>[0];
+            var parameters = new Tuple<string, string>[1];
             parameters[0] = Tuple.Create("currency", currency.Name);
 
             var apiKeys = market.ApiKeys(ApiKeyRole.Info);

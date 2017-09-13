@@ -31,6 +31,9 @@ namespace DomainModel.Features
             MinTradeSize = minTradeSize;
             IsActive = isActive;
             Created = created;
+
+            Buy = new Buy(Pair);
+            Sell = new Sell(Pair);
         }
 
         /*public bool Equals(PairOfMarket other)
@@ -42,5 +45,8 @@ namespace DomainModel.Features
         {
             return Pair.ToString();
         }
+
+        public Buy Buy { get; }
+        public Sell Sell { get; }
     }
 }
