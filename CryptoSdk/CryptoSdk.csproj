@@ -65,7 +65,7 @@
     <Compile Include="Bittrex\Model\BittrexTrade.cs" />
     <Compile Include="Bittrex\Model\IBittrexMarketInfo.cs" />
     <Compile Include="Dummy\PairDummy.cs" />
-    <Compile Include="Dummy\DummyAccountInfo.cs" />
+    <Compile Include="Dummy\DummyAccount.cs" />
     <Compile Include="Dummy\CurrencyDummy.cs" />
     <Compile Include="Dummy\DummyInfo.cs" />
     <Compile Include="Dummy\DummyModel.cs" />

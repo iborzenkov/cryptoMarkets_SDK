@@ -4,11 +4,11 @@ namespace CryptoSdk.Dummy
 {
     public class PairDummy
     {
-        public static readonly Pair BtcLtc = new Pair(CurrencyDummy.Btc, CurrencyDummy.Ltc);
-        public static readonly Pair BtcEth = new Pair(CurrencyDummy.Btc, CurrencyDummy.Eth);
-        public static readonly Pair EthLtc = new Pair(CurrencyDummy.Eth, CurrencyDummy.Ltc);
-        public static readonly Pair BtcDoge = new Pair(CurrencyDummy.Btc, CurrencyDummy.Doge);
-        public static readonly Pair BtcUsdt = new Pair(CurrencyDummy.Btc, CurrencyDummy.Usdt);
-        public static readonly Pair LtcUsdt = new Pair(CurrencyDummy.Ltc, CurrencyDummy.Usdt);
+        public static readonly Pair LtcBtc = new Pair(CurrencyDummy.Ltc, CurrencyDummy.Btc);
+        public static readonly Pair EthBtc = new Pair(CurrencyDummy.Eth, CurrencyDummy.Btc);
+        public static readonly Pair LtcEth = new Pair(CurrencyDummy.Ltc, CurrencyDummy.Eth);
+        public static readonly Pair DogeBtc = new Pair(CurrencyDummy.Doge, CurrencyDummy.Btc);
+        public static readonly Pair UsdtBtc = new Pair(CurrencyDummy.Usdt, CurrencyDummy.Btc);
+        public static readonly Pair UsdtLtc = new Pair(CurrencyDummy.Usdt, CurrencyDummy.Ltc);
     }
 }

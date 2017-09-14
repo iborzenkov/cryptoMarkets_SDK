@@ -35,19 +35,19 @@ namespace CryptoSdk.Bittrex.DataTypes
         /// Balance
         /// </summary>
         [DataMember(Name = "Balance", EmitDefaultValue = false)]
-        public double Balance { get; set; }
+        public double? Balance { get; set; }
 
         /// <summary>
         /// Available
         /// </summary>
         [DataMember(Name = "Available", EmitDefaultValue = false)]
-        public double Available { get; set; }
+        public double? Available { get; set; }
 
         /// <summary>
         /// Pending
         /// </summary>
         [DataMember(Name = "Pending", EmitDefaultValue = false)]
-        public double Pending { get; set; }
+        public double? Pending { get; set; }
 
         /// <summary>
         /// CryptoAddress

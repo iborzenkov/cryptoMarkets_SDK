@@ -41,33 +41,6 @@ namespace CryptoSdk
 
         public abstract T PrivateGetQuery<T>(string endPoint, IApiKey secretKey, Tuple<string, string>[] getParameters);
 
-        /*T IConnection.PrivateGetQuery<T>(string endPoint, params Tuple<string, string>[] getParameters)
-        {
-            var nonce = DateTime.Now.Ticks;
-            var uri = $"{MainUri}{endPoint}?apikey={this.apiKey}&nonce={nonce}";
-
-
-            var paramCount = getParameters.Length + 2;
-            var param = new Tuple<string, string>[paramCount];
-            param[0] = new Tuple<string, string>("apikey", PublicApiKey);
-            param[1] = new Tuple<string, string>("nonce", nonce.ToString());
-            for (int i = 0, n=2; i < getParameters.Length; i++,n++)
-            {
-                param[n] = getParameters[i];
-            }
-
-            var sign = HashHmac(uri, secretKey);
-            return this.apiCall.CallWithJsonResponse<T>(uri,
-                !method.StartsWith("market/get") && !method.StartsWith("account/get"),
-                Tuple.Create("apisign", sign));
-
-
-
-            
-
-            return CallGetRequestWithJsonResponse<T>(uri, getParameters);
-        }*/
-
         protected static string HashHmac(string message, string secretKey)
         {
             Encoding encoding = Encoding.UTF8;

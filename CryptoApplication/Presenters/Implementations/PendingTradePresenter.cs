@@ -1,4 +1,5 @@
-﻿using DomainModel.Features;
+﻿using System;
+using DomainModel.Features;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Presenters.Implementations
             Model.BalanceChanged += Model_BalanceChanged;
             Model.OpenedOrdersChanged += Model_OpenedOrdersChanged;
             Model.TickChanged += Model_TickChanged;
+            Model.ErrorOccured += Model_ErrorOccured;
+            Model.IsMayTradeChanged += Model_IsMayTradeChanged;
 
             View.SetMarkets(Model.Markets);
             View.Position = Model.Position;
@@ -31,6 +34,11 @@ namespace Presenters.Implementations
                 View.Market = Model.Markets.First();
         }
 
+        private void Model_ErrorOccured(string errorMessage)
+        {
+            View.SetInfoMessage(errorMessage);
+        }
+
         private void Release()
         {
             View.TradeParamsChanged -= View_TradeParamsChanged;
@@ -43,8 +51,15 @@ namespace Presenters.Implementations
             Model.BalanceChanged -= Model_BalanceChanged;
             Model.OpenedOrdersChanged -= Model_OpenedOrdersChanged;
             Model.TickChanged -= Model_TickChanged;
+            Model.ErrorOccured -= Model_ErrorOccured;
+            Model.IsMayTradeChanged -= Model_IsMayTradeChanged;
 
             Model.Release();
+        }
+
+        private void Model_IsMayTradeChanged(bool isMayTradeChanged)
+        {
+            View.SetIsMayTrade(isMayTradeChanged);
         }
 
         private void Model_TickChanged(Tick tick)

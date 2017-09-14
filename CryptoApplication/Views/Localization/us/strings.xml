@@ -83,7 +83,7 @@
 	<Item key="Views.Implementations.MarketTradeForm.allAvailableCheckBox_Text">all available</Item>
 	<Item key="Views.Implementations.MarketTradeForm.tradeButton2_Text">Trade</Item>
 	<Item key="Views.Implementations.MarketTradeForm.availableLabel_Text">Available:</Item>
-    <Item key="Views.Implementations.MarketTradeForm.priceLabel_Text">Price:</Item>			
+	<Item key="Views.Implementations.MarketTradeForm.priceLabel_Text">Price:</Item>
 	<Item key="Views.Implementations.PendingTradeForm.marketLabel_Text">Market</Item>
 	<Item key="Views.Implementations.PendingTradeForm.pairLabel_Text">Pair</Item>
 	<Item key="Views.Implementations.PendingTradeForm.iWantToGroupBox_Text">I want to...</Item>
@@ -93,14 +93,13 @@
 	<Item key="Views.Implementations.PendingTradeForm.myOrdersGroupBox">My Pendings Orders</Item>
 	<Item key="Views.Implementations.PendingTradeForm.quantityLabel_Text">Quantity</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceLabel_Text">Price</Item>
-	<Item key="Views.Implementations.PendingTradeForm.allAvailableCheckBox_Text">all available</Item>
 	<Item key="Views.Implementations.PendingTradeForm.availableLabel_Text">Availabled:</Item>
-    <Item key="Views.Implementations.PendingTradeForm.priceStatusLabel_Text">Price:</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.marketColumnHeader_Text">Market</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.pairColumnHeader_Text">Pair</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.orderTypeColumnHeader_Text">Order Type</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.priceColumnHeader_Text">Price</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Quantity</Item>		
+	<Item key="Views.Implementations.PendingTradeForm.priceStatusLabel_Text">Price:</Item>
+	<Item key="Views.Implementations.PendingTradeForm.marketColumnHeader_Text">Market</Item>
+	<Item key="Views.Implementations.PendingTradeForm.pairColumnHeader_Text">Pair</Item>
+	<Item key="Views.Implementations.PendingTradeForm.orderTypeColumnHeader_Text">Order Type</Item>
+	<Item key="Views.Implementations.PendingTradeForm.priceColumnHeader_Text">Price</Item>
+	<Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Quantity</Item>
 	<Item key="PublicKey">Public Key</Item>
 	<Item key="PrivateKey">Private Key</Item>
 	<Item key="InfoApiKeyRole">Info</Item>
@@ -112,6 +111,9 @@
 	<Item key="Yes">Yes</Item>
 	<Item key="No">No</Item>
 	<Item key="Total">Total</Item>
-<Item key="Buy">Buy</Item>
-<Item key="Sell">Sell</Item>
+	<Item key="Buy">Buy</Item>
+	<Item key="Sell">Sell</Item>
+	<Item key="ForOne">for 1</Item>
+	<Item key="AllAvailable">all available</Item>
+	<Item key="AllThatPossible">all that possible</Item>
 </Strings>

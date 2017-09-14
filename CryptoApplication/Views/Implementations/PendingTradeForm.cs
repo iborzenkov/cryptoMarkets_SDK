@@ -1,13 +1,13 @@
 ﻿using CryptoSdk.Misc;
 using DomainModel;
 using DomainModel.Features;
+using DomainModel.MarketModel.Updaters;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Timers;
 using System.Windows.Forms;
-using DomainModel.MarketModel.Updaters;
 using Views.Interfaces;
 using Views.Localization;
 using Timer = System.Timers.Timer;
@@ -65,29 +65,61 @@ namespace Views.Implementations
                 openedOrdersListView.BeginUpdate();
                 try
                 {
+                    var selectedOrderId = GetSelectedOrder();
                     openedOrdersListView.Items.Clear();
                     if (orders == null)
                         return;
 
-                    foreach (var order in orders)
-                    {
-                        var item = new ListViewItem(new[]
-                        {
-                            order.Market.Name,
-                            order.Pair.ToString(),
-                            TradePositionAsString(order.Position),
-                            order.Price.ToString(CultureInfo.CurrentCulture),
-                            order.Quantity.ToString(CultureInfo.CurrentCulture),
-                        });
-                        item.Tag = order;
-                        openedOrdersListView.Items.Add(item);
-                    }
+                    FillOpenedOrders(orders);
+                    SelectOrderIfPossible(selectedOrderId);
                 }
                 finally
                 {
                     openedOrdersListView.EndUpdate();
                 }
             }));
+        }
+
+        private void FillOpenedOrders(IEnumerable<Order> orders)
+        {
+            foreach (var order in orders)
+            {
+                var item = new ListViewItem(new[]
+                {
+                            order.Market.Name,
+                            order.Pair.ToString(),
+                            TradePositionAsString(order.Position),
+                            order.Price.ToString(CultureInfo.CurrentCulture),
+                            order.Quantity.ToString(CultureInfo.CurrentCulture),
+                        });
+                item.Tag = order;
+                openedOrdersListView.Items.Add(item);
+            }
+        }
+
+        private OrderId GetSelectedOrder()
+        {
+            return openedOrdersListView.SelectedItems.Count > 0 ? (openedOrdersListView.SelectedItems[0].Tag as Order)?.Id : null;
+        }
+
+        private void SelectOrderIfPossible(OrderId selectedOrderId)
+        {
+            if (selectedOrderId == null)
+                return;
+
+            for (var i = 0; i < openedOrdersListView.Items.Count; i++)
+            {
+                var order = openedOrdersListView.Items[i].Tag as Order;
+                if (order == null)
+                    continue;
+
+                if (order.Id.Equals(selectedOrderId))
+                {
+                    openedOrdersListView.SelectedIndices.Clear();
+                    openedOrdersListView.SelectedIndices.Add(i);
+                    break;
+                }
+            }
         }
 
         private string TradePositionAsString(TradePosition position)
@@ -105,22 +137,29 @@ namespace Views.Implementations
             }
         }
 
+/*        private PairOfMarket _pair;
+
+        public PairOfMarket Pair
+        {
+            get { return _pair; }
+            set
+            {
+                if (_pair == value)
+                    return;
+
+                _pair = value;
+                pairComboBox.SelectedItem = value;
+
+                SetCurrencyLabels();
+
+                OnPairChanged(Pair);
+            }
+        }*/
+
         public PairOfMarket Pair
         {
             get
             {
-                /*PairOfMarket result;
-                if (pairComboBox.InvokeRequired)
-                {
-                    pairComboBox.Invoke(new Action(() => { result = pairComboBox.SelectedItem as PairOfMarket; }));
-                }
-                else
-                {
-                    result = pairComboBox.SelectedItem as PairOfMarket;
-                }
-
-                return result;*/
-
                 return pairComboBox.SelectedItem as PairOfMarket;
             }
             set
@@ -139,8 +178,16 @@ namespace Views.Implementations
         private void SetCurrencyLabels()
         {
             iWantToGroupBox.Enabled = Pair != null;
-            baseCurrencyLabel.Text = Pair != null ? Pair.Pair.BaseCurrency.Name : string.Empty;
-            quoteCurrencyLabel.Text = Pair != null ? Pair.Pair.QuoteCurrency.Name : string.Empty;
+            baseCurrencyLabel.Text = Pair != null
+                ? Position == TradePosition.Buy
+                    ? Pair.Pair.QuoteCurrency.Name
+                    : Pair.Pair.BaseCurrency.Name
+                : string.Empty;
+            quoteCurrencyLabel.Text = Pair != null 
+                ? Position == TradePosition.Buy 
+                    ? Pair.Pair.BaseCurrency.Name 
+                    : Pair.Pair.QuoteCurrency.Name 
+                : string.Empty;
         }
 
         private OrderId SelectedOrderId => openedOrdersListView.FocusedItem.Tag as OrderId;
@@ -176,8 +223,7 @@ namespace Views.Implementations
         {
             statusStrip.BeginInvoke(new Action(() =>
             {
-                //var currency = Position == TradePosition.Buy ? Pair.Pair.QuoteCurrency.Name : Pair.Pair.BaseCurrency.Name;
-                var currency = Position == TradePosition.Buy ? Pair.Buy.QuantitiedCurrency : Pair.Sell.QuantitiedCurrency;
+                var currency = Position == TradePosition.Buy ? Pair.Pair.QuoteCurrency : Pair.Pair.BaseCurrency;
                 availableQuantityLabel.Text = $"{availableQuantity.ToString(CultureInfo.CurrentCulture)} {currency}";
             }));
         }
@@ -186,9 +232,8 @@ namespace Views.Implementations
         {
             statusStrip.BeginInvoke(new Action(() =>
             {
-                //var currency = Position == TradePosition.Buy ? Pair.Pair.BaseCurrency.Name : Pair.Pair.QuoteCurrency.Name;
-                var currency = Position == TradePosition.Buy ? Pair.Buy.PricedCurrency : Pair.Sell.PricedCurrency;
-                priceValueLabel.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {currency}";
+                var forOne = Locale.Instance.Localize("ForOne");
+                priceValueLabel.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {Pair.Pair.QuoteCurrency} {forOne} {Pair.Pair.BaseCurrency}";
             }));
         }
 
@@ -196,7 +241,7 @@ namespace Views.Implementations
         {
             for (var i = 0; i < openedOrdersListView.Items.Count; i++)
             {
-                if (((Order) openedOrdersListView.Items[i].Tag).Id.Equals(id))
+                if (((Order)openedOrdersListView.Items[i].Tag).Id.Equals(id))
                 {
                     openedOrdersListView.FocusedItem = openedOrdersListView.Items[i];
                     break;
@@ -219,17 +264,6 @@ namespace Views.Implementations
         private void OnPairChanged(PairOfMarket pair)
         {
             PairChanged?.Invoke(pair);
-        }
-
-        private void marketComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MarketChanged?.Invoke(Market);
-        }
-
-        private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetCurrencyLabels();
-            OnPairChanged(Pair);
         }
 
         private void TradeForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -329,6 +363,17 @@ namespace Views.Implementations
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveOrder?.Invoke(SelectedOrderId);
+        }
+
+        private void pairComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SetCurrencyLabels();
+            OnPairChanged(Pair);
+        }
+
+        private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            MarketChanged?.Invoke(Market);
         }
     }
 }

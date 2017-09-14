@@ -23,8 +23,10 @@ namespace CryptoSdk.Dummy
 
         public bool Cancel(Market market, OrderId orderId, out string errorMessage)
         {
-            errorMessage = string.Empty;
-            return true;
+            //errorMessage = string.Empty;
+            //return true;
+            errorMessage = "Error occured";
+            return false;
         }
 
         public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
@@ -42,8 +44,8 @@ namespace CryptoSdk.Dummy
         {
             var result = new List<Order>
             {
-                new Order(new OrderId("3"), market, PairDummy.BtcEth, 123, 0.145, TradePosition.Buy),
-                new Order(new OrderId("4"), market, PairDummy.BtcUsdt, 34, 0.785, TradePosition.Sell)
+                new Order(new OrderId("3"), market, PairDummy.EthBtc, 123, 0.145, TradePosition.Buy),
+                new Order(new OrderId("4"), market, PairDummy.UsdtBtc, 34, 0.785, TradePosition.Sell)
             };
 
             return result;

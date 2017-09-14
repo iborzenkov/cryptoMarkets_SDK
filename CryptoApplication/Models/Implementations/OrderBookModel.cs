@@ -128,7 +128,7 @@ namespace Models.Implementations
         {
             OrderBookChanged?.Invoke(OrderBookAdapter);
 
-            UsdRateChanged?.Invoke(_pair.Market.UsdEquivalent.UsdRate(_pair.Pair.QuoteCurrency));
+            UsdRateChanged?.Invoke(_pair.Market.UsdEquivalent.UsdRate(_pair.Pair.BaseCurrency));
         }
     }
 }

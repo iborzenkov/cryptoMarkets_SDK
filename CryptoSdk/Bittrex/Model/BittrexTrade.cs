@@ -4,6 +4,7 @@ using System.Linq;
 using CryptoSdk.Bittrex.Connection;
 using CryptoSdk.Bittrex.DataTypes;
 using CryptoSdk.Bittrex.DataTypes.Extensions;
+using CryptoSdk.Bittrex.DataTypes.Misc;
 using DomainModel.Features;
 using DomainModel.MarketModel;
 
@@ -24,7 +25,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var parameters = new List<Tuple<string, string>>
             {
-                Tuple.Create("market", pair.ToString()),
+                Tuple.Create("market", BittrexPairs.AsString(pair)),
                 Tuple.Create("quantity", quantity.ToString(Nfi)),
                 Tuple.Create("rate", rate.ToString(Nfi))
             };
@@ -52,7 +53,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var parameters = new List<Tuple<string, string>>
             {
-                Tuple.Create("market", pair.ToString()),
+                Tuple.Create("market", BittrexPairs.AsString(pair)),
                 Tuple.Create("quantity", quantity.ToString(Nfi)),
                 Tuple.Create("rate", rate.ToString(Nfi))
             };
@@ -97,7 +98,7 @@ namespace CryptoSdk.Bittrex.Model
             var result = new List<Order>();
             var apiKeys = market.ApiKeys(ApiKeyRole.TradeLimit);
 
-            var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", pair.ToString()) };
+            var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", BittrexPairs.AsString(pair)) };
 
             var query = Connection.PrivateGetQuery<BittrexOpenedLimitOrderDataType>(
                 EndPoints.GetOpenedOrders, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));

@@ -8,7 +8,7 @@ namespace CryptoSdk.Dummy
         {
             Info = new DummyInfo();
             Trade = new DummyTrade();
-            Account = new DummyAccountInfo();
+            Account = new DummyAccount();
         }
 
         public IMarketInfo Info { get; }

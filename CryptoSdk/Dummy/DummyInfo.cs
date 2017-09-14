@@ -15,12 +15,12 @@ namespace CryptoSdk.Dummy
         {
             return _pairs ?? (_pairs = new List<PairOfMarket>
             {
-                new PairOfMarket(PairDummy.BtcLtc, market, 0.000001),
-                new PairOfMarket(PairDummy.BtcEth, market, 0.000001),
-                new PairOfMarket(PairDummy.EthLtc, market, 0.000001),
-                new PairOfMarket(PairDummy.BtcDoge, market, 0.000001, false),
-                new PairOfMarket(PairDummy.BtcUsdt, market, 0.000001),
-                new PairOfMarket(PairDummy.LtcUsdt, market, 0.000001)
+                new PairOfMarket(PairDummy.LtcBtc, market, 0.000001),
+                new PairOfMarket(PairDummy.EthBtc, market, 0.000001),
+                new PairOfMarket(PairDummy.LtcEth, market, 0.000001),
+                new PairOfMarket(PairDummy.DogeBtc, market, 0.000001, false),
+                new PairOfMarket(PairDummy.UsdtBtc, market, 0.000001),
+                new PairOfMarket(PairDummy.UsdtLtc, market, 0.000001)
             });
         }
 
@@ -74,8 +74,8 @@ namespace CryptoSdk.Dummy
         public ICollection<PairStatistic> PairsStatistic()
         {
             var result = new List<PairStatistic>();
-            result.Add(new PairStatistic(PairDummy.BtcLtc, 0.1234, 0.0234, 1234, 0.02, 0.02345, 40, 34));
-            result.Add(new PairStatistic(PairDummy.BtcEth, 10, 7, 100, 7, 4, 400, 340));
+            result.Add(new PairStatistic(PairDummy.LtcBtc, 0.1234, 0.0234, 1234, 0.02, 0.02345, 40, 34));
+            result.Add(new PairStatistic(PairDummy.EthBtc, 10, 7, 100, 7, 4, 400, 340));
 
             return result;
         }

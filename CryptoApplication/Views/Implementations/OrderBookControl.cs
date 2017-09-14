@@ -153,6 +153,7 @@ namespace Views.Implementations
                 {
                     if (listView.Items[i].Text == selectedPrice)
                     {
+                        listView.SelectedIndices.Clear();
                         listView.SelectedIndices.Add(i);
                         break;
                     }

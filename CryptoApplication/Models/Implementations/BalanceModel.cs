@@ -9,6 +9,7 @@ namespace Models.Implementations
 {
     public class BalanceModel : IBalanceModel
     {
+        // todo: хотелось бы, чтобы при обновлении баланса из отложенной торговли здесь тоже бы баланс обновлялся
         private readonly IModel _domainModel;
         private Market _selectedMarket;
 

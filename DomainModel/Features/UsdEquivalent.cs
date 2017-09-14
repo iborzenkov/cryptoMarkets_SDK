@@ -93,7 +93,7 @@ namespace DomainModel.Features
                 return false;
 
             var tick = _market.Model.Info.Tick(usdPair);
-            rate = usdPair.BaseCurrency.Equals(UsdCurrency) ? tick.Last : 1 / tick.Last;
+            rate = usdPair.QuoteCurrency.Equals(UsdCurrency) ? tick.Last : 1 / tick.Last;
 
             return true;
         }

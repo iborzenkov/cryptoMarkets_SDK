@@ -6,7 +6,12 @@ namespace CryptoSdk.Bittrex.DataTypes.Misc
     {
         public static string AsString(Pair pair)
         {
-            return $"{pair.BaseCurrency.Name}-{pair.QuoteCurrency.Name}";
+            return $"{pair.QuoteCurrency.Name}-{pair.BaseCurrency.Name}";
+        }
+
+        public static string AsString(PairOfMarket pair)
+        {
+            return AsString(pair.Pair);
         }
     }
 }

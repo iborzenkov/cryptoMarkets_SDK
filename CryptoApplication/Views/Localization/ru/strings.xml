@@ -80,10 +80,9 @@
 	<Item key="Views.Implementations.MarketTradeForm.iWantToSpendForGroupBox_Text">Я потратить на...</Item>
 	<Item key="Views.Implementations.MarketTradeForm.buyRadioButton2_Text">покупку</Item>
 	<Item key="Views.Implementations.MarketTradeForm.sellRadioButton2_Text">продажу</Item>
-	<Item key="Views.Implementations.MarketTradeForm.allAvailableCheckBox_Text">всё, что есть</Item>
 	<Item key="Views.Implementations.MarketTradeForm.tradeButton2_Text">Готово</Item>
 	<Item key="Views.Implementations.MarketTradeForm.availableLabel_Text">Доступно:</Item>
-    <Item key="Views.Implementations.MarketTradeForm.priceLabel_Text">Цена:</Item>
+	<Item key="Views.Implementations.MarketTradeForm.priceLabel_Text">Цена:</Item>
 	<Item key="Views.Implementations.PendingTradeForm.marketLabel_Text">Рынок</Item>
 	<Item key="Views.Implementations.PendingTradeForm.pairLabel_Text">Пара</Item>
 	<Item key="Views.Implementations.PendingTradeForm.iWantToGroupBox_Text">Я хочу...</Item>
@@ -95,12 +94,12 @@
 	<Item key="Views.Implementations.PendingTradeForm.priceLabel_Text">Цена</Item>
 	<Item key="Views.Implementations.PendingTradeForm.allAvailableCheckBox_Text">всё, что есть</Item>
 	<Item key="Views.Implementations.PendingTradeForm.availableLabel_Text">Доступно:</Item>
-    <Item key="Views.Implementations.PendingTradeForm.priceStatusLabel_Text">Цена:</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.marketColumnHeader_Text">Рынок</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.pairColumnHeader_Text">Пара</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.orderTypeColumnHeader_Text">Тип</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.priceColumnHeader_Text">Цена</Item>	
-    <Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Количество</Item>
+	<Item key="Views.Implementations.PendingTradeForm.priceStatusLabel_Text">Цена:</Item>
+	<Item key="Views.Implementations.PendingTradeForm.marketColumnHeader_Text">Рынок</Item>
+	<Item key="Views.Implementations.PendingTradeForm.pairColumnHeader_Text">Пара</Item>
+	<Item key="Views.Implementations.PendingTradeForm.orderTypeColumnHeader_Text">Тип</Item>
+	<Item key="Views.Implementations.PendingTradeForm.priceColumnHeader_Text">Цена</Item>
+	<Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Количество</Item>
 	<Item key="PublicKey">Публичный</Item>
 	<Item key="PrivateKey">Секретный</Item>
 	<Item key="InfoApiKeyRole">Информация</Item>
@@ -112,6 +111,9 @@
 	<Item key="Yes">Да</Item>
 	<Item key="No">Нет</Item>
 	<Item key="Total">Всего</Item>
-<Item key="Buy">Покупка</Item>
-<Item key="Sell">Продажа</Item>
+	<Item key="Buy">Покупка</Item>
+	<Item key="Sell">Продажа</Item>
+	<Item key="ForOne">за 1</Item>
+	<Item key="AllAvailable">всё, что есть</Item>
+	<Item key="AllThatPossible">всё, что можно</Item>
 </Strings>

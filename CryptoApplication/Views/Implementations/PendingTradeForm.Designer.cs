@@ -285,7 +285,7 @@ namespace Views.Implementations
             this.marketComboBox.Name = "marketComboBox";
             this.marketComboBox.Size = new System.Drawing.Size(81, 21);
             this.marketComboBox.TabIndex = 0;
-            this.marketComboBox.SelectedIndexChanged += new System.EventHandler(this.marketComboBox_SelectedIndexChanged);
+            this.marketComboBox.SelectionChangeCommitted += new System.EventHandler(this.marketComboBox_SelectionChangeCommitted);
             // 
             // pairLabel
             // 
@@ -304,7 +304,7 @@ namespace Views.Implementations
             this.pairComboBox.Name = "pairComboBox";
             this.pairComboBox.Size = new System.Drawing.Size(91, 21);
             this.pairComboBox.TabIndex = 1;
-            this.pairComboBox.SelectedIndexChanged += new System.EventHandler(this.pairComboBox_SelectedIndexChanged);
+            this.pairComboBox.SelectionChangeCommitted += new System.EventHandler(this.pairComboBox_SelectionChangeCommitted);
             // 
             // statusStrip
             // 
@@ -335,8 +335,7 @@ namespace Views.Implementations
             // availableQuantityLabel
             // 
             this.availableQuantityLabel.Name = "availableQuantityLabel";
-            this.availableQuantityLabel.Size = new System.Drawing.Size(105, 17);
-            this.availableQuantityLabel.Text = "0.00123456789 BTC";
+            this.availableQuantityLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // priceStatusLabel
             // 
@@ -348,8 +347,7 @@ namespace Views.Implementations
             // priceValueLabel
             // 
             this.priceValueLabel.Name = "priceValueLabel";
-            this.priceValueLabel.Size = new System.Drawing.Size(77, 17);
-            this.priceValueLabel.Text = "1.123456 ETH";
+            this.priceValueLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // PendingTradeForm
             // 
@@ -395,8 +393,6 @@ namespace Views.Implementations
         [LocalizableClass]
         private System.Windows.Forms.Label priceLabel;
         [LocalizableClass]
-        private System.Windows.Forms.CheckBox allAvailableCheckBox;
-        [LocalizableClass]
         private System.Windows.Forms.ToolStripStatusLabel availableLabel;
         [LocalizableClass]
         private System.Windows.Forms.ToolStripStatusLabel priceStatusLabel;
@@ -410,6 +406,8 @@ namespace Views.Implementations
         private System.Windows.Forms.ColumnHeader priceColumnHeader;
         [LocalizableClass]
         private System.Windows.Forms.ColumnHeader quantityColumnHeader;
+
+        private System.Windows.Forms.CheckBox allAvailableCheckBox;
 
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.ComboBox marketComboBox;

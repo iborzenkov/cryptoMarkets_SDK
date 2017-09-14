@@ -43,7 +43,7 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
-        private int Comparison(PairOfMarket pair1, PairOfMarket pair2)
+        private static int Comparison(PairOfMarket pair1, PairOfMarket pair2)
         {
             return string.CompareOrdinal(pair1.Pair.ToString(), pair2.Pair.ToString());
         }

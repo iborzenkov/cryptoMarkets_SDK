@@ -22,7 +22,8 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             DateTime dateTime;
             var created = DateTime.TryParse(pairDataType.Created, out dateTime) ? dateTime : (DateTime?)null;
             var pair = new PairOfMarket(
-                new Pair(new Currency(pairDataType.BaseCurrency), new Currency(pairDataType.QuoteCurrency)),
+                // rotate pair in Bittrex
+                new Pair(new Currency(pairDataType.QuoteCurrency), new Currency(pairDataType.BaseCurrency)),
                 market, pairDataType.MinTradeSize, pairDataType.IsActive, created);
 
             return pair;
@@ -41,24 +42,32 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                 case "buy":
                     orderType = TradePosition.Buy;
                     break;
+
                 case "sell":
                     orderType = TradePosition.Sell;
                     break;
+
                 default:
                     throw new Exception($"Unknown trade tag: {historyDataType.OrderType}");
             }
 
-            var history = new MarketHistory(pair, historyDataType.Id.ToString(), timeStamp, 
+            var history = new MarketHistory(pair, historyDataType.Id.ToString(), timeStamp,
                 historyDataType.Quantity, historyDataType.Price, historyDataType.Total, orderType);
 
             return history;
         }
-        
+
         public static Balance ToBalance(this BittrexBalanceItemDataType balanceItemDataType, Market market, Currency currency)
         {
+            double reserved = 0;
+            if (balanceItemDataType.Balance.HasValue && balanceItemDataType.Available.HasValue)
+                reserved = balanceItemDataType.Balance.Value - balanceItemDataType.Available.Value;
+
             var balance = new Balance(
                 market, currency, CryptoAddress.FromString(balanceItemDataType.CryptoAddress),
-                balanceItemDataType.Available, balanceItemDataType.Balance - balanceItemDataType.Available, balanceItemDataType.Pending);
+                balanceItemDataType.Available ?? 0,
+                reserved,
+                balanceItemDataType.Pending ?? 0);
 
             return balance;
         }
@@ -122,7 +131,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             if (DateTime.TryParse(openedLimitOrder.Opened, out timeStamp))
                 opened = timeStamp;
             var order = new Order(
-                new OrderId(openedLimitOrder.Id), market, pair, 
+                new OrderId(openedLimitOrder.Id), market, pair,
                 openedLimitOrder.Quantity, openedLimitOrder.Price, PositionFromString(openedLimitOrder.OrderType), opened);
 
             return order;
@@ -134,7 +143,8 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
 
             var currencies = pairString.Split('-');
             if (currencies.Length == 2)
-                pair = new Pair(new Currency(currencies[0]), new Currency(currencies[1]));
+                // rotate pair in Bittrex
+                pair = new Pair(new Currency(currencies[1]), new Currency(currencies[0]));
 
             return pair != null;
         }

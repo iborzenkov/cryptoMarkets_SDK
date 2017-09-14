@@ -57,6 +57,7 @@ namespace Views.Implementations
             this.askListView.GridLines = true;
             this.askListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.askListView.Location = new System.Drawing.Point(0, 0);
+            this.askListView.MultiSelect = false;
             this.askListView.Name = "askListView";
             this.askListView.Size = new System.Drawing.Size(395, 147);
             this.askListView.TabIndex = 3;
@@ -106,6 +107,7 @@ namespace Views.Implementations
             this.bidListView.GridLines = true;
             this.bidListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.bidListView.Location = new System.Drawing.Point(0, 150);
+            this.bidListView.MultiSelect = false;
             this.bidListView.Name = "bidListView";
             this.bidListView.Size = new System.Drawing.Size(395, 146);
             this.bidListView.TabIndex = 6;

@@ -25,7 +25,9 @@ namespace Models.Interfaces
         event Action<Tick> TickChanged;
         event Action<Balance> BalanceChanged;
         event Action<IEnumerable<Order>> OpenedOrdersChanged;
+        event Action<string> ErrorOccured;
         event Action<bool> IsMayTradeChanged;
+
         void Release();
     }
 }

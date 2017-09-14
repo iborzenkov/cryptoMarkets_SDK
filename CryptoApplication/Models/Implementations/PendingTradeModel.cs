@@ -48,8 +48,20 @@ namespace Models.Implementations
 
         private void InitMayTrade()
         {
-            var isMayTrade = _balanceUpdater.LastValue == null || (_balanceUpdater.LastValue.Available > Quantity);
-            OnIsMayTradeChanged(isMayTrade);
+            var balance = _balanceUpdater.LastValue;
+            if (balance == null)
+            {
+                OnIsMayTradeChanged(true);
+                return;
+            }
+
+            if (balance.Available <= 0)
+            {
+                OnIsMayTradeChanged(false);
+                return;
+            }
+
+            OnIsMayTradeChanged(double.IsNaN(Quantity) || balance.Available > Quantity);
         }
 
         public double Quantity { get; set; }
@@ -71,7 +83,9 @@ namespace Models.Implementations
         {
             Market = market;
 
-            ReleaseUpdater();
+            ReleasePairTickUpdater();
+            ReleaseBalanceUpdater();
+            ReleaseOpenedOrdersUpdater();
 
             if (market == null)
             {
@@ -93,6 +107,7 @@ namespace Models.Implementations
         void IPendingTradeModel.PairChanged(PairOfMarket pair)
         {
             Pair = pair;
+            ReleasePairTickUpdater();
 
             InitTickUpdater();
             InitBalanceUpdater();
@@ -100,7 +115,7 @@ namespace Models.Implementations
             InitMayTrade();
         }
 
-        public void RemoveOrder(OrderId id)
+        void IPendingTradeModel.RemoveOrder(OrderId id)
         {
             string errorMessage;
             Market.Model.Trade.Cancel(Market, id, out errorMessage);
@@ -111,7 +126,7 @@ namespace Models.Implementations
             }
         }
 
-        public OrderId Trade()
+        OrderId IPendingTradeModel.Trade()
         {
             string errorMessage;
             var id = Position == TradePosition.Buy
@@ -144,7 +159,7 @@ namespace Models.Implementations
 
         private void InitBalanceUpdater()
         {
-            var currency = Position == TradePosition.Buy ? Pair.Pair.BaseCurrency : Pair.Pair.QuoteCurrency;
+            var currency = Position == TradePosition.Buy ? Pair.Pair.QuoteCurrency : Pair.Pair.BaseCurrency;
             var currencyOfMarket = Pair.Market.Currencies.FirstOrDefault(c => c.Currency.Equals(currency));
 
             _balanceUpdater = BalanceUpdaterProvider.GetUpdater(currencyOfMarket, _balanceRefreshInterval);
@@ -214,7 +229,9 @@ namespace Models.Implementations
 
         void IPendingTradeModel.Release()
         {
-            ReleaseUpdater();
+            ReleasePairTickUpdater();
+            ReleaseBalanceUpdater();
+            ReleaseOpenedOrdersUpdater();
         }
 
         private void PairTickUpdater_Changed(Tick tick)
@@ -232,18 +249,30 @@ namespace Models.Implementations
             SetOpenedOrders(openedOrders);
         }
 
-        private void ReleaseUpdater()
+        private void ReleaseOpenedOrdersUpdater()
+        {
+            if (_openedOrdersUpdater != null)
+            {
+                OpenedOrdersUpdaterProvider.ReleaseUpdater(_openedOrdersUpdater);
+                _openedOrdersUpdater.Changed -= OpenedOrdersUpdater_Changed;
+            }
+        }
+
+        private void ReleaseBalanceUpdater()
+        {
+            if (_balanceUpdater != null)
+            {
+                BalanceUpdaterProvider.ReleaseUpdater(_balanceUpdater);
+                _balanceUpdater.Changed -= BalanceUpdater_Changed;
+            }
+        }
+
+        private void ReleasePairTickUpdater()
         {
             if (_pairTickUpdater != null)
             {
                 PairTickUpdaterProvider.ReleaseUpdater(_pairTickUpdater);
                 _pairTickUpdater.Changed -= PairTickUpdater_Changed;
-            }
-
-            if (_balanceUpdater != null)
-            {
-                BalanceUpdaterProvider.ReleaseUpdater(_balanceUpdater);
-                _balanceUpdater.Changed -= BalanceUpdater_Changed;
             }
         }
 
