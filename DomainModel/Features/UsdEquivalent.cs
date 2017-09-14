@@ -111,9 +111,9 @@ namespace DomainModel.Features
             var price = pair.QuoteCurrency.Equals(currency) ? tick.Last : 1 / tick.Last;
 
             var tickIntermediate = _market.Model.Info.Tick(intermediatePair);
-            var priceIntermediate = intermediatePair.BaseCurrency.Equals(_market.Usd.Currency) ? tickIntermediate.Last : 1 / tickIntermediate.Last;
+            var priceIntermediate = intermediatePair.QuoteCurrency.Equals(_market.Usd.Currency) ? tickIntermediate.Last : 1 / tickIntermediate.Last;
 
-            rate = priceIntermediate / (1 / price);
+            rate = priceIntermediate / price;
             return true;
         }
 
