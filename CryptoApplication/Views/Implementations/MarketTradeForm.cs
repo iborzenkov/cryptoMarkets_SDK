@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CryptoSdk.Misc;
+using DomainModel;
+using DomainModel.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using CryptoSdk.Misc;
-using DomainModel;
-using DomainModel.Features;
 using Views.Interfaces;
 using Views.Localization;
 
@@ -19,41 +19,59 @@ namespace Views.Implementations
             Locale.Instance.RegisterView(this);
         }
 
-        void IMarketTradeView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketComboBox.BeginUpdate();
-            try
+            marketComboBox.BeginInvoke(new Action(() =>
             {
-                marketComboBox.Items.Clear();
-                marketComboBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketComboBox.EndUpdate();
-            }
+                marketComboBox.BeginUpdate();
+                try
+                {
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketComboBox.Items.Clear();
+                    marketComboBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
+                }
+                finally
+                {
+                    marketComboBox.EndUpdate();
+                }
+            }));
         }
 
-        void IMarketTradeView.SetPairs(IEnumerable<PairOfMarket> pairs)
+        public void SetPairs(IEnumerable<PairOfMarket> pairs)
         {
-            pairComboBox.BeginUpdate();
-            try
+            pairComboBox.BeginInvoke(new Action(() =>
             {
-                pairComboBox.Items.Clear();
-                pairComboBox.Items.AddRange(pairs.ToArray<object>());
-            }
-            finally
-            {
-                pairComboBox.EndUpdate();
-            }
+                pairComboBox.BeginUpdate();
+                try
+                {
+                    var pairsArray = pairs as PairOfMarket[] ?? pairs.ToArray();
+
+                    var selectedPair = Pair;
+
+                    pairComboBox.Items.Clear();
+                    pairComboBox.Items.AddRange(pairsArray.ToArray<object>());
+
+                    if (selectedPair != null)
+                        Pair = pairsArray.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+                }
+                finally
+                {
+                    pairComboBox.EndUpdate();
+                }
+            }));
         }
 
-        public Market Market
+        private Market Market
         {
             get { return marketComboBox.SelectedItem as Market; }
             set { marketComboBox.SelectedItem = value; }
         }
 
-        public PairOfMarket Pair
+        private PairOfMarket Pair
         {
             get
             {
@@ -73,22 +91,28 @@ namespace Views.Implementations
             }
         }
 
-        void IMarketTradeView.SetIsMayTrade(bool value)
+        public void SetIsMayTrade(bool value)
         {
             tradeButton.Enabled = value;
         }
 
-        void IMarketTradeView.SetIsMayTrade2(bool value)
+        public void SetIsMayTrade2(bool value)
         {
             tradeButton2.Enabled = value;
         }
 
         public event Action<Market> MarketChanged;
+
         public event Action<PairOfMarket> PairChanged;
+
         public event Action ViewClosed;
+
         public event Action<TradeParams> TradeParamsChanged;
+
         public event Action<TradeParams> TradeParams2Changed;
+
         public event Action<TradeParams> Trade;
+
         public event Action<TradeParams> Trade2;
 
         protected virtual void OnPairChanged(PairOfMarket pair)
@@ -131,8 +155,8 @@ namespace Views.Implementations
             }
         }
 
-        public TradeParams TradeParams => !double.IsNaN(Quantity) ? new TradeParams(TradePosition, Quantity) : null;
-        public TradeParams TradeParams2 => !double.IsNaN(Quantity2) ? new TradeParams(TradePosition2, Quantity2) : null;
+        private TradeParams TradeParams => !double.IsNaN(Quantity) ? new TradeParams(TradePosition, Quantity) : null;
+        private TradeParams TradeParams2 => !double.IsNaN(Quantity2) ? new TradeParams(TradePosition2, Quantity2) : null;
 
         private TradePosition TradePosition => buyRadioButton.Checked ? TradePosition.Buy : TradePosition.Sell;
         private TradePosition TradePosition2 => buyRadioButton2.Checked ? TradePosition.Buy : TradePosition.Sell;

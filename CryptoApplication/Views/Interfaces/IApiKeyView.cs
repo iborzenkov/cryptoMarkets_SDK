@@ -9,8 +9,6 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
 
-        void SetSelectedMarket(Market market);
-
         void SetApiKeyRoles(IEnumerable<ApiKeyRole> roles);
 
         void SetApiKeys(ApiKeyPair apiKeyPair);

@@ -27,13 +27,13 @@ namespace Views.Interfaces
 
         void SetOpenedOrders(IEnumerable<Order> orders);
 
-        Market Market { get; set; }
-        PairOfMarket Pair { get; set; }
-        TradePosition Position { get; set; }
+        TradePosition Position { set; }
 
         void SetIsMayTrade(bool value);
 
         void SetInfoMessage(string message);
+
+        void SetErrorMessage(string errorMessage);
 
         void SetBalanceInfo(double availableQuantity);
 

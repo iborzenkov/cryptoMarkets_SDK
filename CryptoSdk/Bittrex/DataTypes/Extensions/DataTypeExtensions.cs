@@ -113,7 +113,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                     return TradePosition.Sell;
 
                 case "LIMIT_BUY":
-                    return TradePosition.Sell;
+                    return TradePosition.Buy;
 
                 default:
                     throw new Exception($"{positionStr} is unknown position tag.");
@@ -132,7 +132,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                 opened = timeStamp;
             var order = new Order(
                 new OrderId(openedLimitOrder.Id), market, pair,
-                openedLimitOrder.Quantity, openedLimitOrder.Price, PositionFromString(openedLimitOrder.OrderType), opened);
+                openedLimitOrder.Quantity, openedLimitOrder.Limit, PositionFromString(openedLimitOrder.OrderType), opened);
 
             return order;
         }

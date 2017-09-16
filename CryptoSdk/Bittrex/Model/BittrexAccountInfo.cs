@@ -6,6 +6,7 @@ using DomainModel.Features;
 using DomainModel.MarketModel;
 using System.Collections.Generic;
 using System.Linq;
+using CryptoSdk.Bittrex.DataTypes.Misc;
 
 namespace CryptoSdk.Bittrex.Model
 {
@@ -55,6 +56,28 @@ namespace CryptoSdk.Bittrex.Model
         public Balance Balance(CurrencyOfMarket currency)
         {
             return Balance(currency.Market, currency.Currency);
+        }
+
+        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
+        {
+            var result = new List<Order>();
+            var apiKeys = market.ApiKeys(ApiKeyRole.Info);
+
+            var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", BittrexPairs.AsString(pair)) };
+
+            var query = Connection.PrivateGetQuery<BittrexOpenedLimitOrderDataType>(
+                EndPoints.GetOpenedOrders, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
+            if (query.Success)
+            {
+                result.AddRange(query.Orders.Select(order => order.ToOrder(market)));
+            }
+
+            return result;
+        }
+
+        public IEnumerable<Order> OpenedOrders(Market market)
+        {
+            return OpenedOrders(market, null);
         }
     }
 }

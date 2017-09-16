@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DomainModel.MarketModel.Updaters
 {
@@ -103,13 +104,22 @@ namespace DomainModel.MarketModel.Updaters
 
         public void ImmediatelyUpdateIfOlder(TimeInterval refreshInterval)
         {
-            if (!_lastTimeStamp.HasValue || (DateTime.Now - _lastTimeStamp.Value).Milliseconds > refreshInterval.Value)
+            if (!_lastTimeStamp.HasValue ||
+                (DateTime.Now - _lastTimeStamp.Value).Milliseconds > refreshInterval.Value)
                 UpdateNow();
         }
 
-        public void UpdateNow()
+        public async void UpdateNow()
         {
-            UpdateFeature();
+            await UpdateFeatureAsync();
+        }
+
+        private Task UpdateFeatureAsync()
+        {
+            return Task.Run(() =>
+            {
+                UpdateFeature();
+            });
         }
     }
 }

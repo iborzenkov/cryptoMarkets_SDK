@@ -41,9 +41,9 @@ namespace Views.Implementations
             ViewClosed?.Invoke();
         }
 
-        public string Filter => filterTextBox.Text;
+        private string Filter => filterTextBox.Text;
 
-        public Market Market
+        private Market Market
         {
             get { return marketListBox.SelectedItem as Market; }
             set { marketListBox.SelectedItem = value; }
@@ -51,38 +51,49 @@ namespace Views.Implementations
 
         #region IBalanceView
 
-        void IBalanceView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketListBox.BeginUpdate();
-            try
+            marketListBox.BeginInvoke(new Action(() =>
             {
-                marketListBox.Items.Clear();
-                marketListBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketListBox.EndUpdate();
-            }
+                marketListBox.BeginUpdate();
+                try
+                {
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketListBox.Items.Clear();
+                    marketListBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
+                }
+                finally
+                {
+                    marketListBox.EndUpdate();
+                }
+            }));
         }
 
-        void IBalanceView.SetBalances(IEnumerable<Balance> balances)
+        public void SetBalances(IEnumerable<Balance> balances)
         {
-            balanceListView.BeginUpdate();
-            try
+            balanceListView.BeginInvoke(new Action(() =>
             {
-                balanceListView.Items.Clear();
-                if (balances == null)
-                    return;
+                balanceListView.BeginUpdate();
+                try
+                {
+                    balanceListView.Items.Clear();
+                    if (balances == null)
+                        return;
 
-                var balancesArray = balances as Balance[] ?? balances.ToArray();
+                    var balancesArray = balances as Balance[] ?? balances.ToArray();
 
-                FillListView(balancesArray);
-                SetTotalUsdEquivalent(balancesArray);
-            }
-            finally
-            {
-                balanceListView.EndUpdate();
-            }
+                    FillListView(balancesArray);
+                    SetTotalUsdEquivalent(balancesArray);
+                }
+                finally
+                {
+                    balanceListView.EndUpdate();
+                }
+            }));
         }
 
         private void FillListView(IEnumerable<Balance> balancesArray)
@@ -97,7 +108,8 @@ namespace Views.Implementations
                     balance.Reserved.ToString(CultureInfo.InvariantCulture),
                     balance.Pending.ToString(CultureInfo.InvariantCulture),
                     GetUsdEquivalent(balance.Currency, balance.Total),
-                }) {Tag = balance};
+                })
+                { Tag = balance };
                 balanceListView.Items.Add(item);
             }
         }
@@ -122,13 +134,13 @@ namespace Views.Implementations
         {
             var usdEquivalent = UsdEquivalent(currency, quantity);
             return usdEquivalent.HasValue
-                ? ((int)Math.Round(usdEquivalent.Value)).ToString(CultureInfo.CurrentCulture) 
+                ? ((int)Math.Round(usdEquivalent.Value)).ToString(CultureInfo.CurrentCulture)
                 : string.Empty;
         }
 
         private GetUsdRateDelegate _getUsdRate;
 
-        void IBalanceView.SetUsdRate(GetUsdRateDelegate getUsdRate)
+        public void SetUsdRate(GetUsdRateDelegate getUsdRate)
         {
             _getUsdRate = getUsdRate;
         }

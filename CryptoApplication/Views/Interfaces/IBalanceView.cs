@@ -10,8 +10,6 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
 
-        Market Market { get; set; }
-
         void SetBalances(IEnumerable<Balance> balances);
 
         void SetUsdRate(GetUsdRateDelegate getUsdRate);

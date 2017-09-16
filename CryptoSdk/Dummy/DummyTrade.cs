@@ -28,27 +28,5 @@ namespace CryptoSdk.Dummy
             errorMessage = "Error occured";
             return false;
         }
-
-        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
-        {
-            var result = new List<Order>
-            {
-                new Order(new OrderId("1"), market, pair, 123, 0.145, TradePosition.Buy),
-                new Order(new OrderId("2"), market, pair, 34, 0.785, TradePosition.Sell)
-            };
-            
-            return result;
-        }
-
-        public IEnumerable<Order> OpenedOrders(Market market)
-        {
-            var result = new List<Order>
-            {
-                new Order(new OrderId("3"), market, PairDummy.EthBtc, 123, 0.145, TradePosition.Buy),
-                new Order(new OrderId("4"), market, PairDummy.UsdtBtc, 34, 0.785, TradePosition.Sell)
-            };
-
-            return result;
-        }
     }
 }

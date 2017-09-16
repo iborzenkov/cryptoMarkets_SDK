@@ -10,8 +10,6 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
 
-        Market Market { get; set; }
-
         void SetPairs(IEnumerable<PairOfMarket> pairs);
 
         void SetOrderBook(IOrderBook orderBook);
@@ -19,6 +17,8 @@ namespace Views.Interfaces
         void SetUsdRate(double? usdRate);
 
         void SetOrderBookSettings(OrderBookSettings settings);
+
+        void ClearOrderBooks();
 
         PairOfMarket Pair { get; set; }
 

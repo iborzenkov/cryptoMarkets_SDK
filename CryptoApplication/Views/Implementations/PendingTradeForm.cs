@@ -30,48 +30,66 @@ namespace Views.Implementations
             Locale.Instance.RegisterView(this);
         }
 
-        void IPendingTradeView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketComboBox.BeginUpdate();
-            try
+            marketComboBox.BeginInvoke(new Action(() =>
             {
-                marketComboBox.Items.Clear();
-                marketComboBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketComboBox.EndUpdate();
-            }
+                marketComboBox.BeginUpdate();
+                try
+                {
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketComboBox.Items.Clear();
+                    marketComboBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
+                }
+                finally
+                {
+                    marketComboBox.EndUpdate();
+                }
+            }));
         }
 
-        void IPendingTradeView.SetPairs(IEnumerable<PairOfMarket> pairs)
+        public void SetPairs(IEnumerable<PairOfMarket> pairs)
         {
-            pairComboBox.BeginUpdate();
-            try
+            pairComboBox.BeginInvoke(new Action(() =>
             {
-                pairComboBox.Items.Clear();
-                pairComboBox.Items.AddRange(pairs.ToArray<object>());
-            }
-            finally
-            {
-                pairComboBox.EndUpdate();
-            }
+                pairComboBox.BeginUpdate();
+                try
+                {
+                    var pairsArray = pairs as PairOfMarket[] ?? pairs.ToArray();
+
+                    var selectedPair = Pair;
+
+                    pairComboBox.Items.Clear();
+                    pairComboBox.Items.AddRange(pairsArray.ToArray<object>());
+
+                    if (selectedPair != null)
+                        Pair = pairsArray.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+                }
+                finally
+                {
+                    pairComboBox.EndUpdate();
+                }
+            }));
         }
 
-        void IPendingTradeView.SetOpenedOrders(IEnumerable<Order> orders)
+        public void SetOpenedOrders(IEnumerable<Order> orders)
         {
             openedOrdersListView.BeginInvoke(new Action(() =>
             {
                 openedOrdersListView.BeginUpdate();
                 try
                 {
-                    var selectedOrderId = GetSelectedOrder();
+                    var oldSelectedOrderId = GetSelectedOrder();
                     openedOrdersListView.Items.Clear();
                     if (orders == null)
                         return;
 
                     FillOpenedOrders(orders);
-                    SelectOrderIfPossible(selectedOrderId);
+                    SelectOrderIfPossible(_selectedOrderId ?? oldSelectedOrderId);
                 }
                 finally
                 {
@@ -91,10 +109,16 @@ namespace Views.Implementations
                             TradePositionAsString(order.Position),
                             order.Price.ToString(CultureInfo.CurrentCulture),
                             order.Quantity.ToString(CultureInfo.CurrentCulture),
+                            GetOpenedDate(order.Opened),
                         });
                 item.Tag = order;
                 openedOrdersListView.Items.Add(item);
             }
+        }
+
+        private string GetOpenedDate(DateTime? opened)
+        {
+            return opened?.ToString() ?? string.Empty;
         }
 
         private OrderId GetSelectedOrder()
@@ -115,11 +139,14 @@ namespace Views.Implementations
 
                 if (order.Id.Equals(selectedOrderId))
                 {
+                    //openedOrdersListView.FocusedItem = openedOrdersListView.Items[i];
                     openedOrdersListView.SelectedIndices.Clear();
                     openedOrdersListView.SelectedIndices.Add(i);
                     break;
                 }
             }
+
+            _selectedOrderId = null;
         }
 
         private string TradePositionAsString(TradePosition position)
@@ -127,7 +154,7 @@ namespace Views.Implementations
             return Locale.Instance.Localize(position == TradePosition.Buy ? "Buy" : "Sell");
         }
 
-        public Market Market
+        private Market Market
         {
             get { return marketComboBox.SelectedItem as Market; }
             set
@@ -137,26 +164,7 @@ namespace Views.Implementations
             }
         }
 
-/*        private PairOfMarket _pair;
-
-        public PairOfMarket Pair
-        {
-            get { return _pair; }
-            set
-            {
-                if (_pair == value)
-                    return;
-
-                _pair = value;
-                pairComboBox.SelectedItem = value;
-
-                SetCurrencyLabels();
-
-                OnPairChanged(Pair);
-            }
-        }*/
-
-        public PairOfMarket Pair
+        private PairOfMarket Pair
         {
             get
             {
@@ -183,18 +191,18 @@ namespace Views.Implementations
                     ? Pair.Pair.QuoteCurrency.Name
                     : Pair.Pair.BaseCurrency.Name
                 : string.Empty;
-            quoteCurrencyLabel.Text = Pair != null 
-                ? Position == TradePosition.Buy 
-                    ? Pair.Pair.BaseCurrency.Name 
-                    : Pair.Pair.QuoteCurrency.Name 
+            quoteCurrencyLabel.Text = Pair != null
+                ? Position == TradePosition.Buy
+                    ? Pair.Pair.BaseCurrency.Name
+                    : Pair.Pair.QuoteCurrency.Name
                 : string.Empty;
         }
 
-        private OrderId SelectedOrderId => openedOrdersListView.FocusedItem.Tag as OrderId;
+        private OrderId SelectedOrderId => (openedOrdersListView.FocusedItem?.Tag as Order)?.Id;
 
         public TradePosition Position
         {
-            get
+            private get
             {
                 return buyLimitRadioButton.Checked ? TradePosition.Buy : TradePosition.Sell;
             }
@@ -209,17 +217,24 @@ namespace Views.Implementations
             }
         }
 
-        void IPendingTradeView.SetIsMayTrade(bool value)
+        public void SetIsMayTrade(bool value)
         {
             tradeButton.Enabled = value;
         }
 
-        void IPendingTradeView.SetInfoMessage(string message)
+        public void SetInfoMessage(string message)
         {
-            ShowInfoMessage(message);
+            var localized = Locale.Instance.Localize(message);
+            ShowInfoMessage(localized);
         }
 
-        void IPendingTradeView.SetBalanceInfo(double availableQuantity)
+        public void SetErrorMessage(string message)
+        {
+            var localized = Locale.Instance.Localize(message);
+            ShowInfoMessage(localized);
+        }
+
+        public void SetBalanceInfo(double availableQuantity)
         {
             statusStrip.BeginInvoke(new Action(() =>
             {
@@ -228,7 +243,7 @@ namespace Views.Implementations
             }));
         }
 
-        void IPendingTradeView.SetPriceInfo(double currentPrice)
+        public void SetPriceInfo(double currentPrice)
         {
             statusStrip.BeginInvoke(new Action(() =>
             {
@@ -237,16 +252,11 @@ namespace Views.Implementations
             }));
         }
 
+        private OrderId _selectedOrderId { get; set; }
+
         public void SelectOpenedOrder(OrderId id)
         {
-            for (var i = 0; i < openedOrdersListView.Items.Count; i++)
-            {
-                if (((Order)openedOrdersListView.Items[i].Tag).Id.Equals(id))
-                {
-                    openedOrdersListView.FocusedItem = openedOrdersListView.Items[i];
-                    break;
-                }
-            }
+            _selectedOrderId = id;
         }
 
         public event Action<Market> MarketChanged;
@@ -274,7 +284,7 @@ namespace Views.Implementations
             ViewClosed?.Invoke();
         }
 
-        public double Quantity
+        private double Quantity
         {
             get
             {
@@ -292,7 +302,7 @@ namespace Views.Implementations
             }
         }
 
-        public PendingTradeParams TradeParams => new PendingTradeParams(Position, Quantity, Price);
+        private PendingTradeParams TradeParams => new PendingTradeParams(Position, Quantity, Price);
 
         private void quantityTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -334,6 +344,8 @@ namespace Views.Implementations
 
         private void ShowInfoMessage(string message)
         {
+            HideInfoMessage();
+
             statusStrip.BeginInvoke(new Action(() =>
             {
                 infoMessageStatusLabel.Text = message;

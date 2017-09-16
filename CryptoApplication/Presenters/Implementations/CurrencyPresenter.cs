@@ -2,6 +2,7 @@
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -23,9 +24,6 @@ namespace Presenters.Implementations
             View.ActiveOnlyChanged += View_ActiveOnlyChanged;
             View.ClearFilter += View_ClearFilter;
             View.InitFilter();
-
-            if (Model.Markets.Any())
-                View.Market = Model.Markets.First();
         }
 
         private void Release()
@@ -65,10 +63,18 @@ namespace Presenters.Implementations
         private bool _activeOnly;
         private string _filter;
 
-        private void View_MarketChanged(Market market)
+        private async void View_MarketChanged(Market market)
         {
-            Model.SelectedMarket = market;
-            Model.SetFilter(_filter, _activeOnly);
+            await MarketChangedAsync(market);
+        }
+
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                Model.SelectedMarket = market;
+                Model.SetFilter(_filter, _activeOnly);
+            });
         }
 
         private void View_ViewClosed()

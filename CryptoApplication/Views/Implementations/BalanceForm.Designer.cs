@@ -42,11 +42,11 @@ namespace Views.Implementations
             this.currencyColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.shortNameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.availableColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.reservedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pendingColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.sumUsdEquivalentcolumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.totalUsdEquivalentLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.reservedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marketsGroupBox.SuspendLayout();
             this.panel1.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -157,6 +157,10 @@ namespace Views.Implementations
             this.availableColumnHeader.Text = "Available";
             this.availableColumnHeader.Width = 70;
             // 
+            // reservedColumnHeader
+            // 
+            this.reservedColumnHeader.Text = "Reserved";
+            // 
             // pendingColumnHeader
             // 
             this.pendingColumnHeader.Text = "Pending";
@@ -178,12 +182,7 @@ namespace Views.Implementations
             // totalUsdEquivalentLabel
             // 
             this.totalUsdEquivalentLabel.Name = "totalUsdEquivalentLabel";
-            this.totalUsdEquivalentLabel.Size = new System.Drawing.Size(63, 17);
-            this.totalUsdEquivalentLabel.Text = "Total: $134";
-            // 
-            // reservedColumnHeader
-            // 
-            this.reservedColumnHeader.Text = "Reserved";
+            this.totalUsdEquivalentLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // BalanceForm
             // 

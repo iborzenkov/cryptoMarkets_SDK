@@ -66,6 +66,12 @@ namespace CryptoSdk.Bittrex.DataTypes
         public double Price { get; set; }
 
         /// <summary>
+        /// Limit Price
+        /// </summary>
+        [DataMember(Name = "Limit", EmitDefaultValue = false)]
+        public double Limit { get; set; }
+
+        /// <summary>
         /// Opened
         /// </summary>
         [DataMember(Name = "Opened", EmitDefaultValue = false)]

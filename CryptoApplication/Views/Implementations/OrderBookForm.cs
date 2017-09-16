@@ -33,45 +33,63 @@ namespace Views.Implementations
             orderBookPartPanel.Controls.Add(orderbookControl);
         }
 
-        void IOrderBookView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketComboBox.BeginUpdate();
-            try
+            marketComboBox.BeginInvoke(new Action(() =>
             {
-                marketComboBox.Items.Clear();
-                marketComboBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketComboBox.EndUpdate();
-            }
+                marketComboBox.BeginUpdate();
+                try
+                {
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketComboBox.Items.Clear();
+                    marketComboBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
+                }
+                finally
+                {
+                    marketComboBox.EndUpdate();
+                }
+            }));
         }
 
-        void IOrderBookView.SetPairs(IEnumerable<PairOfMarket> pairs)
+        public void SetPairs(IEnumerable<PairOfMarket> pairs)
         {
-            pairComboBox.BeginUpdate();
-            try
+            pairComboBox.BeginInvoke(new Action(() =>
             {
-                pairComboBox.Items.Clear();
-                pairComboBox.Items.AddRange(pairs.ToArray<object>());
-            }
-            finally
-            {
-                pairComboBox.EndUpdate();
-            }
+                pairComboBox.BeginUpdate();
+                try
+                {
+                    var pairsArray = pairs as PairOfMarket[] ?? pairs.ToArray();
+
+                    var selectedPair = Pair;
+
+                    pairComboBox.Items.Clear();
+                    pairComboBox.Items.AddRange(pairsArray.ToArray<object>());
+
+                    if (selectedPair != null)
+                      Pair = pairsArray.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+                }
+                finally
+                {
+                    pairComboBox.EndUpdate();
+                }
+            }));
         }
 
-        void IOrderBookView.SetOrderBook(IOrderBook orderBook)
+        public void SetOrderBook(IOrderBook orderBook)
         {
             OrderBookPartView.SetOrderBook(orderBook);
         }
 
-        void IOrderBookView.SetUsdRate(double? usdRate)
+        public void SetUsdRate(double? usdRate)
         {
             OrderBookPartView.SetUsdRate(usdRate);
         }
 
-        void IOrderBookView.SetOrderBookSettings(OrderBookSettings settings)
+        public void SetOrderBookSettings(OrderBookSettings settings)
         {
             var changed = false;
 
@@ -115,6 +133,11 @@ namespace Views.Implementations
                 OnOrderBookSettingsChanged();
         }
 
+        public void ClearOrderBooks()
+        {
+            OrderBookPartView.ClearOrderBookParts();
+        }
+
         private int Depth => (int)depthNumericUpDown.Value;
 
         private int RefreshInterval => int.Parse(intervalTextBox.Text);
@@ -123,11 +146,11 @@ namespace Views.Implementations
 
         private double LargeVolumeKoef => largeVolumeKoefTrackBar.Value / 100.0;
 
-        private bool HighlightLargePositions => largePositionCheckBox.Checked; 
+        private bool HighlightLargePositions => largePositionCheckBox.Checked;
 
         private OrderBookType Type => (OrderBookType)typeComboBox.SelectedItem;
 
-        public Market Market
+        private Market Market
         {
             get { return marketComboBox.SelectedItem as Market; }
             set { marketComboBox.SelectedItem = value; }

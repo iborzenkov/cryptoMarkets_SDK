@@ -14,5 +14,10 @@ namespace CryptoSdk.Dummy
         public IMarketInfo Info { get; }
         public IMarketTrade Trade { get; }
         public IAccountInfo Account { get; }
+
+        public string AdoptMessage(string message)
+        {
+            return message;
+        }
     }
 }

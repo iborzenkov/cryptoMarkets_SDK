@@ -1,8 +1,8 @@
-﻿using System;
-using DomainModel.Features;
+﻿using DomainModel.Features;
 using Models.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -18,6 +18,7 @@ namespace Presenters.Implementations
             Model.OpenedOrdersChanged += Model_OpenedOrdersChanged;
             Model.TickChanged += Model_TickChanged;
             Model.ErrorOccured += Model_ErrorOccured;
+            Model.InfoOccured += Model_InfoOccured;
             Model.IsMayTradeChanged += Model_IsMayTradeChanged;
 
             View.SetMarkets(Model.Markets);
@@ -29,14 +30,11 @@ namespace Presenters.Implementations
             View.Trade += View_Trade;
             View.TradeParamsChanged += View_TradeParamsChanged;
             View.RemoveOrder += View_RemoveOrder;
-
-            if (Model.Markets.Any())
-                View.Market = Model.Markets.First();
         }
 
         private void Model_ErrorOccured(string errorMessage)
         {
-            View.SetInfoMessage(errorMessage);
+            View.SetErrorMessage(errorMessage);
         }
 
         private void Release()
@@ -52,9 +50,15 @@ namespace Presenters.Implementations
             Model.OpenedOrdersChanged -= Model_OpenedOrdersChanged;
             Model.TickChanged -= Model_TickChanged;
             Model.ErrorOccured -= Model_ErrorOccured;
+            Model.InfoOccured -= Model_InfoOccured;
             Model.IsMayTradeChanged -= Model_IsMayTradeChanged;
 
             Model.Release();
+        }
+
+        private void Model_InfoOccured(string infoMessage)
+        {
+            View.SetInfoMessage(infoMessage);
         }
 
         private void Model_IsMayTradeChanged(bool isMayTradeChanged)
@@ -94,7 +98,9 @@ namespace Presenters.Implementations
             var id = Model.Trade();
 
             if (id != null)
+            {
                 View.SelectOpenedOrder(id);
+            }
         }
 
         private void View_ViewClosed()
@@ -102,23 +108,34 @@ namespace Presenters.Implementations
             Release();
         }
 
-        private void View_PairChanged(PairOfMarket pair)
+        private async void View_PairChanged(PairOfMarket pair)
         {
-            Model.PairChanged(pair);
+            await PairChangedAsync(pair);
         }
 
-        private void View_MarketChanged(Market market)
+        private Task PairChangedAsync(PairOfMarket pair)
         {
-            var selectedPair = View.Pair;
+            return Task.Run(() =>
+            {
+                Model.PairChanged(pair);
+            });
+        }
 
-            var pairs = market.Pairs;
-            var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
-            View.SetPairs(pairOfMarkets);
+        private async void View_MarketChanged(Market market)
+        {
+            await MarketChangedAsync(market);
+        }
 
-            if (selectedPair != null)
-                View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                var pairs = market.Pairs;
+                var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
+                View.SetPairs(pairOfMarkets);
 
-            Model.MarketChanged(market);
+                Model.MarketChanged(market);
+            });
         }
     }
 }

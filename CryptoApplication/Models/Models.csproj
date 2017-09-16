@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="Implementations\PendingTradeModel.cs" />
     <Compile Include="Implementations\PairModel.cs" />
+    <Compile Include="InfoMessages.cs" />
     <Compile Include="Interfaces\IPendingTradeModel.cs" />
     <Compile Include="Interfaces\IPairModel.cs" />
     <Compile Include="PairViewFilter.cs" />

@@ -2,6 +2,7 @@
 using Models.Interfaces;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -20,9 +21,6 @@ namespace Presenters.Implementations
             View.MarketChanged += View_MarketChanged;
             View.PairChanged += View_PairChanged;
             View.ViewClosed += View_ViewClosed;
-
-            if (Model.Markets.Any())
-                View.Market = Model.Markets.First();
         }
 
         private void Release()
@@ -45,21 +43,35 @@ namespace Presenters.Implementations
             //View.SetTrade(trade);
         }*/
 
-        private void View_PairChanged(PairOfMarket pair)
+        private async void View_PairChanged(PairOfMarket pair)
         {
-            //Model.NeedTradeOf(View.Pair);
+            await PairChangedAsync(pair);
         }
 
-        private void View_MarketChanged(Market market)
+        private Task PairChangedAsync(PairOfMarket pair)
         {
-            var selectedPair = View.Pair;
+            return null;
+            /*return Task.Run(() =>
+            {
+                Model.PairChanged(pair);
+            });*/
+        }
 
-            var pairs = market.Pairs;
-            var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
-            View.SetPairs(pairOfMarkets);
+        private async void View_MarketChanged(Market market)
+        {
+            await MarketChangedAsync(market);
+        }
 
-            if (selectedPair != null)
-                View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                var pairs = market.Pairs;
+                var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
+                View.SetPairs(pairOfMarkets);
+
+                //Model.MarketChanged(market);
+            });
         }
     }
 }

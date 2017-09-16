@@ -3,6 +3,7 @@ using DomainModel.MarketModel;
 using Models;
 using Models.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -24,9 +25,6 @@ namespace Presenters.Implementations
             View.PairChanged += View_PairChanged;
             View.OrderBookSettingsChanged += View_OrderBookSettingsChanged;
             View.ViewClosed += View_ViewClosed;
-
-            if (Model.Markets.Any())
-                View.Market = Model.Markets.First();
         }
 
         private void Model_UsdRateChanged(double? usdRate)
@@ -60,21 +58,33 @@ namespace Presenters.Implementations
             View.SetOrderBook(orderBook);
         }
 
-        private void View_PairChanged(PairOfMarket pair)
+        private async void View_PairChanged(PairOfMarket pair)
         {
-            Model.NeedOrderBookOf(View.Pair);
+            View.ClearOrderBooks();
+            await PairChangedAsync(pair);
         }
 
-        private void View_MarketChanged(Market market)
+        private Task PairChangedAsync(PairOfMarket pair)
         {
-            var selectedPair = View.Pair;
+            return Task.Run(() =>
+            {
+                Model.NeedOrderBookOf(pair);
+            });
+        }
 
-            var pairs = market.Pairs;
-            var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
-            View.SetPairs(pairOfMarkets);
+        private async void View_MarketChanged(Market market)
+        {
+            await MarketChangedAsync(market);
+        }
 
-            if (selectedPair != null)
-                View.Pair = pairOfMarkets.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                var pairs = market.Pairs;
+                var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
+                View.SetPairs(pairOfMarkets);
+            });
         }
     }
 }

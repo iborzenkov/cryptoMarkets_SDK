@@ -22,28 +22,36 @@ namespace Views.Implementations
         private const string PublicControlName = "publicTextBox";
         private const string PrivateControlName = "privateTextBox";
 
-        void IApiKeyView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketListBox.BeginUpdate();
-            try
+            marketListBox.BeginInvoke(new Action(() =>
             {
-                marketListBox.Items.Clear();
-                marketListBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketListBox.EndUpdate();
-            }
+                marketListBox.BeginUpdate();
+                try
+                {
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketListBox.Items.Clear();
+                    marketListBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
+                }
+                finally
+                {
+                    marketListBox.EndUpdate();
+                }
+            }));
         }
 
-        readonly List<Label> _privateKeyLabels = new List<Label>();
-        readonly List<Label> _publicKeyLabels = new List<Label>();
-        readonly List<GroupBox> _panels = new List<GroupBox>();
+        private readonly List<Label> _privateKeyLabels = new List<Label>();
+        private readonly List<Label> _publicKeyLabels = new List<Label>();
+        private readonly List<GroupBox> _panels = new List<GroupBox>();
 
         private string PrivateKeyText => Locale.Instance.Localize("PrivateKey");
         private string PublicKeyText => Locale.Instance.Localize("PublicKey");
 
-        void IApiKeyView.SetApiKeyRoles(IEnumerable<ApiKeyRole> roles)
+        public void SetApiKeyRoles(IEnumerable<ApiKeyRole> roles)
         {
             _privateKeyLabels.Clear();
             _publicKeyLabels.Clear();
@@ -102,7 +110,7 @@ namespace Views.Implementations
             }
         }
 
-        void IApiKeyView.SetApiKeys(ApiKeyPair apiKeyPair)
+        public void SetApiKeys(ApiKeyPair apiKeyPair)
         {
             foreach (var control in apiKeysGroupBox.Controls.OfType<Control>())
             {
@@ -124,11 +132,6 @@ namespace Views.Implementations
                     }
                 }
             }
-        }
-
-        void IApiKeyView.SetSelectedMarket(Market market)
-        {
-            Market = market;
         }
 
         private bool ApiKeyFromControls(object control, out IApiKey apiKey, out ApiKeyRole role)
@@ -185,13 +188,13 @@ namespace Views.Implementations
             MarketChanged?.Invoke(Market);
         }
 
-        public Market Market
+        private Market Market
         {
             get { return marketListBox.SelectedItem as Market; }
             set { marketListBox.SelectedItem = value; }
         }
 
-        void ILocalizableView.ApplyLocale()
+        public void ApplyLocale()
         {
             _privateKeyLabels.ForEach(l => l.Text = PrivateKeyText);
             _publicKeyLabels.ForEach(l => l.Text = PublicKeyText);

@@ -35,13 +35,14 @@ namespace Views.Implementations
             this.topPanel = new System.Windows.Forms.Panel();
             this.myOrdersGroupBox = new System.Windows.Forms.GroupBox();
             this.ordersContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openedOrdersListView = new System.Windows.Forms.ListView();
             this.marketColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pairColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.orderTypeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.priceColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.quantityColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.openedDateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marketLabel = new System.Windows.Forms.Label();
             this.iWantToGroupBox = new System.Windows.Forms.GroupBox();
             this.allAvailableCheckBox = new System.Windows.Forms.CheckBox();
@@ -81,7 +82,7 @@ namespace Views.Implementations
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
             this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(426, 337);
+            this.topPanel.Size = new System.Drawing.Size(551, 337);
             this.topPanel.TabIndex = 2;
             // 
             // myOrdersGroupBox
@@ -90,24 +91,24 @@ namespace Views.Implementations
             this.myOrdersGroupBox.Controls.Add(this.openedOrdersListView);
             this.myOrdersGroupBox.Location = new System.Drawing.Point(15, 138);
             this.myOrdersGroupBox.Name = "myOrdersGroupBox";
-            this.myOrdersGroupBox.Size = new System.Drawing.Size(399, 174);
-            this.myOrdersGroupBox.TabIndex = 4;
+            this.myOrdersGroupBox.Size = new System.Drawing.Size(525, 174);
+            this.myOrdersGroupBox.TabIndex = 3;
             this.myOrdersGroupBox.TabStop = false;
             this.myOrdersGroupBox.Text = "My Orders";
             // 
             // ordersContextMenuStrip
             // 
             this.ordersContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeToolStripMenuItem});
+            this.removeOrderToolStripMenuItem});
             this.ordersContextMenuStrip.Name = "ordersContextMenuStrip";
             this.ordersContextMenuStrip.Size = new System.Drawing.Size(118, 26);
             // 
-            // removeToolStripMenuItem
+            // removeOrderToolStripMenuItem
             // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            this.removeOrderToolStripMenuItem.Name = "removeOrderToolStripMenuItem";
+            this.removeOrderToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.removeOrderToolStripMenuItem.Text = "Remove";
+            this.removeOrderToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // openedOrdersListView
             // 
@@ -116,15 +117,16 @@ namespace Views.Implementations
             this.pairColumnHeader,
             this.orderTypeColumnHeader,
             this.priceColumnHeader,
-            this.quantityColumnHeader});
+            this.quantityColumnHeader,
+            this.openedDateColumnHeader});
             this.openedOrdersListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openedOrdersListView.FullRowSelect = true;
             this.openedOrdersListView.GridLines = true;
             this.openedOrdersListView.Location = new System.Drawing.Point(3, 16);
             this.openedOrdersListView.MultiSelect = false;
             this.openedOrdersListView.Name = "openedOrdersListView";
-            this.openedOrdersListView.Size = new System.Drawing.Size(393, 155);
-            this.openedOrdersListView.TabIndex = 7;
+            this.openedOrdersListView.Size = new System.Drawing.Size(519, 155);
+            this.openedOrdersListView.TabIndex = 8;
             this.openedOrdersListView.UseCompatibleStateImageBehavior = false;
             this.openedOrdersListView.View = System.Windows.Forms.View.Details;
             // 
@@ -152,6 +154,11 @@ namespace Views.Implementations
             this.quantityColumnHeader.Text = "Quantity";
             this.quantityColumnHeader.Width = 75;
             // 
+            // openedDateColumnHeader
+            // 
+            this.openedDateColumnHeader.Text = "Opened Date";
+            this.openedDateColumnHeader.Width = 120;
+            // 
             // marketLabel
             // 
             this.marketLabel.AutoSize = true;
@@ -176,7 +183,7 @@ namespace Views.Implementations
             this.iWantToGroupBox.Location = new System.Drawing.Point(15, 39);
             this.iWantToGroupBox.Name = "iWantToGroupBox";
             this.iWantToGroupBox.Size = new System.Drawing.Size(358, 93);
-            this.iWantToGroupBox.TabIndex = 3;
+            this.iWantToGroupBox.TabIndex = 2;
             this.iWantToGroupBox.TabStop = false;
             this.iWantToGroupBox.Text = "I want to";
             // 
@@ -186,7 +193,7 @@ namespace Views.Implementations
             this.allAvailableCheckBox.Location = new System.Drawing.Point(162, 70);
             this.allAvailableCheckBox.Name = "allAvailableCheckBox";
             this.allAvailableCheckBox.Size = new System.Drawing.Size(81, 17);
-            this.allAvailableCheckBox.TabIndex = 20;
+            this.allAvailableCheckBox.TabIndex = 6;
             this.allAvailableCheckBox.Text = "all available";
             this.allAvailableCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -222,7 +229,7 @@ namespace Views.Implementations
             this.priceTextBox.Location = new System.Drawing.Point(162, 22);
             this.priceTextBox.Name = "priceTextBox";
             this.priceTextBox.Size = new System.Drawing.Size(71, 20);
-            this.priceTextBox.TabIndex = 16;
+            this.priceTextBox.TabIndex = 4;
             this.priceTextBox.TextChanged += new System.EventHandler(this.priceTextBox_TextChanged);
             // 
             // tradeButton
@@ -230,7 +237,7 @@ namespace Views.Implementations
             this.tradeButton.Location = new System.Drawing.Point(284, 38);
             this.tradeButton.Name = "tradeButton";
             this.tradeButton.Size = new System.Drawing.Size(57, 23);
-            this.tradeButton.TabIndex = 6;
+            this.tradeButton.TabIndex = 7;
             this.tradeButton.Text = "Place";
             this.tradeButton.UseVisualStyleBackColor = true;
             this.tradeButton.Click += new System.EventHandler(this.tradeButton_Click);
@@ -240,7 +247,7 @@ namespace Views.Implementations
             this.quantityTextBox.Location = new System.Drawing.Point(162, 45);
             this.quantityTextBox.Name = "quantityTextBox";
             this.quantityTextBox.Size = new System.Drawing.Size(71, 20);
-            this.quantityTextBox.TabIndex = 7;
+            this.quantityTextBox.TabIndex = 5;
             this.quantityTextBox.TextChanged += new System.EventHandler(this.quantityTextBox_TextChanged);
             // 
             // baseCurrencyLabel
@@ -259,7 +266,7 @@ namespace Views.Implementations
             this.buyLimitRadioButton.Location = new System.Drawing.Point(21, 23);
             this.buyLimitRadioButton.Name = "buyLimitRadioButton";
             this.buyLimitRadioButton.Size = new System.Drawing.Size(67, 17);
-            this.buyLimitRadioButton.TabIndex = 10;
+            this.buyLimitRadioButton.TabIndex = 2;
             this.buyLimitRadioButton.TabStop = true;
             this.buyLimitRadioButton.Text = "Buy Limit";
             this.buyLimitRadioButton.UseVisualStyleBackColor = true;
@@ -271,7 +278,7 @@ namespace Views.Implementations
             this.sellLimitRadioButton.Location = new System.Drawing.Point(21, 46);
             this.sellLimitRadioButton.Name = "sellLimitRadioButton";
             this.sellLimitRadioButton.Size = new System.Drawing.Size(66, 17);
-            this.sellLimitRadioButton.TabIndex = 11;
+            this.sellLimitRadioButton.TabIndex = 3;
             this.sellLimitRadioButton.TabStop = true;
             this.sellLimitRadioButton.Text = "Sell Limit";
             this.sellLimitRadioButton.UseVisualStyleBackColor = true;
@@ -316,7 +323,7 @@ namespace Views.Implementations
             this.priceValueLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 315);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(426, 22);
+            this.statusStrip.Size = new System.Drawing.Size(551, 22);
             this.statusStrip.TabIndex = 6;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -353,7 +360,7 @@ namespace Views.Implementations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 337);
+            this.ClientSize = new System.Drawing.Size(551, 337);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.topPanel);
             this.Name = "PendingTradeForm";
@@ -406,6 +413,10 @@ namespace Views.Implementations
         private System.Windows.Forms.ColumnHeader priceColumnHeader;
         [LocalizableClass]
         private System.Windows.Forms.ColumnHeader quantityColumnHeader;
+        [LocalizableClass]
+        private System.Windows.Forms.ColumnHeader openedDateColumnHeader;
+        [LocalizableClass]
+        private System.Windows.Forms.ToolStripMenuItem removeOrderToolStripMenuItem;
 
         private System.Windows.Forms.CheckBox allAvailableCheckBox;
 
@@ -417,7 +428,6 @@ namespace Views.Implementations
         private System.Windows.Forms.Label quoteCurrencyLabel;
         private System.Windows.Forms.TextBox priceTextBox;
         private System.Windows.Forms.ContextMenuStrip ordersContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ListView openedOrdersListView;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel availableQuantityLabel;

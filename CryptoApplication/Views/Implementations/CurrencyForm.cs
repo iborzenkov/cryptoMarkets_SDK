@@ -18,51 +18,62 @@ namespace Views.Implementations
             Locale.Instance.RegisterView(this);
         }
 
-        void ICurrencyView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketListBox.BeginUpdate();
-            try
+            marketListBox.BeginInvoke(new Action(() =>
             {
-                marketListBox.Items.Clear();
-                marketListBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketListBox.EndUpdate();
-            }
-        }
-
-        void ICurrencyView.SetCurrencies(IEnumerable<CurrencyOfMarket> currencies)
-        {
-            currencyListView.BeginUpdate();
-            try
-            {
-                currencyListView.Items.Clear();
-                if (currencies == null)
-                    return;
-
-                foreach (var currency in currencies)
+                marketListBox.BeginUpdate();
+                try
                 {
-                    var item = new ListViewItem(new[]
-                    {
-                        currency.Currency.LongName,
-                        currency.Currency.Name,
-                        IsActive(currency.IsActive),
-                        currency.TxFee.ToString(CultureInfo.InvariantCulture),
-                        currency.BaseAddress?.ToString() ?? string.Empty,
-                    });
-                    item.Checked = currency.IsActive;
-                    item.Tag = currency;
-                    currencyListView.Items.Add(item);
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketListBox.Items.Clear();
+                    marketListBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
                 }
-            }
-            finally
-            {
-                currencyListView.EndUpdate();
-            }
+                finally
+                {
+                    marketListBox.EndUpdate();
+                }
+            }));
         }
 
-        void ILocalizableView.ApplyLocale()
+        public void SetCurrencies(IEnumerable<CurrencyOfMarket> currencies)
+        {
+            currencyListView.BeginInvoke(new Action(() =>
+            {
+                currencyListView.BeginUpdate();
+                try
+                {
+                    currencyListView.Items.Clear();
+                    if (currencies == null)
+                        return;
+
+                    foreach (var currency in currencies)
+                    {
+                        var item = new ListViewItem(new[]
+                        {
+                            currency.Currency.LongName,
+                            currency.Currency.Name,
+                            IsActive(currency.IsActive),
+                            currency.TxFee.ToString(CultureInfo.InvariantCulture),
+                            currency.BaseAddress?.ToString() ?? string.Empty,
+                        });
+                        item.Checked = currency.IsActive;
+                        item.Tag = currency;
+                        currencyListView.Items.Add(item);
+                    }
+                }
+                finally
+                {
+                    currencyListView.EndUpdate();
+                }
+            }));
+        }
+
+        public void ApplyLocale()
         {
             for (var i = 0; i < currencyListView.Items.Count; i++)
             {
@@ -86,7 +97,7 @@ namespace Views.Implementations
 
         public event Action ClearFilter;
 
-        void ICurrencyView.InitFilter()
+        public void InitFilter()
         {
             FilterChanged?.Invoke(Filter);
             ActiveOnlyChanged?.Invoke(activeOnlyCheckBox.Checked);
@@ -99,13 +110,13 @@ namespace Views.Implementations
             MarketChanged?.Invoke(Market);
         }
 
-        public Market Market
+        private Market Market
         {
             get { return marketListBox.SelectedItem as Market; }
             set { marketListBox.SelectedItem = value; }
         }
 
-        public CurrencyOfMarket Currency
+        private CurrencyOfMarket Currency
         {
             get
             {
@@ -115,7 +126,7 @@ namespace Views.Implementations
             }
         }
 
-        public string Filter => filterTextBox.Text;
+        private string Filter => filterTextBox.Text;
 
         private void filterTextBox_TextChanged(object sender, EventArgs e)
         {

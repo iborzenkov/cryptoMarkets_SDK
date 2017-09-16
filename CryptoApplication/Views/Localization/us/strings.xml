@@ -100,6 +100,8 @@
 	<Item key="Views.Implementations.PendingTradeForm.orderTypeColumnHeader_Text">Order Type</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceColumnHeader_Text">Price</Item>
 	<Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Quantity</Item>
+	<Item key="Views.Implementations.PendingTradeForm.openedDateColumnHeader_Text">Opened Date</Item>
+	<Item key="Views.Implementations.PendingTradeForm.removeOrderToolStripMenuItem_Text">Cancel order</Item>
 	<Item key="PublicKey">Public Key</Item>
 	<Item key="PrivateKey">Private Key</Item>
 	<Item key="InfoApiKeyRole">Info</Item>
@@ -116,4 +118,7 @@
 	<Item key="ForOne">for 1</Item>
 	<Item key="AllAvailable">all available</Item>
 	<Item key="AllThatPossible">all that possible</Item>
+	<Item key="InsufficientFunds">Insufficient Funds</Item>
+	<Item key="SuccessfullTrade">Order was set successfully</Item>
+	<Item key="SuccessfullCancelLimitOrder">Order was removed successfully</Item>
 </Strings>

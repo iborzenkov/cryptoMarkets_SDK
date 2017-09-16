@@ -41,7 +41,9 @@ namespace Models.Implementations
 
                 _position = value;
 
+                ReleaseBalanceUpdater();
                 InitBalanceUpdater();
+
                 InitMayTrade();
             }
         }
@@ -79,7 +81,7 @@ namespace Models.Implementations
         private readonly TimeInterval _balanceRefreshInterval = TimeInterval.InSeconds(30);
         private readonly TimeInterval _openedOrdersRefreshInterval = TimeInterval.InSeconds(5);
 
-        void IPendingTradeModel.MarketChanged(Market market)
+        public void MarketChanged(Market market)
         {
             Market = market;
 
@@ -104,10 +106,11 @@ namespace Models.Implementations
             InitOpenedOrdersUpdater();
         }
 
-        void IPendingTradeModel.PairChanged(PairOfMarket pair)
+        public void PairChanged(PairOfMarket pair)
         {
             Pair = pair;
             ReleasePairTickUpdater();
+            ReleaseBalanceUpdater();
 
             InitTickUpdater();
             InitBalanceUpdater();
@@ -115,18 +118,23 @@ namespace Models.Implementations
             InitMayTrade();
         }
 
-        void IPendingTradeModel.RemoveOrder(OrderId id)
+        public void RemoveOrder(OrderId id)
         {
             string errorMessage;
             Market.Model.Trade.Cancel(Market, id, out errorMessage);
 
-            if (!string.IsNullOrEmpty(errorMessage))
+            if (string.IsNullOrEmpty(errorMessage))
+            {
+                _openedOrdersUpdater.UpdateNow();
+                OnInfoMessage(InfoMessages.SuccessfullCancelLimitOrder);
+            }
+            else
             {
                 OnErrorOccured(errorMessage);
             }
         }
 
-        OrderId IPendingTradeModel.Trade()
+        public OrderId Trade()
         {
             string errorMessage;
             var id = Position == TradePosition.Buy
@@ -135,11 +143,12 @@ namespace Models.Implementations
 
             if (id != null)
             {
-                _openedOrdersUpdater.UpdateNow(); 
+                _openedOrdersUpdater.UpdateNow();
+                OnInfoMessage(InfoMessages.SuccessfullTrade);
             }
             else
             {
-                OnErrorOccured(errorMessage);
+                OnErrorOccured(Market.Model.AdoptMessage(errorMessage));
             }
 
             return id;
@@ -178,8 +187,8 @@ namespace Models.Implementations
             _pairTickUpdater.Changed += PairTickUpdater_Changed;
 
             _pairTickUpdater.ImmediatelyUpdateIfOlder(_tickRefreshInterval);
-            if (_pairTickUpdater.LastValue != null)
-                SetTick(_pairTickUpdater.LastValue);
+            //if (_pairTickUpdater.LastValue != null)
+              //  SetTick(_pairTickUpdater.LastValue);
 
             _pairTickUpdater.Start();
         }
@@ -225,9 +234,10 @@ namespace Models.Implementations
         public event Action<Balance> BalanceChanged;
         public event Action<IEnumerable<Order>> OpenedOrdersChanged;
         public event Action<string> ErrorOccured;
+        public event Action<string> InfoOccured;
         public event Action<bool> IsMayTradeChanged;
 
-        void IPendingTradeModel.Release()
+        public void Release()
         {
             ReleasePairTickUpdater();
             ReleaseBalanceUpdater();
@@ -279,6 +289,11 @@ namespace Models.Implementations
         private void OnErrorOccured(string errorMessage)
         {
             ErrorOccured?.Invoke(errorMessage);
+        }
+
+        private void OnInfoMessage(string infoMessage)
+        {
+            InfoOccured?.Invoke(infoMessage);
         }
 
         private void OnIsMayTradeChanged(bool isMayTrade)

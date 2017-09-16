@@ -100,6 +100,8 @@
 	<Item key="Views.Implementations.PendingTradeForm.orderTypeColumnHeader_Text">Тип</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceColumnHeader_Text">Цена</Item>
 	<Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Количество</Item>
+	<Item key="Views.Implementations.PendingTradeForm.openedDateColumnHeader_Text">Дата открытия</Item>
+	<Item key="Views.Implementations.PendingTradeForm.removeOrderToolStripMenuItem_Text">Отменить сделку</Item>
 	<Item key="PublicKey">Публичный</Item>
 	<Item key="PrivateKey">Секретный</Item>
 	<Item key="InfoApiKeyRole">Информация</Item>
@@ -116,4 +118,7 @@
 	<Item key="ForOne">за 1</Item>
 	<Item key="AllAvailable">всё, что есть</Item>
 	<Item key="AllThatPossible">всё, что можно</Item>
+	<Item key="InsufficientFunds">Недостаточно средств</Item>
+	<Item key="SuccessfullTrade">Ордер был выставлен успешно</Item>
+	<Item key="SuccessfullCancelLimitOrder">Ордер был успешно отменен</Item>
 </Strings>

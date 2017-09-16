@@ -8,8 +8,6 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
 
-        Market Market { get; set; }
-
         void SetCurrencies(IEnumerable<CurrencyOfMarket> currencies);
 
         event Action<Market> MarketChanged;

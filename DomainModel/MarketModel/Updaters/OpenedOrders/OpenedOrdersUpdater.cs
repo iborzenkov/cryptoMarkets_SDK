@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using DomainModel.Features;
+﻿using DomainModel.Features;
+using System.Collections.Generic;
 
 namespace DomainModel.MarketModel.Updaters.OpenedOrders
 {
@@ -7,17 +7,17 @@ namespace DomainModel.MarketModel.Updaters.OpenedOrders
     {
         private const int DefaultRefreshInterval = 1000;
 
-        private readonly IMarketTrade _marketTrade;
+        private readonly IAccountInfo _accountInfo;
 
         public OpenedOrdersUpdater(Market market, int refreshInterval = DefaultRefreshInterval) : base(refreshInterval)
         {
             OwnerFeature = market;
-            _marketTrade = OwnerFeature.Model.Trade;
+            _accountInfo = OwnerFeature.Model.Account;
         }
 
         protected override void UpdateFeature()
         {
-            OnChanged(_marketTrade.OpenedOrders(OwnerFeature));
+            OnChanged(_accountInfo.OpenedOrders(OwnerFeature));
         }
     }
 }

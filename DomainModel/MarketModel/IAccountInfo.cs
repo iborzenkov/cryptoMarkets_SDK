@@ -10,5 +10,9 @@ namespace DomainModel.MarketModel
         Balance Balance(Market market, Currency currency);
 
         Balance Balance(CurrencyOfMarket currency);
+
+        IEnumerable<Order> OpenedOrders(Market market, Pair pair);
+
+        IEnumerable<Order> OpenedOrders(Market market);
     }
 }

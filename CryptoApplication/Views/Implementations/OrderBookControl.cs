@@ -268,7 +268,7 @@ namespace Views.Implementations
             }));
         }
 
-        void IOrderBookPartView.SetOrderBook(IOrderBook orderBook)
+        public void SetOrderBook(IOrderBook orderBook)
         {
             SetOrderBookClear(orderBook);
             //SetOrderBookByItem(orderBook);
@@ -276,9 +276,15 @@ namespace Views.Implementations
 
         private double? _usdRate;
 
-        void IOrderBookPartView.SetUsdRate(double? usdRate)
+        public void SetUsdRate(double? usdRate)
         {
             _usdRate = usdRate;
+        }
+
+        public void ClearOrderBookParts()
+        {
+            bidListView.Items.Clear();
+            askListView.Items.Clear();
         }
 
         public void Close()

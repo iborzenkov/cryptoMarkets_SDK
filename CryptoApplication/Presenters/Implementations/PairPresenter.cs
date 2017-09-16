@@ -4,6 +4,7 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -25,9 +26,6 @@ namespace Presenters.Implementations
             View.FilterChanged += View_FilterChanged;
 
             View.InitFilter();
-
-            if (Model.Markets.Any())
-                View.Market = Model.Markets.First();
         }
 
         private void Release()
@@ -64,10 +62,18 @@ namespace Presenters.Implementations
             PairToken = string.Empty
         };
 
-        private void View_MarketChanged(Market market)
+        private async void View_MarketChanged(Market market)
         {
-            Model.SelectedMarket = market;
-            Model.SetFilter(_filter);
+            await MarketChangedAsync(market);
+        }
+
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                Model.SelectedMarket = market;
+                Model.SetFilter(_filter);
+            });
         }
 
         private void View_ViewClosed()

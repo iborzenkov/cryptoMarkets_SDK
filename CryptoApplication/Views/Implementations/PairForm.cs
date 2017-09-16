@@ -20,21 +20,29 @@ namespace Views.Implementations
             Locale.Instance.RegisterView(this);
         }
 
-        void IPairView.SetMarkets(IEnumerable<Market> markets)
+        public void SetMarkets(IEnumerable<Market> markets)
         {
-            marketListBox.BeginUpdate();
-            try
+            marketListBox.BeginInvoke(new Action(() =>
             {
-                marketListBox.Items.Clear();
-                marketListBox.Items.AddRange(markets.ToArray<object>());
-            }
-            finally
-            {
-                marketListBox.EndUpdate();
-            }
+                marketListBox.BeginUpdate();
+                try
+                {
+                    var marketsArray = markets as Market[] ?? markets.ToArray();
+
+                    marketListBox.Items.Clear();
+                    marketListBox.Items.AddRange(marketsArray.ToArray<object>());
+
+                    if (marketsArray.Any())
+                        Market = marketsArray.First();
+                }
+                finally
+                {
+                    marketListBox.EndUpdate();
+                }
+            }));
         }
 
-        void IPairView.SetPairs(IEnumerable<PairOfMarket> pairs)
+        public void SetPairs(IEnumerable<PairOfMarket> pairs)
         {
             pairListView.BeginInvoke(new Action(() =>
             {
@@ -83,7 +91,7 @@ namespace Views.Implementations
             return Locale.Instance.Localize(key);
         }
 
-        void ILocalizableView.ApplyLocale()
+        public void ApplyLocale()
         {
             for (var i = 0; i < pairListView.Items.Count; i++)
             {
@@ -104,9 +112,10 @@ namespace Views.Implementations
 
         public void SetStatistics(IEnumerable<PairStatistic> statistics)
         {
-            _statistics = statistics;
             pairListView.BeginInvoke(new Action(() =>
             {
+                _statistics = statistics;
+
                 pairListView.BeginUpdate();
                 try
                 {
@@ -136,7 +145,7 @@ namespace Views.Implementations
 
         public event Action<PairViewFilter> FilterChanged;
 
-        void IPairView.InitFilter()
+        public void InitFilter()
         {
             ChangedFilter();
         }
@@ -148,13 +157,13 @@ namespace Views.Implementations
             MarketChanged?.Invoke(Market);
         }
 
-        public Market Market
+        private Market Market
         {
             get { return marketListBox.SelectedItem as Market; }
             set { marketListBox.SelectedItem = value; }
         }
 
-        public PairOfMarket Pair
+        private PairOfMarket Pair
         {
             get
             {
@@ -164,7 +173,7 @@ namespace Views.Implementations
             }
         }
 
-        public PairViewFilter Filter
+        private PairViewFilter Filter
         {
             get
             {
@@ -248,7 +257,7 @@ namespace Views.Implementations
     {
         private readonly int _column;
         private readonly bool _mode;
-        readonly IEnumerable<PairStatistic> _statistics;
+        private readonly IEnumerable<PairStatistic> _statistics;
 
         public ListViewItemComparer(int column, bool mode, IEnumerable<PairStatistic> statistics)
         {
@@ -299,6 +308,7 @@ namespace Views.Implementations
             {
                 case 2:
                     return CompareNumbers(Statistic(x).DailyChangeOfLastPrice(), Statistic(y).DailyChangeOfLastPrice());
+
                 case 3:
                     return CompareNumbers(Statistic(x).Volume, Statistic(y).Volume);
             }

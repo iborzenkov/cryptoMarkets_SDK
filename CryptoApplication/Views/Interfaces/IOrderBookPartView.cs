@@ -1,5 +1,4 @@
-﻿using DomainModel.Features;
-using DomainModel.MarketModel;
+﻿using DomainModel.MarketModel;
 
 namespace Views.Interfaces
 {
@@ -8,6 +7,8 @@ namespace Views.Interfaces
         void SetOrderBook(IOrderBook orderBook);
 
         void SetUsdRate(double? usdRate);
+
+        void ClearOrderBookParts();
 
         void Close();
     }

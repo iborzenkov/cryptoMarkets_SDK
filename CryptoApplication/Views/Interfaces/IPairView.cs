@@ -9,8 +9,6 @@ namespace Views.Interfaces
     {
         void SetMarkets(IEnumerable<Market> markets);
 
-        Market Market { get; set; }
-
         void SetPairs(IEnumerable<PairOfMarket> pairs);
 
         void SetStatistics(IEnumerable<PairStatistic> statistics);

@@ -4,6 +4,7 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -24,9 +25,6 @@ namespace Presenters.Implementations
             View.MarketChanged += View_MarketChanged;
             View.PrivateApiKeyChanged += View_PrivateApiKeyChanged;
             View.PublicApiKeyChanged += View_PublicApiKeyChanged;
-
-            if (Model.Markets.Any())
-                View.SetSelectedMarket(Model.Markets.First());
         }
 
         private void Release()
@@ -67,9 +65,19 @@ namespace Presenters.Implementations
             View.SetApiKeys(apiKeyPairs);
         }
 
-        private void View_MarketChanged(Market market)
+        private async void View_MarketChanged(Market market)
         {
+            //await MarketChangedAsync(market);
             Model.SelectedMarket = market;
+        }
+
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                Model.SelectedMarket = market;
+            });
+
         }
     }
 }

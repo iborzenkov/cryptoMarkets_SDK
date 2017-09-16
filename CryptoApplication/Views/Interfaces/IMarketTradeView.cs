@@ -22,9 +22,6 @@ namespace Views.Interfaces
         void SetMarkets(IEnumerable<Market> markets);
         void SetPairs(IEnumerable<PairOfMarket> pairs);
 
-        Market Market { get; set; }
-        PairOfMarket Pair { get; set; }
-
         void SetIsMayTrade(bool value);
         void SetIsMayTrade2(bool value);
 
