@@ -16,6 +16,12 @@ namespace Views.Implementations
 {
     public partial class PendingTradeForm : Form, IPendingTradeView
     {
+        private enum PriceTypeEnum
+        {
+            Market,
+            Limit
+        }
+
         private readonly TimeInterval _infoTimerInterval = TimeInterval.InSeconds(10);
 
         public PendingTradeForm()
@@ -250,6 +256,26 @@ namespace Views.Implementations
                 var forOne = Locale.Instance.Localize("ForOne");
                 priceValueLabel.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {Pair.Pair.QuoteCurrency} {forOne} {Pair.Pair.BaseCurrency}";
             }));
+
+            priceTextBox.BeginInvoke(new Action(() =>
+            {
+                if (string.IsNullOrEmpty(priceTextBox.Text))
+                    priceTextBox.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)}";
+            }));
+        }
+
+        private PriceTypeEnum PriceType
+        {
+            get { return limitOrderRadioButton.Checked ? PriceTypeEnum.Limit : PriceTypeEnum.Market; }
+            set
+            {
+                if (PriceType == PriceTypeEnum.Limit)
+                    limitOrderRadioButton.Checked = true;
+                else
+                    marketPriceRadioButton.Checked = true;
+
+                priceTextBox.Enabled = value == PriceTypeEnum.Limit;
+            }
         }
 
         private OrderId _selectedOrderId { get; set; }
@@ -380,12 +406,18 @@ namespace Views.Implementations
         private void pairComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SetCurrencyLabels();
+            priceTextBox.Clear();
             OnPairChanged(Pair);
         }
 
         private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             MarketChanged?.Invoke(Market);
+        }
+
+        private void limitOrderRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            PriceType = limitOrderRadioButton.Checked ? PriceTypeEnum.Limit : PriceTypeEnum.Market;
         }
     }
 }

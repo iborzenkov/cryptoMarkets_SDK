@@ -137,6 +137,7 @@ namespace Models.Implementations
         public OrderId Trade()
         {
             string errorMessage;
+            // todo: перед выставлением ордера проверить является ли он отложенным, а не рыночным
             var id = Position == TradePosition.Buy
                 ? Market.Model.Trade.BuyLimit(Pair, Quantity, Price, out errorMessage)
                 : Market.Model.Trade.SellLimit(Pair, Quantity, Price, out errorMessage);
