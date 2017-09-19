@@ -80,8 +80,6 @@ namespace Views.Implementations
 
         public event Action ShowBalances;
 
-        public event Action ShowMarketTrade;
-
         public event Action ShowPendingTrade;
 
         public event Action Exit;
@@ -98,7 +96,6 @@ namespace Views.Implementations
 
         private void tradeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowMarketTrade?.Invoke();
         }
 
         private void pairsToolStripMenuItem_Click(object sender, EventArgs e)

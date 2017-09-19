@@ -10,12 +10,14 @@ namespace Views.Interfaces
         public TradePosition Position { get; }
         public double Quantity { get; }
         public double Price { get; }
+        public PriceTypeEnum PriceType { get; }
 
-        public PendingTradeParams(TradePosition position, double quantity, double price)
+        public PendingTradeParams(TradePosition position, double quantity, double price, PriceTypeEnum priceType)
         {
             Position = position;
             Quantity = quantity;
             Price = price;
+            PriceType = priceType;
         }
     }
 
@@ -28,6 +30,7 @@ namespace Views.Interfaces
         void SetOpenedOrders(IEnumerable<Order> orders);
 
         TradePosition Position { set; }
+        PriceTypeEnum PriceType { set; }
 
         void SetIsMayTrade(bool value);
 

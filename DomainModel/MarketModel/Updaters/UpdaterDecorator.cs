@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 
 namespace DomainModel.MarketModel.Updaters
 {
@@ -60,9 +59,14 @@ namespace DomainModel.MarketModel.Updaters
             _updater.ImmediatelyUpdateIfOlder(refreshInterval);
         }
 
-        public void UpdateNow()
+        public void UpdateNowAsync()
         {
-            _updater.UpdateNow();
+            _updater.UpdateNowAsync();
+        }
+
+        public TUpdatableFeature UpdateNow()
+        {
+            return _updater.UpdateNow();
         }
 
         public TUpdatableFeature LastValue => _updater.LastValue;

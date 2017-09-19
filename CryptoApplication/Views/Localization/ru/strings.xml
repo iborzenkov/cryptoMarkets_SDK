@@ -27,8 +27,7 @@
 	<Item key="Views.Implementations.MainForm.settingsToolStripMenuItem_Text">Настройки</Item>
 	<Item key="Views.Implementations.MainForm.apiKeysToolStripMenuItem_Text">API ключи...</Item>
 	<Item key="Views.Implementations.MainForm.tradingToolStripMenuItem_Text">Торговля</Item>
-	<Item key="Views.Implementations.MainForm.marketTradeToolStripMenuItem_Text">Рыночная торговля...</Item>
-	<Item key="Views.Implementations.MainForm.pendingTradeToolStripMenuItem_Text">Отложенная торговля...</Item>
+	<Item key="Views.Implementations.MainForm.pendingTradeToolStripMenuItem_Text">Торговля...</Item>
 	<Item key="Views.Implementations.MainForm.strategiesToolStripMenuItem_Text">Стратегии</Item>
 	<Item key="Views.Implementations.MainForm.pairsToolStripMenuItem_Text">Пары...</Item>
 	<Item key="Views.Implementations.MainForm.languageToolStripMenuItem_Text">Языки</Item>
@@ -71,28 +70,15 @@
 	<Item key="Views.Implementations.PairForm.dailyChangeColumnHeader_Text">Днев.динамика</Item>
 	<Item key="Views.Implementations.PairForm.volumeColumnHeader_Text">Дневной объем</Item>
 	<Item key="Views.Implementations.PairForm.minTradeSizeColumnHeader_Text">Мин.позиция</Item>
-	<Item key="Views.Implementations.MarketTradeForm.marketLabel_Text">Рынок</Item>
-	<Item key="Views.Implementations.MarketTradeForm.pairLabel_Text">Пара</Item>
-	<Item key="Views.Implementations.MarketTradeForm.iWantToGroupBox_Text">Я хочу...</Item>
-	<Item key="Views.Implementations.MarketTradeForm.tradeButton_Text">Готово</Item>
-	<Item key="Views.Implementations.MarketTradeForm.buyRadioButton_Text">Купить</Item>
-	<Item key="Views.Implementations.MarketTradeForm.sellRadioButton_Text">Продать</Item>
-	<Item key="Views.Implementations.MarketTradeForm.iWantToSpendForGroupBox_Text">Я потратить на...</Item>
-	<Item key="Views.Implementations.MarketTradeForm.buyRadioButton2_Text">покупку</Item>
-	<Item key="Views.Implementations.MarketTradeForm.sellRadioButton2_Text">продажу</Item>
-	<Item key="Views.Implementations.MarketTradeForm.tradeButton2_Text">Готово</Item>
-	<Item key="Views.Implementations.MarketTradeForm.availableLabel_Text">Доступно:</Item>
-	<Item key="Views.Implementations.MarketTradeForm.priceLabel_Text">Цена:</Item>
 	<Item key="Views.Implementations.PendingTradeForm.marketLabel_Text">Рынок</Item>
 	<Item key="Views.Implementations.PendingTradeForm.pairLabel_Text">Пара</Item>
-	<Item key="Views.Implementations.PendingTradeForm.iWantToGroupBox_Text">Я хочу...</Item>
+	<Item key="Views.Implementations.PendingTradeForm.iWantToGroupBox_Text">Операции</Item>
 	<Item key="Views.Implementations.PendingTradeForm.tradeButton_Text">Готово</Item>
 	<Item key="Views.Implementations.PendingTradeForm.buyLimitRadioButton_Text">Купить</Item>
 	<Item key="Views.Implementations.PendingTradeForm.sellLimitRadioButton_Text">Продать</Item>
 	<Item key="Views.Implementations.PendingTradeForm.myOrdersGroupBox">Мои отложенные ордера</Item>
 	<Item key="Views.Implementations.PendingTradeForm.quantityLabel_Text">Количество</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceLabel_Text">Цена</Item>
-	<Item key="Views.Implementations.PendingTradeForm.allAvailableCheckBox_Text">всё, что есть</Item>
 	<Item key="Views.Implementations.PendingTradeForm.availableLabel_Text">Доступно:</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceStatusLabel_Text">Цена:</Item>
 	<Item key="Views.Implementations.PendingTradeForm.marketColumnHeader_Text">Рынок</Item>
@@ -102,6 +88,13 @@
 	<Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Количество</Item>
 	<Item key="Views.Implementations.PendingTradeForm.openedDateColumnHeader_Text">Дата открытия</Item>
 	<Item key="Views.Implementations.PendingTradeForm.removeOrderToolStripMenuItem_Text">Отменить сделку</Item>
+	<Item key="Views.Implementations.PendingTradeForm.limitOrderRadioButton_Text">отложенная</Item>
+	<Item key="Views.Implementations.PendingTradeForm.marketPriceRadioButton_Text">рыночная</Item>
+	<Item key="Views.Implementations.PendingTradeForm.allAvailableRadioButton_Text">всё, что есть</Item>
+	<Item key="Views.Implementations.PendingTradeForm.exactlyRadioButton_Text">точно</Item>
+	<Item key="Views.Implementations.PendingTradeForm.priceGroupBox_Text">Цена</Item>
+	<Item key="Views.Implementations.PendingTradeForm.quantityGroupBox_Text">Количество</Item>
+
 	<Item key="PublicKey">Публичный</Item>
 	<Item key="PrivateKey">Секретный</Item>
 	<Item key="InfoApiKeyRole">Информация</Item>
@@ -119,6 +112,12 @@
 	<Item key="AllAvailable">всё, что есть</Item>
 	<Item key="AllThatPossible">всё, что можно</Item>
 	<Item key="InsufficientFunds">Недостаточно средств</Item>
+	<Item key="QuantityNotProvided">Не указано количество</Item>
+	<Item key="DustTradeDisallowedMinValue50KSat">Объем сделки меньше 0,0005 BTC</Item>
+	<Item key="UUIDInvalid">Некорректный идентификатор</Item>
+	<Item key="ZeroOrNegativeNotAllowed">Количество или цена недопустима для этого инструмента</Item>
+	<Item key="RateNotProvided">Цена не указана</Item>
+
 	<Item key="SuccessfullTrade">Ордер был выставлен успешно</Item>
 	<Item key="SuccessfullCancelLimitOrder">Ордер был успешно отменен</Item>
 </Strings>

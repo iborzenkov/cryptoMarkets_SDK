@@ -65,7 +65,7 @@ namespace Presenters.Implementations
             View.SetApiKeys(apiKeyPairs);
         }
 
-        private async void View_MarketChanged(Market market)
+        private void View_MarketChanged(Market market)
         {
             //await MarketChangedAsync(market);
             Model.SelectedMarket = market;

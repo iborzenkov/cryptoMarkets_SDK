@@ -49,15 +49,14 @@ namespace Views.Implementations
             this.limitOrderRadioButton = new System.Windows.Forms.RadioButton();
             this.marketPriceRadioButton = new System.Windows.Forms.RadioButton();
             this.priceTextBox = new System.Windows.Forms.TextBox();
-            this.baseCurrencyLabel = new System.Windows.Forms.Label();
             this.quantityGroupBox = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.quantity2TextBox = new System.Windows.Forms.TextBox();
+            this.spendingQuantityTextBox = new System.Windows.Forms.TextBox();
             this.quoteCurrencyLabel = new System.Windows.Forms.Label();
             this.quantityTextBox = new System.Windows.Forms.TextBox();
+            this.baseCurrencyLabel = new System.Windows.Forms.Label();
             this.allAvailableRadioButton = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.exactlyRadioButton = new System.Windows.Forms.RadioButton();
             this.tradeButton = new System.Windows.Forms.Button();
             this.buyLimitRadioButton = new System.Windows.Forms.RadioButton();
             this.sellLimitRadioButton = new System.Windows.Forms.RadioButton();
@@ -97,9 +96,9 @@ namespace Views.Implementations
             // 
             this.myOrdersGroupBox.ContextMenuStrip = this.ordersContextMenuStrip;
             this.myOrdersGroupBox.Controls.Add(this.openedOrdersListView);
-            this.myOrdersGroupBox.Location = new System.Drawing.Point(15, 138);
+            this.myOrdersGroupBox.Location = new System.Drawing.Point(15, 154);
             this.myOrdersGroupBox.Name = "myOrdersGroupBox";
-            this.myOrdersGroupBox.Size = new System.Drawing.Size(525, 174);
+            this.myOrdersGroupBox.Size = new System.Drawing.Size(525, 158);
             this.myOrdersGroupBox.TabIndex = 3;
             this.myOrdersGroupBox.TabStop = false;
             this.myOrdersGroupBox.Text = "My opened limit orders";
@@ -133,7 +132,7 @@ namespace Views.Implementations
             this.openedOrdersListView.Location = new System.Drawing.Point(3, 16);
             this.openedOrdersListView.MultiSelect = false;
             this.openedOrdersListView.Name = "openedOrdersListView";
-            this.openedOrdersListView.Size = new System.Drawing.Size(519, 155);
+            this.openedOrdersListView.Size = new System.Drawing.Size(519, 139);
             this.openedOrdersListView.TabIndex = 8;
             this.openedOrdersListView.UseCompatibleStateImageBehavior = false;
             this.openedOrdersListView.View = System.Windows.Forms.View.Details;
@@ -185,20 +184,19 @@ namespace Views.Implementations
             this.iWantToGroupBox.Controls.Add(this.sellLimitRadioButton);
             this.iWantToGroupBox.Location = new System.Drawing.Point(15, 39);
             this.iWantToGroupBox.Name = "iWantToGroupBox";
-            this.iWantToGroupBox.Size = new System.Drawing.Size(578, 93);
+            this.iWantToGroupBox.Size = new System.Drawing.Size(578, 109);
             this.iWantToGroupBox.TabIndex = 2;
             this.iWantToGroupBox.TabStop = false;
-            this.iWantToGroupBox.Text = "I want to";
+            this.iWantToGroupBox.Text = "Operation";
             // 
             // priceGroupBox
             // 
             this.priceGroupBox.Controls.Add(this.limitOrderRadioButton);
             this.priceGroupBox.Controls.Add(this.marketPriceRadioButton);
             this.priceGroupBox.Controls.Add(this.priceTextBox);
-            this.priceGroupBox.Controls.Add(this.baseCurrencyLabel);
             this.priceGroupBox.Location = new System.Drawing.Point(72, 16);
             this.priceGroupBox.Name = "priceGroupBox";
-            this.priceGroupBox.Size = new System.Drawing.Size(180, 71);
+            this.priceGroupBox.Size = new System.Drawing.Size(180, 85);
             this.priceGroupBox.TabIndex = 27;
             this.priceGroupBox.TabStop = false;
             this.priceGroupBox.Text = "Price";
@@ -228,58 +226,41 @@ namespace Views.Implementations
             // 
             // priceTextBox
             // 
-            this.priceTextBox.Location = new System.Drawing.Point(88, 22);
+            this.priceTextBox.Location = new System.Drawing.Point(103, 22);
             this.priceTextBox.Name = "priceTextBox";
             this.priceTextBox.Size = new System.Drawing.Size(71, 20);
             this.priceTextBox.TabIndex = 4;
             this.priceTextBox.Text = "0.0000001";
             this.priceTextBox.TextChanged += new System.EventHandler(this.priceTextBox_TextChanged);
             // 
-            // baseCurrencyLabel
-            // 
-            this.baseCurrencyLabel.AutoSize = true;
-            this.baseCurrencyLabel.Location = new System.Drawing.Point(130, 50);
-            this.baseCurrencyLabel.Name = "baseCurrencyLabel";
-            this.baseCurrencyLabel.Size = new System.Drawing.Size(29, 13);
-            this.baseCurrencyLabel.TabIndex = 8;
-            this.baseCurrencyLabel.Text = "ETH";
-            // 
             // quantityGroupBox
             // 
-            this.quantityGroupBox.Controls.Add(this.label1);
-            this.quantityGroupBox.Controls.Add(this.quantity2TextBox);
+            this.quantityGroupBox.Controls.Add(this.spendingQuantityTextBox);
             this.quantityGroupBox.Controls.Add(this.quoteCurrencyLabel);
             this.quantityGroupBox.Controls.Add(this.quantityTextBox);
+            this.quantityGroupBox.Controls.Add(this.baseCurrencyLabel);
             this.quantityGroupBox.Controls.Add(this.allAvailableRadioButton);
             this.quantityGroupBox.Controls.Add(this.radioButton2);
-            this.quantityGroupBox.Controls.Add(this.radioButton1);
+            this.quantityGroupBox.Controls.Add(this.exactlyRadioButton);
             this.quantityGroupBox.Location = new System.Drawing.Point(258, 16);
             this.quantityGroupBox.Name = "quantityGroupBox";
-            this.quantityGroupBox.Size = new System.Drawing.Size(248, 77);
+            this.quantityGroupBox.Size = new System.Drawing.Size(248, 85);
             this.quantityGroupBox.TabIndex = 25;
             this.quantityGroupBox.TabStop = false;
             this.quantityGroupBox.Text = "Quantity";
             // 
-            // label1
+            // spendingQuantityTextBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(206, 50);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(28, 13);
-            this.label1.TabIndex = 31;
-            this.label1.Text = "BTC";
-            // 
-            // quantity2TextBox
-            // 
-            this.quantity2TextBox.Location = new System.Drawing.Point(129, 47);
-            this.quantity2TextBox.Name = "quantity2TextBox";
-            this.quantity2TextBox.Size = new System.Drawing.Size(71, 20);
-            this.quantity2TextBox.TabIndex = 30;
+            this.spendingQuantityTextBox.Location = new System.Drawing.Point(129, 38);
+            this.spendingQuantityTextBox.Name = "spendingQuantityTextBox";
+            this.spendingQuantityTextBox.Size = new System.Drawing.Size(71, 20);
+            this.spendingQuantityTextBox.TabIndex = 30;
+            this.spendingQuantityTextBox.Visible = false;
             // 
             // quoteCurrencyLabel
             // 
             this.quoteCurrencyLabel.AutoSize = true;
-            this.quoteCurrencyLabel.Location = new System.Drawing.Point(206, 24);
+            this.quoteCurrencyLabel.Location = new System.Drawing.Point(206, 21);
             this.quoteCurrencyLabel.Name = "quoteCurrencyLabel";
             this.quoteCurrencyLabel.Size = new System.Drawing.Size(28, 13);
             this.quoteCurrencyLabel.TabIndex = 29;
@@ -287,42 +268,55 @@ namespace Views.Implementations
             // 
             // quantityTextBox
             // 
-            this.quantityTextBox.Location = new System.Drawing.Point(129, 21);
+            this.quantityTextBox.Location = new System.Drawing.Point(129, 17);
             this.quantityTextBox.Name = "quantityTextBox";
             this.quantityTextBox.Size = new System.Drawing.Size(71, 20);
             this.quantityTextBox.TabIndex = 28;
+            this.quantityTextBox.TextChanged += new System.EventHandler(this.quantityTextBox_TextChanged);
+            // 
+            // baseCurrencyLabel
+            // 
+            this.baseCurrencyLabel.AutoSize = true;
+            this.baseCurrencyLabel.Location = new System.Drawing.Point(206, 42);
+            this.baseCurrencyLabel.Name = "baseCurrencyLabel";
+            this.baseCurrencyLabel.Size = new System.Drawing.Size(29, 13);
+            this.baseCurrencyLabel.TabIndex = 8;
+            this.baseCurrencyLabel.Text = "ETH";
+            this.baseCurrencyLabel.Visible = false;
             // 
             // allAvailableRadioButton
             // 
             this.allAvailableRadioButton.AutoSize = true;
-            this.allAvailableRadioButton.Location = new System.Drawing.Point(6, 54);
+            this.allAvailableRadioButton.Location = new System.Drawing.Point(6, 61);
             this.allAvailableRadioButton.Name = "allAvailableRadioButton";
             this.allAvailableRadioButton.Size = new System.Drawing.Size(80, 17);
             this.allAvailableRadioButton.TabIndex = 27;
             this.allAvailableRadioButton.Text = "all available";
             this.allAvailableRadioButton.UseVisualStyleBackColor = true;
+            this.allAvailableRadioButton.Visible = false;
             // 
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 39);
+            this.radioButton2.Location = new System.Drawing.Point(6, 40);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(85, 17);
+            this.radioButton2.Size = new System.Drawing.Size(68, 17);
             this.radioButton2.TabIndex = 26;
-            this.radioButton2.Text = "radioButton2";
+            this.radioButton2.Text = "spending";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.Visible = false;
             // 
-            // radioButton1
+            // exactlyRadioButton
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 21);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 25;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.exactlyRadioButton.AutoSize = true;
+            this.exactlyRadioButton.Checked = true;
+            this.exactlyRadioButton.Location = new System.Drawing.Point(6, 19);
+            this.exactlyRadioButton.Name = "exactlyRadioButton";
+            this.exactlyRadioButton.Size = new System.Drawing.Size(58, 17);
+            this.exactlyRadioButton.TabIndex = 25;
+            this.exactlyRadioButton.TabStop = true;
+            this.exactlyRadioButton.Text = "exactly";
+            this.exactlyRadioButton.UseVisualStyleBackColor = true;
             // 
             // tradeButton
             // 
@@ -338,7 +332,7 @@ namespace Views.Implementations
             // 
             this.buyLimitRadioButton.AutoSize = true;
             this.buyLimitRadioButton.Checked = true;
-            this.buyLimitRadioButton.Location = new System.Drawing.Point(21, 23);
+            this.buyLimitRadioButton.Location = new System.Drawing.Point(6, 23);
             this.buyLimitRadioButton.Name = "buyLimitRadioButton";
             this.buyLimitRadioButton.Size = new System.Drawing.Size(43, 17);
             this.buyLimitRadioButton.TabIndex = 2;
@@ -350,7 +344,7 @@ namespace Views.Implementations
             // sellLimitRadioButton
             // 
             this.sellLimitRadioButton.AutoSize = true;
-            this.sellLimitRadioButton.Location = new System.Drawing.Point(21, 46);
+            this.sellLimitRadioButton.Location = new System.Drawing.Point(6, 46);
             this.sellLimitRadioButton.Name = "sellLimitRadioButton";
             this.sellLimitRadioButton.Size = new System.Drawing.Size(42, 17);
             this.sellLimitRadioButton.TabIndex = 3;
@@ -491,6 +485,19 @@ namespace Views.Implementations
         [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem removeOrderToolStripMenuItem;
 
+        [LocalizableClass]
+        private System.Windows.Forms.RadioButton limitOrderRadioButton;
+        [LocalizableClass]
+        private System.Windows.Forms.RadioButton marketPriceRadioButton;
+        [LocalizableClass]
+        private System.Windows.Forms.RadioButton allAvailableRadioButton;
+        [LocalizableClass]
+        private System.Windows.Forms.RadioButton exactlyRadioButton;
+        [LocalizableClass]
+        private System.Windows.Forms.GroupBox priceGroupBox;
+        [LocalizableClass]
+        private System.Windows.Forms.GroupBox quantityGroupBox;
+
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.ComboBox marketComboBox;
         private System.Windows.Forms.ComboBox pairComboBox;
@@ -502,16 +509,9 @@ namespace Views.Implementations
         private System.Windows.Forms.ToolStripStatusLabel availableQuantityLabel;
         private System.Windows.Forms.ToolStripStatusLabel priceValueLabel;
         private System.Windows.Forms.ToolStripStatusLabel infoMessageStatusLabel;
-        private System.Windows.Forms.GroupBox quantityGroupBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox quantity2TextBox;
+        private System.Windows.Forms.TextBox spendingQuantityTextBox;
         private System.Windows.Forms.Label quoteCurrencyLabel;
         private System.Windows.Forms.TextBox quantityTextBox;
-        private System.Windows.Forms.RadioButton allAvailableRadioButton;
         private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.GroupBox priceGroupBox;
-        private System.Windows.Forms.RadioButton limitOrderRadioButton;
-        private System.Windows.Forms.RadioButton marketPriceRadioButton;
     }
 }

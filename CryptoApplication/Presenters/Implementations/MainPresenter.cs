@@ -16,7 +16,6 @@ namespace Presenters.Implementations
             View.ShowPairs += View_ShowPairs;
             View.ShowApiKeys += View_ShowApiKeys;
             View.ShowBalances += View_ShowBalances;
-            View.ShowMarketTrade += View_ShowMarketTrade;
             View.ShowPendingTrade += View_ShowPendingTrade;
             View.Exit += View_Exit;
 
@@ -48,15 +47,6 @@ namespace Presenters.Implementations
             var balancesPresenter = new BalancePresenter(form, new BalanceModel(_model.DomainModel));
 
             balancesPresenter.Run();
-        }
-
-        private void View_ShowMarketTrade()
-        {
-            var form = new MarketTradeForm { MdiParent = View.MdiParentForm };
-
-            var tradePresenter = new MarketTradePresenter(form, new MarketTradeModel(_model.DomainModel));
-
-            tradePresenter.Run();
         }
 
         private void View_Exit()

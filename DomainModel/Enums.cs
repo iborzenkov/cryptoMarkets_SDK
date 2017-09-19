@@ -18,4 +18,10 @@
         Buy,
         Sell
     }
+
+    public enum PriceTypeEnum
+    {
+        Market,
+        Limit
+    }
 }

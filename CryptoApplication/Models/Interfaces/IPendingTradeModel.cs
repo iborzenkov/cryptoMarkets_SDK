@@ -19,6 +19,7 @@ namespace Models.Interfaces
         Balance Balance { get; set; }
 
         TradePosition Position { get; set; }
+        PriceTypeEnum PriceType { get; set; }
         double Quantity { get; set; }
         double Price { get; set; }
 

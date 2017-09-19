@@ -14,9 +14,11 @@ namespace DomainModel.MarketModel.Updaters.PairTick
             _marketInfo = OwnerFeature.Market.Model.Info;
         }
 
-        protected override void UpdateFeature()
+        protected override Tick UpdateFeature()
         {
-            OnChanged(_marketInfo.Tick(OwnerFeature.Pair));
+            var result = _marketInfo.Tick(OwnerFeature.Pair);
+            OnChanged(result);
+            return result;
         }
     }
 }

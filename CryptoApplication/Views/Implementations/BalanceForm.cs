@@ -1,6 +1,7 @@
 ﻿using DomainModel.Features;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,9 +12,13 @@ namespace Views.Implementations
 {
     public partial class BalanceForm : Form, IBalanceView
     {
+        ListViewFreezer _freezer;
+
         public BalanceForm()
         {
             InitializeComponent();
+
+            _freezer = new ListViewFreezer(balanceListView);
 
             Locale.Instance.RegisterView(this);
         }
@@ -88,6 +93,8 @@ namespace Views.Implementations
 
                     FillListView(balancesArray);
                     SetTotalUsdEquivalent(balancesArray);
+
+                    _freezer.UnfreezeListView();
                 }
                 finally
                 {
@@ -159,6 +166,8 @@ namespace Views.Implementations
 
         private void refreshButton_Click(object sender, EventArgs e)
         {
+            _freezer.FreezeListView();
+
             RefreshBalances?.Invoke();
         }
     }

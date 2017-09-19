@@ -43,6 +43,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Features\ApiKeyRoleCaption.cs" />
+    <Compile Include="Features\Fee.cs" />
     <Compile Include="Features\Sell.cs" />
     <Compile Include="Features\Buy.cs" />
     <Compile Include="Features\CryptoAddress.cs" />

@@ -40,7 +40,6 @@ namespace Views.Implementations
             this.orderbooksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.balancesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.marketTradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pendingTradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.strategiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,18 +121,10 @@ namespace Views.Implementations
             // tradingToolStripMenuItem
             // 
             this.tradingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.marketTradeToolStripMenuItem,
             this.pendingTradeToolStripMenuItem});
             this.tradingToolStripMenuItem.Name = "tradingToolStripMenuItem";
             this.tradingToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.tradingToolStripMenuItem.Text = "Trading";
-            // 
-            // marketTradeToolStripMenuItem
-            // 
-            this.marketTradeToolStripMenuItem.Name = "marketTradeToolStripMenuItem";
-            this.marketTradeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.marketTradeToolStripMenuItem.Text = "Market Trade...";
-            this.marketTradeToolStripMenuItem.Click += new System.EventHandler(this.tradeToolStripMenuItem_Click);
             // 
             // pendingTradeToolStripMenuItem
             // 
@@ -226,8 +217,6 @@ namespace Views.Implementations
         private System.Windows.Forms.ToolStripMenuItem apiKeysToolStripMenuItem;
         [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem tradingToolStripMenuItem;
-        [LocalizableClass]
-        private System.Windows.Forms.ToolStripMenuItem marketTradeToolStripMenuItem;
         [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem pairsToolStripMenuItem;
         [LocalizableClass]

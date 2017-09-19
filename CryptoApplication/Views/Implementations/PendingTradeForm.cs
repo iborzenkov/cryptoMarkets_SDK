@@ -16,12 +16,6 @@ namespace Views.Implementations
 {
     public partial class PendingTradeForm : Form, IPendingTradeView
     {
-        private enum PriceTypeEnum
-        {
-            Market,
-            Limit
-        }
-
         private readonly TimeInterval _infoTimerInterval = TimeInterval.InSeconds(10);
 
         public PendingTradeForm()
@@ -214,12 +208,12 @@ namespace Views.Implementations
             }
             set
             {
-                if (Position == value)
-                    return;
                 if (value == TradePosition.Buy)
                     buyLimitRadioButton.Checked = true;
                 else
                     sellLimitRadioButton.Checked = true;
+
+                OnTradeParamsChanged();
             }
         }
 
@@ -231,12 +225,16 @@ namespace Views.Implementations
         public void SetInfoMessage(string message)
         {
             var localized = Locale.Instance.Localize(message);
+            if (string.IsNullOrEmpty(localized))
+                localized = message;
             ShowInfoMessage(localized);
         }
 
         public void SetErrorMessage(string message)
         {
             var localized = Locale.Instance.Localize(message);
+            if (string.IsNullOrEmpty(localized))
+                localized = message;
             ShowInfoMessage(localized);
         }
 
@@ -264,7 +262,7 @@ namespace Views.Implementations
             }));
         }
 
-        private PriceTypeEnum PriceType
+        public PriceTypeEnum PriceType
         {
             get { return limitOrderRadioButton.Checked ? PriceTypeEnum.Limit : PriceTypeEnum.Market; }
             set
@@ -275,6 +273,8 @@ namespace Views.Implementations
                     marketPriceRadioButton.Checked = true;
 
                 priceTextBox.Enabled = value == PriceTypeEnum.Limit;
+
+                OnTradeParamsChanged();
             }
         }
 
@@ -328,7 +328,7 @@ namespace Views.Implementations
             }
         }
 
-        private PendingTradeParams TradeParams => new PendingTradeParams(Position, Quantity, Price);
+        private PendingTradeParams TradeParams => new PendingTradeParams(Position, Quantity, Price, PriceType);
 
         private void quantityTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -342,7 +342,7 @@ namespace Views.Implementations
 
         private void radioButton_CheckedChanged(object sender, EventArgs e)
         {
-            OnTradeParamsChanged();
+            Position = buyLimitRadioButton.Checked ? TradePosition.Buy : TradePosition.Sell;
         }
 
         private void OnTradeParamsChanged()
@@ -421,3 +421,9 @@ namespace Views.Implementations
         }
     }
 }
+
+/*
+ * Продать всё - удобно
+ * Добавить $ эквивалент в торговлю
+ * Купить/продать в $ эквиваленте
+ */

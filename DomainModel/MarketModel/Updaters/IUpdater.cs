@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace DomainModel.MarketModel.Updaters
 {
@@ -18,7 +17,10 @@ namespace DomainModel.MarketModel.Updaters
         void RemoveSignal(Signal<TUpdatableFeature> signal);
 
         void ImmediatelyUpdateIfOlder(TimeInterval refreshInterval);
-        void UpdateNow();
+
+        void UpdateNowAsync();
+
+        TUpdatableFeature UpdateNow();
 
         TUpdatableFeature LastValue { get; }
 

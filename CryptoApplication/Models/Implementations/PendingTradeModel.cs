@@ -2,12 +2,12 @@
 using DomainModel.Features;
 using DomainModel.MarketModel.Updaters;
 using DomainModel.MarketModel.Updaters.Balance;
+using DomainModel.MarketModel.Updaters.OpenedOrders;
 using DomainModel.MarketModel.Updaters.PairTick;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DomainModel.MarketModel.Updaters.OpenedOrders;
 using IModel = DomainModel.IModel;
 
 namespace Models.Implementations
@@ -27,6 +27,8 @@ namespace Models.Implementations
 
         public Market Market { get; set; }
         public PairOfMarket Pair { get; set; }
+
+        public PriceTypeEnum PriceType { get; set; } = PriceTypeEnum.Limit;
 
         public TradePosition Position
         {
@@ -125,7 +127,9 @@ namespace Models.Implementations
 
             if (string.IsNullOrEmpty(errorMessage))
             {
-                _openedOrdersUpdater.UpdateNow();
+                _balanceUpdater.UpdateNowAsync();
+                _openedOrdersUpdater.UpdateNowAsync();
+
                 OnInfoMessage(InfoMessages.SuccessfullCancelLimitOrder);
             }
             else
@@ -137,14 +141,27 @@ namespace Models.Implementations
         public OrderId Trade()
         {
             string errorMessage;
-            // todo: перед выставлением ордера проверить является ли он отложенным, а не рыночным
+
+            var price = Price;
+            if (PriceType == PriceTypeEnum.Market)
+            {
+                var lastPrice = _pairTickUpdater.LastValue ?? _pairTickUpdater.UpdateNow();
+
+                if (Position == TradePosition.Buy)
+                    price = lastPrice.Last * 5;
+                else
+                    price = lastPrice.Last / 5;
+            }
+
             var id = Position == TradePosition.Buy
-                ? Market.Model.Trade.BuyLimit(Pair, Quantity, Price, out errorMessage)
-                : Market.Model.Trade.SellLimit(Pair, Quantity, Price, out errorMessage);
+                ? Market.Model.Trade.BuyLimit(Pair, Quantity, price, out errorMessage)
+                : Market.Model.Trade.SellLimit(Pair, Quantity, price, out errorMessage);
 
             if (id != null)
             {
-                _openedOrdersUpdater.UpdateNow();
+                _balanceUpdater.UpdateNowAsync();
+                _openedOrdersUpdater.UpdateNowAsync();
+
                 OnInfoMessage(InfoMessages.SuccessfullTrade);
             }
             else
@@ -189,7 +206,7 @@ namespace Models.Implementations
 
             _pairTickUpdater.ImmediatelyUpdateIfOlder(_tickRefreshInterval);
             //if (_pairTickUpdater.LastValue != null)
-              //  SetTick(_pairTickUpdater.LastValue);
+            //  SetTick(_pairTickUpdater.LastValue);
 
             _pairTickUpdater.Start();
         }
@@ -232,10 +249,15 @@ namespace Models.Implementations
         }
 
         public event Action<Tick> TickChanged;
+
         public event Action<Balance> BalanceChanged;
+
         public event Action<IEnumerable<Order>> OpenedOrdersChanged;
+
         public event Action<string> ErrorOccured;
+
         public event Action<string> InfoOccured;
+
         public event Action<bool> IsMayTradeChanged;
 
         public void Release()

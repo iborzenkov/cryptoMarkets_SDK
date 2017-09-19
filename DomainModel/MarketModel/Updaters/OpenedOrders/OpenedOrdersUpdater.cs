@@ -1,5 +1,6 @@
 ﻿using DomainModel.Features;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DomainModel.MarketModel.Updaters.OpenedOrders
 {
@@ -15,9 +16,13 @@ namespace DomainModel.MarketModel.Updaters.OpenedOrders
             _accountInfo = OwnerFeature.Model.Account;
         }
 
-        protected override void UpdateFeature()
+        protected override IEnumerable<Order> UpdateFeature()
         {
-            OnChanged(_accountInfo.OpenedOrders(OwnerFeature));
+            var result = _accountInfo.OpenedOrders(OwnerFeature);
+            var orders = result as Order[] ?? result.ToArray();
+
+            OnChanged(orders);
+            return orders;
         }
     }
 }

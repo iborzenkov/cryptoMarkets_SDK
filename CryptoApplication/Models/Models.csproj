@@ -40,14 +40,12 @@
     <Compile Include="Implementations\ApiKeyModel.cs" />
     <Compile Include="Implementations\BalanceModel.cs" />
     <Compile Include="Implementations\CurrencyModel.cs" />
-    <Compile Include="Implementations\MarketTradeModel.cs" />
     <Compile Include="Interfaces\IApiKeyModel.cs" />
     <Compile Include="Implementations\Model.cs" />
     <Compile Include="Implementations\OrderBookModel.cs" />
     <Compile Include="Interfaces\IBalanceModel.cs" />
     <Compile Include="Interfaces\IModel.cs" />
     <Compile Include="Interfaces\ICurrencyModel.cs" />
-    <Compile Include="Interfaces\IMarketTradeModel.cs" />
     <Compile Include="Interfaces\IOrderBookModel.cs" />
     <Compile Include="OrderBookSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

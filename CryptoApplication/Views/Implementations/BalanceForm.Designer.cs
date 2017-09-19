@@ -234,5 +234,6 @@ namespace Views.Implementations
         private System.Windows.Forms.ListView balanceListView;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel totalUsdEquivalentLabel;
+
     }
 }

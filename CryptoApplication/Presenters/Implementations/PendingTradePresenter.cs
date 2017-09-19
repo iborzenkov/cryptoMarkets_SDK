@@ -23,6 +23,7 @@ namespace Presenters.Implementations
 
             View.SetMarkets(Model.Markets);
             View.Position = Model.Position;
+            View.PriceType = Model.PriceType;
 
             View.MarketChanged += View_MarketChanged;
             View.PairChanged += View_PairChanged;
@@ -88,6 +89,7 @@ namespace Presenters.Implementations
 
         private void View_TradeParamsChanged(PendingTradeParams pendingTradeParams)
         {
+            Model.PriceType = pendingTradeParams.PriceType;
             Model.Position = pendingTradeParams.Position;
             Model.Quantity = pendingTradeParams.Quantity;
             Model.Price = pendingTradeParams.Price;

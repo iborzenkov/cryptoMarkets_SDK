@@ -56,10 +56,10 @@ namespace DomainModel.MarketModel.Updaters
 
         private void TimerCallback(object state)
         {
-            UpdateNow();
+            UpdateNowAsync();
         }
 
-        protected abstract void UpdateFeature();
+        protected abstract TUpdatableFeature UpdateFeature();
 
         private void ChangeTimer()
         {
@@ -106,12 +106,17 @@ namespace DomainModel.MarketModel.Updaters
         {
             if (!_lastTimeStamp.HasValue ||
                 (DateTime.Now - _lastTimeStamp.Value).Milliseconds > refreshInterval.Value)
-                UpdateNow();
+                UpdateNowAsync();
         }
 
-        public async void UpdateNow()
+        public async void UpdateNowAsync()
         {
             await UpdateFeatureAsync();
+        }
+
+        public TUpdatableFeature UpdateNow()
+        {
+            return UpdateFeature();
         }
 
         private Task UpdateFeatureAsync()

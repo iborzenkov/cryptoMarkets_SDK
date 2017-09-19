@@ -27,8 +27,7 @@
 	<Item key="Views.Implementations.MainForm.settingsToolStripMenuItem_Text">Settings</Item>
 	<Item key="Views.Implementations.MainForm.apiKeysToolStripMenuItem_Text">API Keys...</Item>
 	<Item key="Views.Implementations.MainForm.tradingToolStripMenuItem_Text">Trading</Item>
-	<Item key="Views.Implementations.MainForm.marketTradeToolStripMenuItem_Text">Market Trade...</Item>
-	<Item key="Views.Implementations.MainForm.pendingTradeToolStripMenuItem_Text">Pending Trade...</Item>
+	<Item key="Views.Implementations.MainForm.pendingTradeToolStripMenuItem_Text">Trade...</Item>
 	<Item key="Views.Implementations.MainForm.strategiesToolStripMenuItem_Text">Strategies</Item>
 	<Item key="Views.Implementations.MainForm.pairsToolStripMenuItem_Text">Pairs...</Item>
 	<Item key="Views.Implementations.MainForm.languageToolStripMenuItem_Text">Language</Item>
@@ -71,22 +70,9 @@
 	<Item key="Views.Implementations.PairForm.dailyChangeColumnHeader_Text">Daily Change</Item>
 	<Item key="Views.Implementations.PairForm.volumeColumnHeader_Text">Daily Volume</Item>
 	<Item key="Views.Implementations.PairForm.minTradeSizeColumnHeader_Text">Min Trade Size</Item>
-	<Item key="Views.Implementations.MarketTradeForm.marketLabel_Text">Market</Item>
-	<Item key="Views.Implementations.MarketTradeForm.pairLabel_Text">Pair</Item>
-	<Item key="Views.Implementations.MarketTradeForm.iWantToGroupBox_Text">I want to...</Item>
-	<Item key="Views.Implementations.MarketTradeForm.tradeButton_Text">Trade</Item>
-	<Item key="Views.Implementations.MarketTradeForm.buyRadioButton_Text">buy</Item>
-	<Item key="Views.Implementations.MarketTradeForm.sellRadioButton_Text">sell</Item>
-	<Item key="Views.Implementations.MarketTradeForm.iWantToSpendForGroupBox_Text">I want to spend for...</Item>
-	<Item key="Views.Implementations.MarketTradeForm.buyRadioButton2_Text">buying</Item>
-	<Item key="Views.Implementations.MarketTradeForm.sellRadioButton2_Text">selling</Item>
-	<Item key="Views.Implementations.MarketTradeForm.allAvailableCheckBox_Text">all available</Item>
-	<Item key="Views.Implementations.MarketTradeForm.tradeButton2_Text">Trade</Item>
-	<Item key="Views.Implementations.MarketTradeForm.availableLabel_Text">Available:</Item>
-	<Item key="Views.Implementations.MarketTradeForm.priceLabel_Text">Price:</Item>
 	<Item key="Views.Implementations.PendingTradeForm.marketLabel_Text">Market</Item>
 	<Item key="Views.Implementations.PendingTradeForm.pairLabel_Text">Pair</Item>
-	<Item key="Views.Implementations.PendingTradeForm.iWantToGroupBox_Text">I want to...</Item>
+	<Item key="Views.Implementations.PendingTradeForm.iWantToGroupBox_Text">Operations</Item>
 	<Item key="Views.Implementations.PendingTradeForm.tradeButton_Text">Place</Item>
 	<Item key="Views.Implementations.PendingTradeForm.buyLimitRadioButton_Text">Buy</Item>
 	<Item key="Views.Implementations.PendingTradeForm.sellLimitRadioButton_Text">Sell</Item>
@@ -102,6 +88,12 @@
 	<Item key="Views.Implementations.PendingTradeForm.quantityColumnHeader_Text">Quantity</Item>
 	<Item key="Views.Implementations.PendingTradeForm.openedDateColumnHeader_Text">Opened Date</Item>
 	<Item key="Views.Implementations.PendingTradeForm.removeOrderToolStripMenuItem_Text">Cancel order</Item>
+	<Item key="Views.Implementations.PendingTradeForm.limitOrderRadioButton_Text">limit order</Item>
+	<Item key="Views.Implementations.PendingTradeForm.marketPriceRadioButton_Text">market order</Item>
+	<Item key="Views.Implementations.PendingTradeForm.allAvailableRadioButton_Text">all available</Item>
+	<Item key="Views.Implementations.PendingTradeForm.exactlyRadioButton_Text">exactly</Item>
+	<Item key="Views.Implementations.PendingTradeForm.priceGroupBox_Text">Price</Item>
+	<Item key="Views.Implementations.PendingTradeForm.quantityGroupBox_Text">Quantity</Item>
 	<Item key="PublicKey">Public Key</Item>
 	<Item key="PrivateKey">Private Key</Item>
 	<Item key="InfoApiKeyRole">Info</Item>
@@ -119,6 +111,12 @@
 	<Item key="AllAvailable">all available</Item>
 	<Item key="AllThatPossible">all that possible</Item>
 	<Item key="InsufficientFunds">Insufficient Funds</Item>
+	<Item key="QuantityNotProvided">Quantity Not Provided</Item>
+	<Item key="DustTradeDisallowedMinValue50KSat">The amount of transaction less than 0.0005 BTC</Item>
+	<Item key="UUIDInvalid">UUID Invalid</Item>
+	<Item key="ZeroOrNegativeNotAllowed">The quantity and price you are entered are not typical for this market</Item>
+	<Item key="RateNotProvided">Rate Not Provided</Item>
+
 	<Item key="SuccessfullTrade">Order was set successfully</Item>
 	<Item key="SuccessfullCancelLimitOrder">Order was removed successfully</Item>
 </Strings>

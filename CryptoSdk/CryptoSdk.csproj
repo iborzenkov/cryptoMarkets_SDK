@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Bittrex\DataTypes\BittrexMarketHistory.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexTradeDataType.cs" />
+    <Compile Include="Bittrex\Features\BittrexFee.cs" />
     <Compile Include="Bittrex\Model\BaseBittrex.cs" />
     <Compile Include="Bittrex\Model\BittrexPrivate.cs" />
     <Compile Include="Bittrex\Model\BittrexAccountInfo.cs" />
