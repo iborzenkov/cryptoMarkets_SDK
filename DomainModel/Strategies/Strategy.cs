@@ -1,4 +1,6 @@
-﻿namespace DomainModel.Strategies
+﻿using System;
+
+namespace DomainModel.Strategies
 {
     public abstract class Strategy
     {
@@ -25,5 +27,9 @@
                 Updater.Active = value;
             }
         }
+
+        public event Action SignalOccured;
+        public event Action SignalUpdated;
+        public event Action SignalDisappear;
     }
 }

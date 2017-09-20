@@ -24,6 +24,8 @@ namespace Presenters.Implementations
             View.SetMarkets(Model.Markets);
             View.Position = Model.Position;
             View.PriceType = Model.PriceType;
+            View.QuantityType = Model.QuantityType;
+            View.SetUsdRate(Model.GetUsdRateChanged);
 
             View.MarketChanged += View_MarketChanged;
             View.PairChanged += View_PairChanged;
@@ -93,6 +95,7 @@ namespace Presenters.Implementations
             Model.Position = pendingTradeParams.Position;
             Model.Quantity = pendingTradeParams.Quantity;
             Model.Price = pendingTradeParams.Price;
+            Model.QuantityType = pendingTradeParams.QuantityType;
         }
 
         private void View_Trade()

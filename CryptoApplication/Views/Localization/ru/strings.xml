@@ -94,6 +94,8 @@
 	<Item key="Views.Implementations.PendingTradeForm.exactlyRadioButton_Text">точно</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceGroupBox_Text">Цена</Item>
 	<Item key="Views.Implementations.PendingTradeForm.quantityGroupBox_Text">Количество</Item>
+	<Item key="Views.Implementations.PendingTradeForm.spendingRadioButton_Text">потратить</Item>
+	<Item key="Views.Implementations.PendingTradeForm.spendingUsdRadioButton_Text">потратить USD</Item>
 
 	<Item key="PublicKey">Публичный</Item>
 	<Item key="PrivateKey">Секретный</Item>
@@ -117,6 +119,7 @@
 	<Item key="UUIDInvalid">Некорректный идентификатор</Item>
 	<Item key="ZeroOrNegativeNotAllowed">Количество или цена недопустима для этого инструмента</Item>
 	<Item key="RateNotProvided">Цена не указана</Item>
+	<Item key="UnknownUsdRateFor">Невозможно вычислить долларовый эквивалент для</Item>
 
 	<Item key="SuccessfullTrade">Ордер был выставлен успешно</Item>
 	<Item key="SuccessfullCancelLimitOrder">Ордер был успешно отменен</Item>

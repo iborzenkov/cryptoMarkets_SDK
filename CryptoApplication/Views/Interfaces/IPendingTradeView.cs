@@ -11,13 +11,15 @@ namespace Views.Interfaces
         public double Quantity { get; }
         public double Price { get; }
         public PriceTypeEnum PriceType { get; }
+        public QuantityTypeEnum QuantityType { get; }
 
-        public PendingTradeParams(TradePosition position, double quantity, double price, PriceTypeEnum priceType)
+        public PendingTradeParams(TradePosition position, double quantity, double price, PriceTypeEnum priceType, QuantityTypeEnum quantityType)
         {
             Position = position;
             Quantity = quantity;
             Price = price;
             PriceType = priceType;
+            QuantityType = quantityType;
         }
     }
 
@@ -31,6 +33,9 @@ namespace Views.Interfaces
 
         TradePosition Position { set; }
         PriceTypeEnum PriceType { set; }
+        QuantityTypeEnum QuantityType { set; }
+
+        void SetUsdRate(GetUsdRateDelegate getUsdRate);
 
         void SetIsMayTrade(bool value);
 

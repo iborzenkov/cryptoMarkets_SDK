@@ -12,7 +12,8 @@ namespace Views.Implementations
 {
     public partial class BalanceForm : Form, IBalanceView
     {
-        ListViewFreezer _freezer;
+        // todo: Изменение баланса
+        readonly ListViewFreezer _freezer;
 
         public BalanceForm()
         {

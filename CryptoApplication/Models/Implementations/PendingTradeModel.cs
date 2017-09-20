@@ -27,8 +27,10 @@ namespace Models.Implementations
 
         public Market Market { get; set; }
         public PairOfMarket Pair { get; set; }
-
         public PriceTypeEnum PriceType { get; set; } = PriceTypeEnum.Limit;
+        public QuantityTypeEnum QuantityType { get; set; } = QuantityTypeEnum.Quantity;
+        public double Quantity { get; set; }
+        public double Price { get; set; }
 
         public TradePosition Position
         {
@@ -67,9 +69,6 @@ namespace Models.Implementations
 
             OnIsMayTradeChanged(double.IsNaN(Quantity) || balance.Available > Quantity);
         }
-
-        public double Quantity { get; set; }
-        public double Price { get; set; }
 
         private IPairTickUpdaterProvider PairTickUpdaterProvider => _domainModel.PairTickUpdaterProvider;
         private IBalanceUpdaterProvider BalanceUpdaterProvider => _domainModel.BalanceUpdaterProvider;
@@ -140,36 +139,82 @@ namespace Models.Implementations
 
         public OrderId Trade()
         {
-            string errorMessage;
+            try
+            {
+                var quantity = GetQuantity();
+                var price = GetPrice();
 
-            var price = Price;
+                string errorMessage;
+                var id = Position == TradePosition.Buy
+                    ? Market.Model.Trade.BuyLimit(Pair, quantity, price, out errorMessage)
+                    : Market.Model.Trade.SellLimit(Pair, quantity, price, out errorMessage);
+
+                if (id != null)
+                {
+                    _balanceUpdater.UpdateNowAsync();
+                    _openedOrdersUpdater.UpdateNowAsync();
+
+                    OnInfoMessage(InfoMessages.SuccessfullTrade);
+                }
+                else
+                {
+                    OnErrorOccured(Market.Model.AdoptMessage(errorMessage));
+                }
+
+                return id;
+            }
+            catch (UnknownUsdRateException e)
+            {
+                OnErrorOccured($"{Market.Model.AdoptMessage("UnknownUsdRateFor")} {e.Currency.Name}");
+                return null;
+            }
+        }
+
+        private double GetQuantity()
+        {
+            if (QuantityType == QuantityTypeEnum.Quantity)
+                return Quantity;
+
+            var spending = Quantity;
+            if (QuantityType == QuantityTypeEnum.AllAvailable)
+            {
+                var currency = Market.Currencies.FirstOrDefault(c => c.Currency.Equals(Pair.Pair.BaseCurrency));
+                var balanceUpdater = BalanceUpdaterProvider.GetUpdater(currency, TimeInterval.Never);
+                spending = balanceUpdater.UpdateNow().Available;
+                BalanceUpdaterProvider.ReleaseUpdater(balanceUpdater);
+                if (Position == TradePosition.Sell)
+                    return spending;
+            }
+
+            var pricePerUnit = Price;
             if (PriceType == PriceTypeEnum.Market)
             {
-                var lastPrice = _pairTickUpdater.LastValue ?? _pairTickUpdater.UpdateNow();
-
-                if (Position == TradePosition.Buy)
-                    price = lastPrice.Last * 5;
-                else
-                    price = lastPrice.Last / 5;
+                var tick = _pairTickUpdater.UpdateNow();
+                pricePerUnit = tick.Last;
             }
 
-            var id = Position == TradePosition.Buy
-                ? Market.Model.Trade.BuyLimit(Pair, Quantity, price, out errorMessage)
-                : Market.Model.Trade.SellLimit(Pair, Quantity, price, out errorMessage);
-
-            if (id != null)
+            if (QuantityType == QuantityTypeEnum.UsdSpending)
             {
-                _balanceUpdater.UpdateNowAsync();
-                _openedOrdersUpdater.UpdateNowAsync();
-
-                OnInfoMessage(InfoMessages.SuccessfullTrade);
+                var currency = Pair.Pair.QuoteCurrency;
+                var usdRate = GetUsdRateChanged(currency);
+                if (!usdRate.HasValue)
+                {
+                    throw new UnknownUsdRateException(currency);
+                }
+                spending = Quantity / usdRate.Value;
             }
-            else
-            {
-                OnErrorOccured(Market.Model.AdoptMessage(errorMessage));
-            }
 
-            return id;
+            return spending / pricePerUnit;
+        }
+
+        private double GetPrice()
+        {
+            if (PriceType != PriceTypeEnum.Market)
+                return Price;
+
+            const int marketKoef = 2;
+            var lastPrice = _pairTickUpdater.LastValue ?? _pairTickUpdater.UpdateNow();
+            return Position == TradePosition.Buy ? lastPrice.Last * marketKoef : lastPrice.Last / marketKoef;
         }
 
         private void InitOpenedOrdersUpdater()
@@ -246,6 +291,11 @@ namespace Models.Implementations
         private void OnBalanceChanged()
         {
             BalanceChanged?.Invoke(Balance);
+        }
+
+        public double? GetUsdRateChanged(Currency currency)
+        {
+            return Market.UsdEquivalent.UsdRate(currency);
         }
 
         public event Action<Tick> TickChanged;

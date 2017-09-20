@@ -24,4 +24,12 @@
         Market,
         Limit
     }
+
+    public enum QuantityTypeEnum
+    {
+        Quantity,
+        Spending,
+        UsdSpending,
+        AllAvailable
+    }
 }

@@ -16,6 +16,7 @@ namespace Views.Implementations
 {
     public partial class PendingTradeForm : Form, IPendingTradeView
     {
+        // todo: Показать часть стакана возле определенного уровня
         private readonly TimeInterval _infoTimerInterval = TimeInterval.InSeconds(10);
 
         public PendingTradeForm()
@@ -243,7 +244,11 @@ namespace Views.Implementations
             statusStrip.BeginInvoke(new Action(() =>
             {
                 var currency = Position == TradePosition.Buy ? Pair.Pair.QuoteCurrency : Pair.Pair.BaseCurrency;
-                availableQuantityLabel.Text = $"{availableQuantity.ToString(CultureInfo.CurrentCulture)} {currency}";
+                var usdEquivalent = UsdEquivalent(currency, availableQuantity);
+                var usdText = string.Empty;
+                if (usdEquivalent.HasValue)
+                    usdText = $" (~{Math.Round(usdEquivalent.Value)} USD)";
+                availableQuantityLabel.Text = $"{availableQuantity.ToString(CultureInfo.CurrentCulture)} {currency}{usdText}";
             }));
         }
 
@@ -252,7 +257,8 @@ namespace Views.Implementations
             statusStrip.BeginInvoke(new Action(() =>
             {
                 var forOne = Locale.Instance.Localize("ForOne");
-                priceValueLabel.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {Pair.Pair.QuoteCurrency} {forOne} {Pair.Pair.BaseCurrency}";
+                priceValueLabel.Text = 
+                    $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {Pair.Pair.QuoteCurrency} {forOne} {Pair.Pair.BaseCurrency}";
             }));
 
             priceTextBox.BeginInvoke(new Action(() =>
@@ -262,12 +268,65 @@ namespace Views.Implementations
             }));
         }
 
+        public QuantityTypeEnum QuantityType
+        {
+            get
+            {
+                if (exactlyRadioButton.Checked)
+                    return QuantityTypeEnum.Quantity;
+                if (spendingRadioButton.Checked)
+                    return QuantityTypeEnum.Spending;
+                if (spendingUsdRadioButton.Checked)
+                    return QuantityTypeEnum.UsdSpending;
+                return QuantityTypeEnum.AllAvailable;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case QuantityTypeEnum.AllAvailable:
+                    {
+                        allAvailableRadioButton.Checked = true;
+                        break;
+                    }
+                    case QuantityTypeEnum.Quantity:
+                    {
+                        exactlyRadioButton.Checked = true;
+                        break;
+                    }
+                    case QuantityTypeEnum.Spending:
+                    {
+                        spendingRadioButton.Checked = true;
+                        break;
+                    }
+                    case QuantityTypeEnum.UsdSpending:
+                    {
+                        spendingUsdRadioButton.Checked = true;
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                }
+
+                quantityTextBox.Enabled = QuantityType == QuantityTypeEnum.Quantity;
+                quoteCurrencyLabel.Enabled = quantityTextBox.Enabled;
+
+                spendingQuantityTextBox.Enabled = QuantityType == QuantityTypeEnum.Spending;
+                baseCurrencyLabel.Enabled = spendingQuantityTextBox.Enabled;
+
+                spendingUsdQuantityTextBox.Enabled = QuantityType == QuantityTypeEnum.UsdSpending;
+                usdCurrencyLabel.Enabled = spendingUsdQuantityTextBox.Enabled;
+
+                OnTradeParamsChanged();
+            }
+        }
+         
         public PriceTypeEnum PriceType
         {
             get { return limitOrderRadioButton.Checked ? PriceTypeEnum.Limit : PriceTypeEnum.Market; }
             set
             {
-                if (PriceType == PriceTypeEnum.Limit)
+                if (value == PriceTypeEnum.Limit)
                     limitOrderRadioButton.Checked = true;
                 else
                     marketPriceRadioButton.Checked = true;
@@ -315,7 +374,13 @@ namespace Views.Implementations
             get
             {
                 double quantity;
-                return quantityTextBox.Text.TryParseToDouble(out quantity) ? quantity : double.NaN;
+                if (QuantityType == QuantityTypeEnum.Quantity)
+                    return quantityTextBox.Text.TryParseToDouble(out quantity) ? quantity : double.NaN;
+                if (QuantityType == QuantityTypeEnum.Spending)
+                    return spendingQuantityTextBox.Text.TryParseToDouble(out quantity) ? quantity : double.NaN;
+                if (QuantityType == QuantityTypeEnum.UsdSpending)
+                    return spendingUsdQuantityTextBox.Text.TryParseToDouble(out quantity) ? quantity : double.NaN;
+                return double.NaN;
             }
         }
 
@@ -328,7 +393,7 @@ namespace Views.Implementations
             }
         }
 
-        private PendingTradeParams TradeParams => new PendingTradeParams(Position, Quantity, Price, PriceType);
+        private PendingTradeParams TradeParams => new PendingTradeParams(Position, Quantity, Price, PriceType, QuantityType);
 
         private void quantityTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -410,6 +475,18 @@ namespace Views.Implementations
             OnPairChanged(Pair);
         }
 
+        public void SetUsdRate(GetUsdRateDelegate getUsdRate)
+        {
+            _getUsdRate = getUsdRate;
+        }
+
+        private GetUsdRateDelegate _getUsdRate;
+
+        private double? UsdEquivalent(Currency currency, double quantity)
+        {
+            return _getUsdRate.Invoke(currency) * quantity;
+        }
+
         private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             MarketChanged?.Invoke(Market);
@@ -419,11 +496,39 @@ namespace Views.Implementations
         {
             PriceType = limitOrderRadioButton.Checked ? PriceTypeEnum.Limit : PriceTypeEnum.Market;
         }
+
+        private void exactlyRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (exactlyRadioButton.Checked)
+                QuantityType = QuantityTypeEnum.Quantity;
+        }
+
+        private void spendingRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (spendingRadioButton.Checked)
+                QuantityType = QuantityTypeEnum.Spending;
+        }
+
+        private void spendingUsdRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (spendingUsdRadioButton.Checked)
+                QuantityType = QuantityTypeEnum.UsdSpending;
+        }
+
+        private void allAvailableRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (allAvailableRadioButton.Checked)
+                QuantityType = QuantityTypeEnum.AllAvailable;
+        }
+
+        private void spendingQuantityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            OnTradeParamsChanged();
+        }
+
+        private void spendingUsdQuantityTextBox_TextChanged(object sender, EventArgs e)
+        {
+            OnTradeParamsChanged();
+        }
     }
 }
-
-/*
- * Продать всё - удобно
- * Добавить $ эквивалент в торговлю
- * Купить/продать в $ эквиваленте
- */

@@ -94,6 +94,9 @@
 	<Item key="Views.Implementations.PendingTradeForm.exactlyRadioButton_Text">exactly</Item>
 	<Item key="Views.Implementations.PendingTradeForm.priceGroupBox_Text">Price</Item>
 	<Item key="Views.Implementations.PendingTradeForm.quantityGroupBox_Text">Quantity</Item>
+	<Item key="Views.Implementations.PendingTradeForm.spendingRadioButton_Text">spending</Item>
+	<Item key="Views.Implementations.PendingTradeForm.spendingUsdRadioButton_Text">spending USD</Item>
+
 	<Item key="PublicKey">Public Key</Item>
 	<Item key="PrivateKey">Private Key</Item>
 	<Item key="InfoApiKeyRole">Info</Item>
@@ -116,6 +119,7 @@
 	<Item key="UUIDInvalid">UUID Invalid</Item>
 	<Item key="ZeroOrNegativeNotAllowed">The quantity and price you are entered are not typical for this market</Item>
 	<Item key="RateNotProvided">Rate Not Provided</Item>
+	<Item key="UnknownUsdRateFor">It is impossible to calculate the dollar equivalent for</Item>
 
 	<Item key="SuccessfullTrade">Order was set successfully</Item>
 	<Item key="SuccessfullCancelLimitOrder">Order was removed successfully</Item>

@@ -20,8 +20,12 @@ namespace Models.Interfaces
 
         TradePosition Position { get; set; }
         PriceTypeEnum PriceType { get; set; }
+        QuantityTypeEnum QuantityType { get; set; } 
+
         double Quantity { get; set; }
         double Price { get; set; }
+
+        double? GetUsdRateChanged(Currency currency);
 
         event Action<Tick> TickChanged;
         event Action<Balance> BalanceChanged;

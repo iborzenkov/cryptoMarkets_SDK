@@ -153,4 +153,14 @@ namespace DomainModel.Features
             _usdRate.Clear();
         }
     }
+    public class UnknownUsdRateException : Exception
+    {
+        public Currency Currency { get; private set; }
+
+        public UnknownUsdRateException(Currency currency)
+        {
+            Currency = currency;
+        }
+    }
+
 }

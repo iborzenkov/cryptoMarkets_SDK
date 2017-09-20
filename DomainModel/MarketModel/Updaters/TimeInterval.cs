@@ -28,5 +28,7 @@
         }
 
         public int Value { get; set; }
+
+        public static TimeInterval Never => InDays(365);
     }
 }
