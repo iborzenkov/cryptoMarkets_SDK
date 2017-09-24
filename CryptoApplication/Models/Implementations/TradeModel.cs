@@ -12,18 +12,18 @@ using IModel = DomainModel.IModel;
 
 namespace Models.Implementations
 {
-    public class PendingTradeModel : IPendingTradeModel
+    public class TradeModel : ITradeModel
     {
         private readonly IModel _domainModel;
 
         private TradePosition _position = TradePosition.Buy;
 
-        public PendingTradeModel(IModel domainModel)
+        public TradeModel(IModel domainModel)
         {
             _domainModel = domainModel;
         }
 
-        IEnumerable<Market> IPendingTradeModel.Markets => _domainModel.Markets;
+        IEnumerable<Market> ITradeModel.Markets => _domainModel.Markets;
 
         public Market Market { get; set; }
         public PairOfMarket Pair { get; set; }

@@ -16,7 +16,7 @@ namespace Views.Interfaces
 
         void SetUsdRate(double? usdRate);
 
-        void SetOrderBookSettings(OrderBookSettings settings);
+        void SetSettings(OrderBookSettings settings);
 
         void ClearOrderBooks();
 
@@ -26,6 +26,6 @@ namespace Views.Interfaces
 
         event Action<PairOfMarket> PairChanged;
 
-        event Action<OrderBookSettings> OrderBookSettingsChanged;
+        event Action<OrderBookSettings> SettingsChanged;
     }
 }

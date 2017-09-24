@@ -5,6 +5,7 @@ using Models.Implementations;
 using Presenters.Implementations;
 using System;
 using System.Windows.Forms;
+using CryptoSdk.Poloniex.Model;
 using Views.Implementations;
 
 namespace CryptoApplication
@@ -21,16 +22,24 @@ namespace CryptoApplication
             Application.SetCompatibleTextRenderingDefault(false);
 
             var domainModel = new DomainModel.Model();
-            var marketModel = new BittrexModel();
-            //var marketModel = new DummyModel();
+            var bittrexModel = new BittrexModel();
+            var poloniexModel = new PoloniexModel();
+            //var bittrexModel = new DummyModel();
+            //var poloniexModel = new PoloniexModel();
 
-            var market = new Market("Bittrex", marketModel, new[]
+            var bittrexMarket = new Market("Bittrex", bittrexModel, new[]
             {
                 ApiKeyRole.Info, ApiKeyRole.TradeLimit, ApiKeyRole.TradeMarket, ApiKeyRole.Withdraw
             },
             "USDT");
+            domainModel.AddMarket(bittrexMarket);
 
-            domainModel.AddMarket(market);
+            var poloniexMarket = new Market("Poloniex", poloniexModel, new[]
+            {
+                ApiKeyRole.Trade,
+            },
+            "USDT");
+            domainModel.AddMarket(poloniexMarket);
 
             var main = new MainPresenter(new MainForm(), new Model(domainModel));
 

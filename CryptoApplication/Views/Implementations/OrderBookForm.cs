@@ -89,7 +89,7 @@ namespace Views.Implementations
             OrderBookPartView.SetUsdRate(usdRate);
         }
 
-        public void SetOrderBookSettings(OrderBookSettings settings)
+        public void SetSettings(OrderBookSettings settings)
         {
             var changed = false;
 
@@ -211,7 +211,7 @@ namespace Views.Implementations
 
         private void OnOrderBookSettingsChanged()
         {
-            OrderBookSettingsChanged?.Invoke(
+            SettingsChanged?.Invoke(
                 new OrderBookSettings
                 {
                     Depth = Depth,
@@ -227,7 +227,7 @@ namespace Views.Implementations
 
         public event Action<Market> MarketChanged;
 
-        public event Action<OrderBookSettings> OrderBookSettingsChanged;
+        public event Action<OrderBookSettings> SettingsChanged;
 
         public event Action ViewClosed;
 

@@ -23,7 +23,7 @@ namespace Views.Interfaces
         }
     }
 
-    public interface IPendingTradeView : IView
+    public interface ITradeView : IView
     {
         void SetMarkets(IEnumerable<Market> markets);
 

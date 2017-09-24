@@ -16,17 +16,27 @@ namespace Presenters.Implementations
             View.ShowPairs += View_ShowPairs;
             View.ShowApiKeys += View_ShowApiKeys;
             View.ShowBalances += View_ShowBalances;
-            View.ShowPendingTrade += View_ShowPendingTrade;
+            View.ShowTrade += View_ShowPendingTrade;
+            View.ShowBlowoutVolumeStrategy += View_ShowBlowoutVolumeStrategy;
             View.Exit += View_Exit;
 
             _model = model;
         }
 
+        private void View_ShowBlowoutVolumeStrategy()
+        {
+            var form = new BlowoutVolumeForm { MdiParent = View.MdiParentForm };
+
+            var tradePresenter = new BlowoutVolumePresenter(form, new BlowoutVolumeModel(_model.DomainModel));
+
+            tradePresenter.Run();
+        }
+
         private void View_ShowPendingTrade()
         {
-            var form = new PendingTradeForm { MdiParent = View.MdiParentForm };
+            var form = new TradeForm { MdiParent = View.MdiParentForm };
 
-            var tradePresenter = new PendingTradePresenter(form, new PendingTradeModel(_model.DomainModel));
+            var tradePresenter = new TradePresenter(form, new TradeModel(_model.DomainModel));
 
             tradePresenter.Run();
         }

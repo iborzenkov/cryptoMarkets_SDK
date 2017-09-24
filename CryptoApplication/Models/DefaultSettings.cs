@@ -17,10 +17,22 @@ namespace Models
                 HighlightLargePositions = true,
                 LargeVolumeKoef = 0.25,
             };
+
+            BlowoutVolumeSettings = new BlowoutVolumeSettings
+            {
+                Timeframe = TimeframeType.M5,
+                AutoTrade = false,
+                BalancePercentPerOneTrade = 10,
+                BarCount = 100,
+                SendEmailNotifications = true,
+                EMail = string.Empty,
+            };
         }
 
         public static DefaultSettings Instance => _instance ?? (_instance = new DefaultSettings());
 
         public OrderBookSettings OrderBookSettings { get; set; }
+
+        public BlowoutVolumeSettings BlowoutVolumeSettings { get; set; }
     }
 }

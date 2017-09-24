@@ -53,20 +53,27 @@
     <Compile Include="Implementations\BalanceForm.Designer.cs">
       <DependentUpon>BalanceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\BlowoutVolumeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Implementations\BlowoutVolumeForm.Designer.cs">
+      <DependentUpon>BlowoutVolumeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Implementations\PairForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Implementations\PairForm.Designer.cs">
       <DependentUpon>PairForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Implementations\PendingTradeForm.cs">
+    <Compile Include="Implementations\TradeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Implementations\PendingTradeForm.Designer.cs">
-      <DependentUpon>PendingTradeForm.cs</DependentUpon>
+    <Compile Include="Implementations\TradeForm.Designer.cs">
+      <DependentUpon>TradeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IBlowoutVolumeView.cs" />
     <Compile Include="Interfaces\IPairView.cs" />
-    <Compile Include="Interfaces\IPendingTradeView.cs" />
+    <Compile Include="Interfaces\ITradeView.cs" />
     <Compile Include="Interfaces\IBalanceView.cs" />
     <Compile Include="Interfaces\IApiKeyView.cs" />
     <Compile Include="Interfaces\ICurrencyView.cs" />
@@ -115,6 +122,9 @@
     <EmbeddedResource Include="Implementations\BalanceForm.resx">
       <DependentUpon>BalanceForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Implementations\BlowoutVolumeForm.resx">
+      <DependentUpon>BlowoutVolumeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Implementations\PairForm.resx">
       <DependentUpon>PairForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,8 +140,8 @@
     <EmbeddedResource Include="Implementations\OrderBookForm.resx">
       <DependentUpon>OrderBookForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Implementations\PendingTradeForm.resx">
-      <DependentUpon>PendingTradeForm.cs</DependentUpon>
+    <EmbeddedResource Include="Implementations\TradeForm.resx">
+      <DependentUpon>TradeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

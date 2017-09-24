@@ -30,10 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Implementations\PendingTradeModel.cs" />
+    <Compile Include="BlowoutVolumeSettings.cs" />
+    <Compile Include="Implementations\BlowoutVolumeModel.cs" />
+    <Compile Include="Implementations\TradeModel.cs" />
     <Compile Include="Implementations\PairModel.cs" />
     <Compile Include="InfoMessages.cs" />
-    <Compile Include="Interfaces\IPendingTradeModel.cs" />
+    <Compile Include="Interfaces\IBlowoutVolumeModel.cs" />
+    <Compile Include="Interfaces\ITradeModel.cs" />
     <Compile Include="Interfaces\IPairModel.cs" />
     <Compile Include="PairViewFilter.cs" />
     <Compile Include="DefaultSettings.cs" />

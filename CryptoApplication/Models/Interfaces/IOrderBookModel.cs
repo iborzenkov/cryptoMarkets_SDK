@@ -11,7 +11,7 @@ namespace Models.Interfaces
 
         void NeedOrderBookOf(PairOfMarket pair);
 
-        OrderBookSettings OrderBookSettings { get; set; }
+        OrderBookSettings Settings { get; set; }
 
         void Release();
 

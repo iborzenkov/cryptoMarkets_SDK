@@ -43,6 +43,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Features\ApiKeyRoleCaption.cs" />
+    <Compile Include="Features\Bar.cs" />
     <Compile Include="Features\Fee.cs" />
     <Compile Include="Features\Sell.cs" />
     <Compile Include="Features\Buy.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="IModel.cs" />
     <Compile Include="MarketModel\IMarketTrade.cs" />
     <Compile Include="Features\OrderId.cs" />
+    <Compile Include="MarketModel\OrdersToBars.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdater.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\IOpenedOrdersProvider.cs" />

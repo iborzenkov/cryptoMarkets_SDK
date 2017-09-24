@@ -14,12 +14,12 @@ using Timer = System.Timers.Timer;
 
 namespace Views.Implementations
 {
-    public partial class PendingTradeForm : Form, IPendingTradeView
+    public partial class TradeForm : Form, ITradeView
     {
         // todo: Показать часть стакана возле определенного уровня
         private readonly TimeInterval _infoTimerInterval = TimeInterval.InSeconds(10);
 
-        public PendingTradeForm()
+        public TradeForm()
         {
             InitializeComponent();
 

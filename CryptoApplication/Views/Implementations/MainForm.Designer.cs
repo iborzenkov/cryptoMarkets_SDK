@@ -40,8 +40,9 @@ namespace Views.Implementations
             this.orderbooksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.balancesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pendingTradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.strategiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blowoutVolumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.apiKeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,23 +122,32 @@ namespace Views.Implementations
             // tradingToolStripMenuItem
             // 
             this.tradingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pendingTradeToolStripMenuItem});
+            this.tradeToolStripMenuItem});
             this.tradingToolStripMenuItem.Name = "tradingToolStripMenuItem";
             this.tradingToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.tradingToolStripMenuItem.Text = "Trading";
             // 
-            // pendingTradeToolStripMenuItem
+            // tradeToolStripMenuItem
             // 
-            this.pendingTradeToolStripMenuItem.Name = "pendingTradeToolStripMenuItem";
-            this.pendingTradeToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.pendingTradeToolStripMenuItem.Text = "Pending Trade...";
-            this.pendingTradeToolStripMenuItem.Click += new System.EventHandler(this.pendingTradeToolStripMenuItem_Click);
+            this.tradeToolStripMenuItem.Name = "tradeToolStripMenuItem";
+            this.tradeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tradeToolStripMenuItem.Text = "Trade...";
+            this.tradeToolStripMenuItem.Click += new System.EventHandler(this.tradeToolStripMenuItem_Click);
             // 
             // strategiesToolStripMenuItem
             // 
+            this.strategiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blowoutVolumeToolStripMenuItem});
             this.strategiesToolStripMenuItem.Name = "strategiesToolStripMenuItem";
             this.strategiesToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.strategiesToolStripMenuItem.Text = "Strategies";
+            // 
+            // blowoutVolumeToolStripMenuItem
+            // 
+            this.blowoutVolumeToolStripMenuItem.Name = "blowoutVolumeToolStripMenuItem";
+            this.blowoutVolumeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.blowoutVolumeToolStripMenuItem.Text = "Blowout Volume...";
+            this.blowoutVolumeToolStripMenuItem.Click += new System.EventHandler(this.blowoutVolumeToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -228,7 +238,8 @@ namespace Views.Implementations
         [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem strategiesToolStripMenuItem;
         [LocalizableClass]
-        private System.Windows.Forms.ToolStripMenuItem pendingTradeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tradeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem blowoutVolumeToolStripMenuItem;
     }
 }
 

@@ -7,11 +7,11 @@ using Views.Interfaces;
 
 namespace Presenters.Implementations
 {
-    internal class PendingTradePresenter : BasePresenter<IPendingTradeView>
+    internal class TradePresenter : BasePresenter<ITradeView>
     {
-        private IPendingTradeModel Model { get; }
+        private ITradeModel Model { get; }
 
-        public PendingTradePresenter(IPendingTradeView view, IPendingTradeModel model) : base(view)
+        public TradePresenter(ITradeView view, ITradeModel model) : base(view)
         {
             Model = model;
             Model.BalanceChanged += Model_BalanceChanged;

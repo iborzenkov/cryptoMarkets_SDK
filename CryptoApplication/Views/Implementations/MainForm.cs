@@ -80,7 +80,9 @@ namespace Views.Implementations
 
         public event Action ShowBalances;
 
-        public event Action ShowPendingTrade;
+        public event Action ShowTrade;
+
+        public event Action ShowBlowoutVolumeStrategy;
 
         public event Action Exit;
 
@@ -92,10 +94,6 @@ namespace Views.Implementations
         private void apiKeysToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ShowApiKeys?.Invoke();
-        }
-
-        private void tradeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
         }
 
         private void pairsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -113,9 +111,14 @@ namespace Views.Implementations
             Locale.Instance.SetPackage("ru");
         }
 
-        private void pendingTradeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void tradeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowPendingTrade?.Invoke();
+            ShowTrade?.Invoke();
+        }
+
+        private void blowoutVolumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowBlowoutVolumeStrategy?.Invoke();
         }
     }
 }

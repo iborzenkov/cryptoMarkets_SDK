@@ -1,5 +1,4 @@
 ﻿using DomainModel.Features;
-using DomainModel.MarketModel;
 using Models;
 using Models.Interfaces;
 using System.Linq;
@@ -8,42 +7,34 @@ using Views.Interfaces;
 
 namespace Presenters.Implementations
 {
-    internal class OrderBookPresenter : BasePresenter<IOrderBookView>
+    internal class BlowoutVolumePresenter : BasePresenter<IBlowoutVolumeView>
     {
-        private IOrderBookModel Model { get; }
+        private IBlowoutVolumeModel Model { get; }
 
-        public OrderBookPresenter(IOrderBookView view, IOrderBookModel model) : base(view)
+        public BlowoutVolumePresenter(IBlowoutVolumeView view, IBlowoutVolumeModel model) : base(view)
         {
             Model = model;
-            Model.OrderBookChanged += Model_OrderBookChanged;
-            Model.UsdRateChanged += Model_UsdRateChanged;
 
             View.SetMarkets(Model.Markets);
             View.SetSettings(Model.Settings);
 
             View.MarketChanged += View_MarketChanged;
-            View.PairChanged += View_PairChanged;
+            View.PairChecked += View_PairChecked;
             View.SettingsChanged += View_SettingsChanged;
             View.ViewClosed += View_ViewClosed;
-        }
-
-        private void Model_UsdRateChanged(double? usdRate)
-        {
-            View.SetUsdRate(usdRate);
         }
 
         private void Release()
         {
             View.MarketChanged -= View_MarketChanged;
-            View.PairChanged -= View_PairChanged;
+            View.PairChecked -= View_PairChecked;
             View.SettingsChanged -= View_SettingsChanged;
             View.ViewClosed -= View_ViewClosed;
 
-            Model.OrderBookChanged -= Model_OrderBookChanged;
             Model.Release();
         }
 
-        private void View_SettingsChanged(OrderBookSettings settings)
+        private void View_SettingsChanged(BlowoutVolumeSettings settings)
         {
             Model.Settings = settings;
         }
@@ -53,22 +44,19 @@ namespace Presenters.Implementations
             Release();
         }
 
-        private void Model_OrderBookChanged(IOrderBook orderBook)
+        private async void View_PairChecked(PairOfMarket pair, bool isChecked)
         {
-            View.SetOrderBook(orderBook);
+            await PairChangedAsync(pair, isChecked);
         }
 
-        private async void View_PairChanged(PairOfMarket pair)
-        {
-            View.ClearOrderBooks();
-            await PairChangedAsync(pair);
-        }
-
-        private Task PairChangedAsync(PairOfMarket pair)
+        private Task PairChangedAsync(PairOfMarket pair, bool isChecked)
         {
             return Task.Run(() =>
             {
-                Model.NeedOrderBookOf(pair);
+                if (isChecked)
+                    Model.IncludePairToStrategy(pair);
+                else
+                    Model.ExcludePairFromStrategy(pair);
             });
         }
 

@@ -2,8 +2,8 @@
 
 namespace Views.Implementations
 {
-    [LocalizableClass("Text", "PendingTradeForm")]
-    partial class PendingTradeForm
+    [LocalizableClass("Text", "TradeForm")]
+    partial class TradeForm
     {
         /// <summary>
         /// Required designer variable.

@@ -17,7 +17,9 @@ namespace Views.Interfaces
 
         event Action ShowBalances;
 
-        event Action ShowPendingTrade;
+        event Action ShowTrade;
+
+        event Action ShowBlowoutVolumeStrategy;
 
         event Action Exit;
     }

@@ -5,7 +5,7 @@ using DomainModel;
 
 namespace Models.Interfaces
 {
-    public interface IPendingTradeModel
+    public interface ITradeModel
     {
         IEnumerable<Market> Markets { get; }
 
