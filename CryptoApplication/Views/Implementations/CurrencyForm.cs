@@ -60,6 +60,7 @@ namespace Views.Implementations
                             IsActive(currency.IsActive),
                             currency.TxFee.ToString(CultureInfo.InvariantCulture),
                             currency.BaseAddress?.ToString() ?? string.Empty,
+                            currency.MinConfirmation.ToString()
                         });
                         item.Checked = currency.IsActive;
                         item.Tag = currency;

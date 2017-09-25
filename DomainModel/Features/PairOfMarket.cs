@@ -7,23 +7,33 @@ namespace DomainModel.Features
         public Pair Pair { get; }
         public Market Market { get; }
 
-        public double MinTradeSize { get; }
+        public double? MinTradeSize { get; }
 
         public bool IsActive { get; }
 
         public DateTime? Created { get; }
 
-        public PairOfMarket(Pair pair, Market market, double minTradeSize) :
+        public PairOfMarket(Pair pair, Market market) :
+            this(pair, market, null)
+        {
+        }
+
+        public PairOfMarket(Pair pair, Market market, bool isActive) :
+            this(pair, market, null, isActive)
+        {
+        }
+
+        public PairOfMarket(Pair pair, Market market, double? minTradeSize) :
             this(pair, market, minTradeSize, true)
         {
         }
 
-        public PairOfMarket(Pair pair, Market market, double minTradeSize, bool isActive) :
+        public PairOfMarket(Pair pair, Market market, double? minTradeSize, bool isActive) :
             this(pair, market, minTradeSize, isActive, null)
         {
         }
 
-        public PairOfMarket(Pair pair, Market market, double minTradeSize, bool isActive,
+        public PairOfMarket(Pair pair, Market market, double? minTradeSize, bool isActive,
             DateTime? created)
         {
             Pair = pair;

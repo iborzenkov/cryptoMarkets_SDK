@@ -1,33 +1,29 @@
-﻿using System;
-using System.Linq;
-using CryptoSdk.Bittrex.DataTypes;
-using CryptoSdk.Bittrex.Features;
+﻿using CryptoSdk.Bittrex.Features;
+using CryptoSdk.Poloniex.DataTypes.Misc;
 using DomainModel;
 using DomainModel.Features;
+using System;
+using System.Linq;
 
 namespace CryptoSdk.Poloniex.DataTypes.Extensions
 {
     public static class DataTypeExtensions
     {
-        public static CurrencyOfMarket ToCurrency(this BittrexCurrencyDataType currencyDataType, Market market)
+        public static CurrencyOfMarket ToCurrency(this PoloniexCurrencyDataType currencyDataType, string currencyShortName, Market market)
         {
             var currency = new CurrencyOfMarket(
-                new Currency(currencyDataType.CurrencyName, currencyDataType.CurrencyLongName),
-                market, currencyDataType.TxFee, currencyDataType.IsActive, CryptoAddress.FromString(currencyDataType.BaseAddress));
+                new Currency(currencyShortName, currencyDataType.CurrencyName),
+                market, currencyDataType.TaxFee, !currencyDataType.IsDisabled,
+                CryptoAddress.FromString(currencyDataType.DepositAddress),
+                currencyDataType.MinConfirmation);
 
             return currency;
         }
 
-        public static PairOfMarket ToPair(this Bittrex.DataTypes.BittrexPairDataType pairDataType, Market market)
+        public static PairOfMarket ToPair(this PoloniexTickerDataType pairDataType, string pairName, Market market)
         {
-            DateTime dateTime;
-            var created = DateTime.TryParse(pairDataType.Created, out dateTime) ? dateTime : (DateTime?)null;
-            var pair = new PairOfMarket(
-                // rotate pair in Bittrex
-                new Pair(new Currency(pairDataType.QuoteCurrency), new Currency(pairDataType.BaseCurrency)),
-                market, pairDataType.MinTradeSize, pairDataType.IsActive, created);
-
-            return pair;
+            Pair pair;
+            return PoloniexPairs.TryParsePair(pairName, out pair) ? new PairOfMarket(pair, market, !pairDataType.IsFrozen) : null;
         }
 
         public static MarketHistory ToHistory(this Bittrex.DataTypes.BittrexMarketHistoryItemDataType historyDataType, Pair pair)
@@ -78,30 +74,15 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             return new Tick(tickerDataType.Bid, tickerDataType.Ask, tickerDataType.Last);
         }
 
-        public static MarketSummary ToMarketSummary(this Bittrex.DataTypes.BittrexMarketSummary marketSummaryDataType)
+        public static PairStatistic ToPairsStatistic(this PoloniexTickerDataType tickerDataType, string pairName)
         {
             Pair pair;
-            if (!TryParsePair(marketSummaryDataType.MarketName, out pair))
+            if (!PoloniexPairs.TryParsePair(pairName, out pair))
                 return null;
 
-            var summary = new MarketSummary
-            {
-                BaseVolume = marketSummaryDataType.BaseVolume,
-                Bid = marketSummaryDataType.Bid,
-                Ask = marketSummaryDataType.Ask,
-                CountOpenedBuyOrders = marketSummaryDataType.CountOpenBuyOrders,
-                CountOpenedSellOrders = marketSummaryDataType.CountOpenSellOrders,
-                High = marketSummaryDataType.High,
-                Last = marketSummaryDataType.Last,
-                Low = marketSummaryDataType.Low,
-                Pair = pair,
-                Volume = marketSummaryDataType.Volume,
-                PreviousDayPrice = marketSummaryDataType.PrevDay
-            };
-
-            DateTime timeStamp;
-            if (DateTime.TryParse(marketSummaryDataType.TimeStamp, out timeStamp))
-                summary.TimeStamp = timeStamp;
+            var summary = new PairStatistic(pair, tickerDataType.High24Hr, tickerDataType.Low24Hr,
+                tickerDataType.BaseVolume, tickerDataType.QuoteVolume, 
+                tickerDataType.Last, tickerDataType.DailyChange);
 
             return summary;
         }
@@ -124,7 +105,7 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
         public static Order ToOrder(this Bittrex.DataTypes.BittrexOpenedLimitOrderItemDataType openedLimitOrder, Market market)
         {
             Pair pair;
-            if (!TryParsePair(openedLimitOrder.Pair, out pair))
+            if (!PoloniexPairs.TryParsePair(openedLimitOrder.Pair, out pair))
                 return null;
 
             DateTime timeStamp;
@@ -136,18 +117,6 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
                 openedLimitOrder.Quantity, openedLimitOrder.Limit, PositionFromString(openedLimitOrder.OrderType), opened);
 
             return order;
-        }
-
-        private static bool TryParsePair(string pairString, out Pair pair)
-        {
-            pair = null;
-
-            var currencies = pairString.Split('-');
-            if (currencies.Length == 2)
-                // rotate pair in Bittrex
-                pair = new Pair(new Currency(currencies[1]), new Currency(currencies[0]));
-
-            return pair != null;
         }
 
         public static OrderBook ToOrderBook(this Bittrex.DataTypes.BittrexOrderBookDataType orderBookDataType, Pair pair)

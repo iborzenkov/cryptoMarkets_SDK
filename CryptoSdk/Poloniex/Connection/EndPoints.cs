@@ -3,9 +3,8 @@
     public class EndPoints
     {
         public static string Main { get; } = "https://poloniex.com/";
-        public static string GetMarkets { get; } = "public/getmarkets";
+        public static string GetTicker { get; } = "public?command=returnTicker";
         public static string GetCurrencies { get; } = "public?command=returnCurrencies";
-        public static string GetTicker { get; } = "public/getticker";
         public static string GetMarketSummary { get; } = "public/getmarketsummary";
         public static string GetMarketSummaries { get; } = "public/getmarketsummaries";
         public static string GetOrderBook { get; } = "public/getorderbook";

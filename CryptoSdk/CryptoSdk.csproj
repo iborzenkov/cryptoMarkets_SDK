@@ -79,14 +79,13 @@
     <Compile Include="Poloniex\DataTypes\BittrexBalancesDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexCurrencyDataType.cs" />
     <Compile Include="Poloniex\DataTypes\BittrexMarketHistory.cs" />
-    <Compile Include="Poloniex\DataTypes\BittrexMarketsDataType.cs" />
     <Compile Include="Poloniex\DataTypes\BittrexMarketSummary.cs" />
     <Compile Include="Poloniex\DataTypes\BittrexOrderBook.cs" />
-    <Compile Include="Poloniex\DataTypes\BittrexTickerDataType.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexTickerDataType.cs" />
     <Compile Include="Poloniex\DataTypes\BittrexTradeDataType.cs" />
     <Compile Include="Poloniex\DataTypes\Extensions\DataTypeExtensions.cs" />
     <Compile Include="Poloniex\DataTypes\Misc\BittrexOrderBookTypeEnum.cs" />
-    <Compile Include="Poloniex\DataTypes\Misc\BittrexPairs.cs" />
+    <Compile Include="Poloniex\DataTypes\Misc\PoloniexPairs.cs" />
     <Compile Include="Poloniex\Features\PoloniexFee.cs" />
     <Compile Include="Poloniex\Features\MarketSummary.cs" />
     <Compile Include="Poloniex\Model\BasePoloniex.cs" />

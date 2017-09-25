@@ -3,6 +3,7 @@ using DomainModel;
 using DomainModel.Features;
 using System;
 using System.Linq;
+using CryptoSdk.Bittrex.DataTypes.Misc;
 
 namespace CryptoSdk.Bittrex.DataTypes.Extensions
 {
@@ -12,7 +13,9 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
         {
             var currency = new CurrencyOfMarket(
                 new Currency(currencyDataType.CurrencyName, currencyDataType.CurrencyLongName),
-                market, currencyDataType.TxFee, currencyDataType.IsActive, CryptoAddress.FromString(currencyDataType.BaseAddress));
+                market, currencyDataType.TxFee, currencyDataType.IsActive, 
+                CryptoAddress.FromString(currencyDataType.BaseAddress),
+                currencyDataType.MinConfirmation);
 
             return currency;
         }
@@ -80,7 +83,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
         public static MarketSummary ToMarketSummary(this BittrexMarketSummary marketSummaryDataType)
         {
             Pair pair;
-            if (!TryParsePair(marketSummaryDataType.MarketName, out pair))
+            if (!BittrexPairs.TryParsePair(marketSummaryDataType.MarketName, out pair))
                 return null;
 
             var summary = new MarketSummary
@@ -94,7 +97,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                 Last = marketSummaryDataType.Last,
                 Low = marketSummaryDataType.Low,
                 Pair = pair,
-                Volume = marketSummaryDataType.Volume,
+                QuoteVolume = marketSummaryDataType.QuoteVolume,
                 PreviousDayPrice = marketSummaryDataType.PrevDay
             };
 
@@ -123,7 +126,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
         public static Order ToOrder(this BittrexOpenedLimitOrderItemDataType openedLimitOrder, Market market)
         {
             Pair pair;
-            if (!TryParsePair(openedLimitOrder.Pair, out pair))
+            if (!BittrexPairs.TryParsePair(openedLimitOrder.Pair, out pair))
                 return null;
 
             DateTime timeStamp;
@@ -135,18 +138,6 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
                 openedLimitOrder.Quantity, openedLimitOrder.Limit, PositionFromString(openedLimitOrder.OrderType), opened);
 
             return order;
-        }
-
-        private static bool TryParsePair(string pairString, out Pair pair)
-        {
-            pair = null;
-
-            var currencies = pairString.Split('-');
-            if (currencies.Length == 2)
-                // rotate pair in Bittrex
-                pair = new Pair(new Currency(currencies[1]), new Currency(currencies[0]));
-
-            return pair != null;
         }
 
         public static OrderBook ToOrderBook(this BittrexOrderBookDataType orderBookDataType, Pair pair)

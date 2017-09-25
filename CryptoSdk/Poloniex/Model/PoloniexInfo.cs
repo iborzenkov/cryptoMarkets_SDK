@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CryptoSdk.Bittrex.Connection;
-using CryptoSdk.Bittrex.DataTypes.Extensions;
-using CryptoSdk.Bittrex.DataTypes.Misc;
+using CryptoSdk.Poloniex.DataTypes.Extensions;
 using CryptoSdk.Bittrex.Features;
 using CryptoSdk.Bittrex.Model;
+using CryptoSdk.Poloniex.Connection;
 using CryptoSdk.Poloniex.DataTypes;
 using DomainModel;
 using DomainModel.Features;
 using DomainModel.MarketModel;
-using BittrexMarketHistoryDataType = CryptoSdk.Bittrex.DataTypes.BittrexMarketHistoryDataType;
-using BittrexMarketsDataType = CryptoSdk.Bittrex.DataTypes.BittrexMarketsDataType;
-using BittrexMarketSummaries = CryptoSdk.Bittrex.DataTypes.BittrexMarketSummaries;
-using BittrexOrderBookDataType = CryptoSdk.Bittrex.DataTypes.BittrexOrderBookDataType;
-using BittrexOrderBookOneSideDataType = CryptoSdk.Bittrex.DataTypes.BittrexOrderBookOneSideDataType;
-using BittrexTickerDataType = CryptoSdk.Bittrex.DataTypes.BittrexTickerDataType;
 
 namespace CryptoSdk.Poloniex.Model
 {
@@ -30,24 +22,25 @@ namespace CryptoSdk.Poloniex.Model
         {
             Tick result = null;
 
-            var query = Connection.PublicGetQuery<BittrexTickerDataType>(
+            /*var query = Connection.PublicGetQuery<BittrexTickerDataType>(
                 EndPoints.GetTicker, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
             if (query.Success)
-                result = query.Ticker.ToTick();
+                result = query.Ticker.ToTick();*/
 
             return result;
         }
 
-        IEnumerable<PairOfMarket> IMarketInfo.Pairs(Market market)
+        public IEnumerable<PairOfMarket> Pairs(Market market)
         {
             var result = new List<PairOfMarket>();
 
-            var query = Connection.PublicGetQuery<BittrexMarketsDataType>(EndPoints.GetMarkets);
-            if (query.Success)
-                result.AddRange(query.Pairs.Select(marketDataType => marketDataType.ToPair(market)));
-
+            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.GetTicker);
+            foreach (var pairName in query.Keys)
+            {
+                result.Add(query[pairName].ToPair(pairName, market));
+            }
             result.Sort(Comparison);
-            return result;
+            return result.Where(p => p != null);
         }
 
         private static int Comparison(PairOfMarket pair1, PairOfMarket pair2)
@@ -55,38 +48,43 @@ namespace CryptoSdk.Poloniex.Model
             return string.CompareOrdinal(pair1.Pair.ToString(), pair2.Pair.ToString());
         }
 
-        IEnumerable<CurrencyOfMarket> IMarketInfo.Currencies(Market market)
+        public IEnumerable<CurrencyOfMarket> Currencies(Market market)
         {
             var result = new List<CurrencyOfMarket>();
 
             var query = Connection.PublicGetQuery<Dictionary<string, PoloniexCurrencyDataType>>(EndPoints.GetCurrencies);
-            if (query.Success)
-                result.AddRange(query.Currencies.Select(currencyDataType => currencyDataType.ToCurrency(market)));
 
+            foreach (var currencyShortName in query.Keys)
+            {
+                result.Add(query[currencyShortName].ToCurrency(currencyShortName, market));
+            }
             return result;
         }
 
-        ICollection<PairStatistic> IMarketInfo.PairsStatistic()
+        public ICollection<PairStatistic> PairsStatistic()
         {
-            var summaries = (this as IBittrexMarketInfo).MarketSummaries();
+            var result = new List<PairStatistic>();
 
-            return summaries.Select(
-                summary => new PairStatistic(
-                    summary.Pair, summary.High, summary.Low, summary.BaseVolume, summary.Last, 
-                    summary.PreviousDayPrice, summary.CountOpenedBuyOrders, summary.CountOpenedSellOrders)).ToList();
+            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.GetTicker);
+
+            foreach (var pairName in query.Keys)
+            {
+                result.Add(query[pairName].ToPairsStatistic(pairName));
+            }
+            return result;
         }
 
         ICollection<MarketHistory> IMarketInfo.MarketHistory(Pair pair)
         {
             var result = new List<MarketHistory>();
 
-            var parameters = new Tuple<string, string>[1];
+            /*var parameters = new Tuple<string, string>[1];
             parameters[0] = new Tuple<string, string>("market", BittrexPairs.AsString(pair));
 
             var query = Connection.PublicGetQuery<BittrexMarketHistoryDataType>(EndPoints.GetMarketHistory, parameters);
             if (query.Success)
                 result.AddRange(
-                    query.Items.Select(item => item.ToHistory(pair)));
+                    query.Items.Select(item => item.ToHistory(pair)));*/
 
             return result;
         }
@@ -95,7 +93,7 @@ namespace CryptoSdk.Poloniex.Model
         {
             OrderBook result = null;
 
-            var parameters = new Tuple<string, string>[3];
+            /*var parameters = new Tuple<string, string>[3];
             parameters[0] = new Tuple<string, string>("market", BittrexPairs.AsString(pair));
             parameters[1] = new Tuple<string, string>("type", orderBookType.AsString());
             parameters[2] = new Tuple<string, string>("depth", depth.ToString());
@@ -111,7 +109,7 @@ namespace CryptoSdk.Poloniex.Model
                 var query = Connection.PublicGetQuery<BittrexOrderBookOneSideDataType>(EndPoints.GetOrderBook, parameters);
                 if (query.Success)
                     result = query.ToOrderBook(pair, orderBookType);
-            }
+            }*/
 
             return result;
         }
@@ -120,9 +118,9 @@ namespace CryptoSdk.Poloniex.Model
         {
             var result = new List<MarketSummary>();
 
-            var query = Connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
+            /*var query = Connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
             if (query.Success)
-                result.AddRange(query.MarketSummaries.Select(marketSummary => marketSummary.ToMarketSummary()));
+                result.AddRange(query.MarketSummaries.Select(marketSummary => marketSummary.ToMarketSummary()));*/
 
             return result;
         }
@@ -131,10 +129,10 @@ namespace CryptoSdk.Poloniex.Model
         {
             MarketSummary result = null;
 
-            var query = Connection.PublicGetQuery<BittrexMarketSummaries>(
+            /*var query = Connection.PublicGetQuery<BittrexMarketSummaries>(
                 EndPoints.GetMarketSummary, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
             if (query.Success)
-                result = query.MarketSummaries[0].ToMarketSummary();
+                result = query.MarketSummaries[0].ToMarketSummary();*/
 
             return result;
         }

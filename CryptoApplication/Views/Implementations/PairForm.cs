@@ -82,7 +82,7 @@ namespace Views.Implementations
         {
             return statistic == null
                 ? string.Empty
-                : $"{statistic.Volume.ToString(CultureInfo.InvariantCulture)}";
+                : $"{statistic.BaseVolume.ToString(CultureInfo.InvariantCulture)}";
         }
 
         private string IsActive(bool isActive)
@@ -310,7 +310,7 @@ namespace Views.Implementations
                     return CompareNumbers(Statistic(x).DailyChangeOfLastPrice(), Statistic(y).DailyChangeOfLastPrice());
 
                 case 3:
-                    return CompareNumbers(Statistic(x).Volume, Statistic(y).Volume);
+                    return CompareNumbers(Statistic(x).BaseVolume, Statistic(y).BaseVolume);
             }
 
             return CompareStrings(

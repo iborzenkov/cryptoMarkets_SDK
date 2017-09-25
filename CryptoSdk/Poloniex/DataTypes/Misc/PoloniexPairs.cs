@@ -1,12 +1,13 @@
 ﻿using DomainModel.Features;
+using System;
 
-namespace CryptoSdk.Bittrex.DataTypes.Misc
+namespace CryptoSdk.Poloniex.DataTypes.Misc
 {
-    internal class BittrexPairs
+    internal class PoloniexPairs
     {
         public static string AsString(Pair pair)
         {
-            return $"{pair.QuoteCurrency.Name}-{pair.BaseCurrency.Name}";
+            return $"{pair.QuoteCurrency.Name}_{pair.BaseCurrency.Name}";
         }
 
         public static string AsString(PairOfMarket pair)
@@ -18,9 +19,9 @@ namespace CryptoSdk.Bittrex.DataTypes.Misc
         {
             pair = null;
 
-            var currencies = pairString.Split('-');
+            var currencies = pairString.Split('_');
             if (currencies.Length == 2)
-                // rotate pair in Bittrex
+                // rotate pair in Poloniex
                 pair = new Pair(new Currency(currencies[1]), new Currency(currencies[0]));
 
             return pair != null;

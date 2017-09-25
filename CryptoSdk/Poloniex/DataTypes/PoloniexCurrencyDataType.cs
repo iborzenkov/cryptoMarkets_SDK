@@ -3,16 +3,6 @@
 namespace CryptoSdk.Poloniex.DataTypes
 {
     [DataContract]
-    public class PoloniexCurrenciesDataType : BaseDataType
-    {
-        /// <summary>
-        /// Currencies
-        /// </summary>
-        [DataMember(Name = "result", EmitDefaultValue = false)]
-        public PoloniexCurrencyDataType Currency { get; set; }
-    }
-
-    [DataContract]
     public class PoloniexCurrencyDataType
     {
         /// <summary>
@@ -40,21 +30,21 @@ namespace CryptoSdk.Poloniex.DataTypes
         public int MinConfirmation { get; set; }
 
         /// <summary>
-        /// TxFee
-        /// </summary>
-        [DataMember(Name = "TxFee", EmitDefaultValue = false)]
-        public double TxFee { get; set; }
-
-        /// <summary>
         /// IsActive
         /// </summary>
         [DataMember(Name = "disabled", EmitDefaultValue = false)]
-        public bool IsActive { get; set; }
+        public bool IsDisabled { get; set; }
 
         /// <summary>
-        /// Taxe Fee
+        /// Tax Fee
         /// </summary>
         [DataMember(Name = "txFee", EmitDefaultValue = false)]
-        public double TaxeFee { get; set; }
+        public double TaxFee { get; set; }
+
+        /// <summary>
+        /// Deposit Address
+        /// </summary>
+        [DataMember(Name = "depositAddress", EmitDefaultValue = false)]
+        public string DepositAddress { get; set; }
     }
 }

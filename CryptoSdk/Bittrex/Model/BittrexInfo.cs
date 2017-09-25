@@ -65,7 +65,7 @@ namespace CryptoSdk.Bittrex.Model
 
             return summaries.Select(
                 summary => new PairStatistic(
-                    summary.Pair, summary.High, summary.Low, summary.BaseVolume, summary.Last, 
+                    summary.Pair, summary.High, summary.Low, summary.BaseVolume, summary.QuoteVolume, summary.Last, 
                     summary.PreviousDayPrice, summary.CountOpenedBuyOrders, summary.CountOpenedSellOrders)).ToList();
         }
 

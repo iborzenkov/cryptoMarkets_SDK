@@ -74,8 +74,8 @@ namespace CryptoSdk.Dummy
         public ICollection<PairStatistic> PairsStatistic()
         {
             var result = new List<PairStatistic>();
-            result.Add(new PairStatistic(PairDummy.LtcBtc, 0.1234, 0.0234, 1234, 0.02, 0.02345, 40, 34));
-            result.Add(new PairStatistic(PairDummy.EthBtc, 10, 7, 100, 7, 4, 400, 340));
+            result.Add(new PairStatistic(PairDummy.LtcBtc, 0.1234, 0.0234, 1234, 4321, 0.02, 0.02345, 40, 34));
+            result.Add(new PairStatistic(PairDummy.EthBtc, 10, 7, 100, 200, 7, 4, 400, 340));
 
             return result;
         }

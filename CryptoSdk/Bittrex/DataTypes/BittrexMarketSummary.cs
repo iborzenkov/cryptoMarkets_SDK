@@ -34,10 +34,10 @@ namespace CryptoSdk.Bittrex.DataTypes
         public double Low { get; set; }
 
         /// <summary>
-        /// Volume
+        /// Quote Volume
         /// </summary>
         [DataMember(Name = "Volume", EmitDefaultValue = false)]
-        public double Volume { get; set; }
+        public double QuoteVolume { get; set; }
 
         /// <summary>
         /// Last
