@@ -1,40 +1,40 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CryptoSdk.Poloniex.DataTypes.Extensions;
-using CryptoSdk.Bittrex.Features;
-using CryptoSdk.Bittrex.Model;
-using CryptoSdk.Poloniex.Connection;
+﻿using CryptoSdk.Poloniex.Connection;
 using CryptoSdk.Poloniex.DataTypes;
+using CryptoSdk.Poloniex.DataTypes.Extensions;
+using CryptoSdk.Poloniex.DataTypes.Misc;
 using DomainModel;
 using DomainModel.Features;
 using DomainModel.MarketModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoSdk.Poloniex.Model
 {
-    public class PoloniexInfo : BasePoloniex, IPoloniexMarketInfo
+    public class PoloniexInfo : BasePoloniex, IMarketInfo
     {
-
         public PoloniexInfo(IConnection connection) : base(connection)
         {
         }
 
-        Tick IMarketInfo.Tick(Pair pair)
+        public Tick Tick(Pair pair)
         {
-            Tick result = null;
+            var parameters = new Tuple<string, string>[1];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetTicker);
 
-            /*var query = Connection.PublicGetQuery<BittrexTickerDataType>(
-                EndPoints.GetTicker, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
-            if (query.Success)
-                result = query.Ticker.ToTick();*/
-
-            return result;
+            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.Public, parameters);
+            var key = PoloniexPairs.AsString(pair);
+            return query.ContainsKey(key) ? query[key].ToTick() : null;
         }
 
         public IEnumerable<PairOfMarket> Pairs(Market market)
         {
             var result = new List<PairOfMarket>();
 
-            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.GetTicker);
+            var parameters = new Tuple<string, string>[1];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetTicker);
+
+            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.Public, parameters);
             foreach (var pairName in query.Keys)
             {
                 result.Add(query[pairName].ToPair(pairName, market));
@@ -52,7 +52,10 @@ namespace CryptoSdk.Poloniex.Model
         {
             var result = new List<CurrencyOfMarket>();
 
-            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexCurrencyDataType>>(EndPoints.GetCurrencies);
+            var parameters = new Tuple<string, string>[1];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetCurrencies);
+
+            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexCurrencyDataType>>(EndPoints.Public, parameters);
 
             foreach (var currencyShortName in query.Keys)
             {
@@ -61,11 +64,14 @@ namespace CryptoSdk.Poloniex.Model
             return result;
         }
 
-        public ICollection<PairStatistic> PairsStatistic()
+        public ICollection<Pair24HoursStatistic> Pairs24HoursStatistic()
         {
-            var result = new List<PairStatistic>();
+            var result = new List<Pair24HoursStatistic>();
 
-            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.GetTicker);
+            var parameters = new Tuple<string, string>[1];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetTicker);
+
+            var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.Public, parameters);
 
             foreach (var pairName in query.Keys)
             {
@@ -74,65 +80,43 @@ namespace CryptoSdk.Poloniex.Model
             return result;
         }
 
-        ICollection<MarketHistory> IMarketInfo.MarketHistory(Pair pair)
+        public Pair24HoursStatistic Pair24HoursStatistic(Pair pair)
         {
-            var result = new List<MarketHistory>();
-
-            /*var parameters = new Tuple<string, string>[1];
-            parameters[0] = new Tuple<string, string>("market", BittrexPairs.AsString(pair));
-
-            var query = Connection.PublicGetQuery<BittrexMarketHistoryDataType>(EndPoints.GetMarketHistory, parameters);
-            if (query.Success)
-                result.AddRange(
-                    query.Items.Select(item => item.ToHistory(pair)));*/
-
-            return result;
+            return Pairs24HoursStatistic().FirstOrDefault(s => s.Pair.Equals(pair));
         }
 
-        OrderBook IMarketInfo.OrderBook(Pair pair, int depth, OrderBookType orderBookType)
+        public IEnumerable<MarketHistory> MarketTradeHistory(Pair pair, TimeRange timeRange)
         {
-            OrderBook result = null;
+            var paramsCount = timeRange != null ? 4 : 2;
+            var parameters = new Tuple<string, string>[paramsCount];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetMarketHistory);
+            parameters[1] = new Tuple<string, string>("currencyPair", PoloniexPairs.AsString(pair));
+            if (timeRange != null)
+            {
+                parameters[2] = new Tuple<string, string>("start", PoloniexTools.DateTimeToUnixTimeStamp(timeRange.Start).ToString());
+                parameters[3] = new Tuple<string, string>("end", PoloniexTools.DateTimeToUnixTimeStamp(timeRange.Finish).ToString());
+            }
 
-            /*var parameters = new Tuple<string, string>[3];
-            parameters[0] = new Tuple<string, string>("market", BittrexPairs.AsString(pair));
-            parameters[1] = new Tuple<string, string>("type", orderBookType.AsString());
+            var query = Connection.PublicGetQuery<List<PoloniexTradeHistoryDataType>>(EndPoints.Public, parameters);
+
+            return query.Select(item => item.ToHistory(pair));
+        }
+
+        public OrderBook OrderBook(Pair pair, int depth, OrderBookType orderBookType)
+        {
+            var parameters = new Tuple<string, string>[3];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetOrderBook);
+            parameters[1] = new Tuple<string, string>("currencyPair", PoloniexPairs.AsString(pair));
             parameters[2] = new Tuple<string, string>("depth", depth.ToString());
 
-            if (orderBookType == OrderBookType.Both)
-            {
-                var query = Connection.PublicGetQuery<BittrexOrderBookDataType>(EndPoints.GetOrderBook, parameters);
-                if (query.Success)
-                    result = query.ToOrderBook(pair);
-            }
-            else
-            {
-                var query = Connection.PublicGetQuery<BittrexOrderBookOneSideDataType>(EndPoints.GetOrderBook, parameters);
-                if (query.Success)
-                    result = query.ToOrderBook(pair, orderBookType);
-            }*/
+            var query = Connection.PublicGetQuery<PoloniexOrderBookDataType>(EndPoints.Public, parameters);
+            var result = query.ToOrderBook(pair);
 
-            return result;
-        }
+            if (orderBookType == OrderBookType.Buy)
+                result.ReplaceBids(null);
 
-        public ICollection<MarketSummary> MarketSummaries()
-        {
-            var result = new List<MarketSummary>();
-
-            /*var query = Connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
-            if (query.Success)
-                result.AddRange(query.MarketSummaries.Select(marketSummary => marketSummary.ToMarketSummary()));*/
-
-            return result;
-        }
-
-        public MarketSummary MarketSummaries(Pair pair)
-        {
-            MarketSummary result = null;
-
-            /*var query = Connection.PublicGetQuery<BittrexMarketSummaries>(
-                EndPoints.GetMarketSummary, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
-            if (query.Success)
-                result = query.MarketSummaries[0].ToMarketSummary();*/
+            if (orderBookType == OrderBookType.Sell)
+                result.ReplaceAsk(null);
 
             return result;
         }

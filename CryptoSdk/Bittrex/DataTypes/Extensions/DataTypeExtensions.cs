@@ -1,9 +1,8 @@
-﻿using CryptoSdk.Bittrex.Features;
+﻿using CryptoSdk.Bittrex.DataTypes.Misc;
 using DomainModel;
 using DomainModel.Features;
 using System;
 using System.Linq;
-using CryptoSdk.Bittrex.DataTypes.Misc;
 
 namespace CryptoSdk.Bittrex.DataTypes.Extensions
 {
@@ -13,7 +12,7 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
         {
             var currency = new CurrencyOfMarket(
                 new Currency(currencyDataType.CurrencyName, currencyDataType.CurrencyLongName),
-                market, currencyDataType.TxFee, currencyDataType.IsActive, 
+                market, currencyDataType.TxFee, currencyDataType.IsActive,
                 CryptoAddress.FromString(currencyDataType.BaseAddress),
                 currencyDataType.MinConfirmation);
 
@@ -80,30 +79,21 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             return new Tick(tickerDataType.Bid, tickerDataType.Ask, tickerDataType.Last);
         }
 
-        public static MarketSummary ToMarketSummary(this BittrexMarketSummary marketSummaryDataType)
+        public static Pair24HoursStatistic ToMarketSummary(this BittrexMarketSummary marketSummaryDataType)
         {
             Pair pair;
             if (!BittrexPairs.TryParsePair(marketSummaryDataType.MarketName, out pair))
                 return null;
 
-            var summary = new MarketSummary
-            {
-                BaseVolume = marketSummaryDataType.BaseVolume,
-                Bid = marketSummaryDataType.Bid,
-                Ask = marketSummaryDataType.Ask,
-                CountOpenedBuyOrders = marketSummaryDataType.CountOpenBuyOrders,
-                CountOpenedSellOrders = marketSummaryDataType.CountOpenSellOrders,
-                High = marketSummaryDataType.High,
-                Last = marketSummaryDataType.Last,
-                Low = marketSummaryDataType.Low,
-                Pair = pair,
-                QuoteVolume = marketSummaryDataType.QuoteVolume,
-                PreviousDayPrice = marketSummaryDataType.PrevDay
-            };
+            DateTime parsedTimeStamp;
+            var timeStamp = DateTime.TryParse(marketSummaryDataType.TimeStamp, out parsedTimeStamp) ? parsedTimeStamp : (DateTime?)null;
 
-            DateTime timeStamp;
-            if (DateTime.TryParse(marketSummaryDataType.TimeStamp, out timeStamp))
-                summary.TimeStamp = timeStamp;
+            var summary = new Pair24HoursStatistic(pair,
+                marketSummaryDataType.High, marketSummaryDataType.Low,
+                marketSummaryDataType.BaseVolume, marketSummaryDataType.QuoteVolume,
+                marketSummaryDataType.Last, marketSummaryDataType.PrevDay,
+                marketSummaryDataType.CountOpenBuyOrders, marketSummaryDataType.CountOpenSellOrders,
+                timeStamp);
 
             return summary;
         }

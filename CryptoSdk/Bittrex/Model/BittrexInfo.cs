@@ -2,24 +2,23 @@
 using CryptoSdk.Bittrex.DataTypes;
 using CryptoSdk.Bittrex.DataTypes.Extensions;
 using CryptoSdk.Bittrex.DataTypes.Misc;
-using CryptoSdk.Bittrex.Features;
 using DomainModel;
 using DomainModel.Features;
-using DomainModel.MarketModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DomainModel.MarketModel;
 
 namespace CryptoSdk.Bittrex.Model
 {
-    public class BittrexInfo : BaseBittrex, IBittrexMarketInfo
+    public class BittrexInfo : BaseBittrex, IMarketInfo
     {
 
         public BittrexInfo(IConnection connection) : base(connection)
         {
         }
 
-        Tick IMarketInfo.Tick(Pair pair)
+        public Tick Tick(Pair pair)
         {
             Tick result = null;
 
@@ -31,7 +30,7 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
-        IEnumerable<PairOfMarket> IMarketInfo.Pairs(Market market)
+        public IEnumerable<PairOfMarket> Pairs(Market market)
         {
             var result = new List<PairOfMarket>();
 
@@ -48,7 +47,7 @@ namespace CryptoSdk.Bittrex.Model
             return string.CompareOrdinal(pair1.Pair.ToString(), pair2.Pair.ToString());
         }
 
-        IEnumerable<CurrencyOfMarket> IMarketInfo.Currencies(Market market)
+        public IEnumerable<CurrencyOfMarket> Currencies(Market market)
         {
             var result = new List<CurrencyOfMarket>();
 
@@ -59,17 +58,30 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
-        ICollection<PairStatistic> IMarketInfo.PairsStatistic()
+        public ICollection<Pair24HoursStatistic> Pairs24HoursStatistic()
         {
-            var summaries = (this as IBittrexMarketInfo).MarketSummaries();
+            var result = new List<Pair24HoursStatistic>();
 
-            return summaries.Select(
-                summary => new PairStatistic(
-                    summary.Pair, summary.High, summary.Low, summary.BaseVolume, summary.QuoteVolume, summary.Last, 
-                    summary.PreviousDayPrice, summary.CountOpenedBuyOrders, summary.CountOpenedSellOrders)).ToList();
+            var query = Connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
+            if (query.Success)
+                result.AddRange(query.MarketSummaries.Select(summaryDataType => summaryDataType.ToMarketSummary()));
+
+            return result;
         }
 
-        ICollection<MarketHistory> IMarketInfo.MarketHistory(Pair pair)
+        public Pair24HoursStatistic Pair24HoursStatistic(Pair pair)
+        {
+            Pair24HoursStatistic result = null;
+
+            var query = Connection.PublicGetQuery<BittrexMarketSummaries>(
+                EndPoints.GetMarketSummary, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
+            if (query.Success)
+                result = query.MarketSummaries[0].ToMarketSummary();
+
+            return result;
+        }
+
+        public IEnumerable<MarketHistory> MarketTradeHistory(Pair pair, TimeRange timeRange)
         {
             var result = new List<MarketHistory>();
 
@@ -84,7 +96,7 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
-        OrderBook IMarketInfo.OrderBook(Pair pair, int depth, OrderBookType orderBookType)
+        public OrderBook OrderBook(Pair pair, int depth, OrderBookType orderBookType)
         {
             OrderBook result = null;
 
@@ -105,29 +117,6 @@ namespace CryptoSdk.Bittrex.Model
                 if (query.Success)
                     result = query.ToOrderBook(pair, orderBookType);
             }
-
-            return result;
-        }
-
-        ICollection<MarketSummary> IBittrexMarketInfo.MarketSummaries()
-        {
-            var result = new List<MarketSummary>();
-
-            var query = Connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
-            if (query.Success)
-                result.AddRange(query.MarketSummaries.Select(marketSummary => marketSummary.ToMarketSummary()));
-
-            return result;
-        }
-
-        MarketSummary IBittrexMarketInfo.MarketSummaries(Pair pair)
-        {
-            MarketSummary result = null;
-
-            var query = Connection.PublicGetQuery<BittrexMarketSummaries>(
-                EndPoints.GetMarketSummary, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
-            if (query.Success)
-                result = query.MarketSummaries[0].ToMarketSummary();
 
             return result;
         }

@@ -11,7 +11,7 @@ namespace Views.Interfaces
 
         void SetPairs(IEnumerable<PairOfMarket> pairs);
 
-        void SetStatistics(IEnumerable<PairStatistic> statistics);
+        void SetStatistics(IEnumerable<Pair24HoursStatistic> statistics);
 
         void InitFilter();
 

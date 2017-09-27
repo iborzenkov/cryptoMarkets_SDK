@@ -65,28 +65,28 @@ namespace Models.Implementations
 
         private readonly TimeInterval _refreshInterval = TimeInterval.InMinutes(1);
 
-        private void PairStatisticUpdater_Changed(ICollection<PairStatistic> statistics)
+        private void PairStatisticUpdater_Changed(ICollection<Pair24HoursStatistic> statistics)
         {
             SetStatistics(statistics);
         }
 
-        private void SetStatistics(IEnumerable<PairStatistic> statistics)
+        private void SetStatistics(IEnumerable<Pair24HoursStatistic> statistics)
         {
             Statistics = statistics;
             OnStatisticChanged();
         }
 
-        public IEnumerable<PairStatistic> Statistics { get; set; }
+        public IEnumerable<Pair24HoursStatistic> Statistics { get; set; }
 
         private void OnStatisticChanged()
         {
             StatisticsChanged?.Invoke(Statistics);
         }
 
-        public event Action<IEnumerable<PairStatistic>> StatisticsChanged;
+        public event Action<IEnumerable<Pair24HoursStatistic>> StatisticsChanged;
 
         IEnumerable<Market> IPairModel.Markets => _domainModel.Markets;
-        private IUpdater<ICollection<PairStatistic>, Market> _statisticUpdater;
+        private IUpdater<ICollection<Pair24HoursStatistic>, Market> _statisticUpdater;
 
         void IPairModel.SetFilter(PairViewFilter filter)
         {

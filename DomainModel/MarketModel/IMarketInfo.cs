@@ -1,4 +1,5 @@
-﻿using DomainModel.Features;
+﻿using System;
+using DomainModel.Features;
 using System.Collections.Generic;
 
 namespace DomainModel.MarketModel
@@ -26,8 +27,10 @@ namespace DomainModel.MarketModel
         /// <param name="depth">The depth of orderbook</param>
         OrderBook OrderBook(Pair pair, int depth = 10, OrderBookType orderBookType = OrderBookType.Both);
 
-        ICollection<PairStatistic> PairsStatistic();
+        ICollection<Pair24HoursStatistic> Pairs24HoursStatistic();
 
-        ICollection<MarketHistory> MarketHistory(Pair pair);
+        Pair24HoursStatistic Pair24HoursStatistic(Pair pair);
+
+        IEnumerable<MarketHistory> MarketTradeHistory(Pair pair, TimeRange timeRange);
     }
 }

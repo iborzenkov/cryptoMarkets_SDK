@@ -2,7 +2,7 @@
 
 namespace DomainModel.Features
 {
-    public class PairStatistic
+    public class Pair24HoursStatistic
     {
         private double? _dailyChange;
         public Pair Pair { get; }
@@ -14,21 +14,21 @@ namespace DomainModel.Features
         public double? PrevDayPrice { get; }
         public int? OpenBuyOrders { get; }
         public int? OpenSellOrders { get; }
+        public DateTime? TimeStamp { get; }
 
-        public PairStatistic(Pair pair, double high, double low, double baseVolume, double quoteVolume, double last, double dailyChange)
-            : this(pair, high, low, baseVolume, quoteVolume, last, null, null, null, dailyChange)
+        public Pair24HoursStatistic(Pair pair, double high, double low, double baseVolume, double quoteVolume, double last, double dailyChange)
+            : this(pair, high, low, baseVolume, quoteVolume, last, null, null, null, dailyChange, DateTime.Now)
         {
         }
 
-        public PairStatistic(Pair pair, double high, double low, double baseVolume, double quoteVolume, double last,
-            double? prevDayPrice, int? openBuyOrders, int? openSellOrders) 
-            : this(pair, high, low, baseVolume, quoteVolume, last, prevDayPrice, openBuyOrders, openSellOrders, null)
+        public Pair24HoursStatistic(Pair pair, double high, double low, double baseVolume, double quoteVolume, double last,
+            double? prevDayPrice, int? openBuyOrders, int? openSellOrders, DateTime? timeStamp)
+            : this(pair, high, low, baseVolume, quoteVolume, last, prevDayPrice, openBuyOrders, openSellOrders, null, timeStamp)
         {
-            
         }
 
-            public PairStatistic(Pair pair, double high, double low, double baseVolume, double quoteVolume, double last,
-            double? prevDayPrice, int? openBuyOrders, int? openSellOrders, double? dailyChange)
+        public Pair24HoursStatistic(Pair pair, double high, double low, double baseVolume, double quoteVolume, double last,
+            double? prevDayPrice, int? openBuyOrders, int? openSellOrders, double? dailyChange, DateTime? timeStamp)
         {
             Pair = pair;
             High = high;
@@ -39,6 +39,7 @@ namespace DomainModel.Features
             PrevDayPrice = prevDayPrice;
             OpenBuyOrders = openBuyOrders;
             OpenSellOrders = openSellOrders;
+            TimeStamp = timeStamp;
             _dailyChange = dailyChange;
         }
 

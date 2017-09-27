@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CryptoSdk.Bittrex.Connection;
-using CryptoSdk.Bittrex.DataTypes;
-using CryptoSdk.Bittrex.DataTypes.Misc;
+﻿using CryptoSdk.Poloniex.Connection;
+using CryptoSdk.Poloniex.DataTypes;
 using CryptoSdk.Poloniex.DataTypes.Extensions;
 using DomainModel.Features;
 using DomainModel.MarketModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoSdk.Poloniex.Model
 {
     public class PoloniexAccountInfo : PoloniexPrivate, IAccountInfo
     {
-
         public PoloniexAccountInfo(IConnection connection) : base(connection)
         {
         }
@@ -21,17 +19,25 @@ namespace CryptoSdk.Poloniex.Model
         {
             var apiKeys = market.ApiKeys(ApiKeyRole.Info);
 
+            var balanceParameters = new Tuple<string, string>[1];
+            balanceParameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetBalances);
+
             var result = new List<Balance>();
-            var query = Connection.PrivateGetQuery<BittrexBalancesDataType>(
-                EndPoints.GetBalances, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey));
-            if (query.Success)
+            var queryBalance = Connection.PrivateGetQuery<Dictionary<string, PoloniexBalanceDataType>>(
+                EndPoints.Trading, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, balanceParameters));
+
+            var purseParameters = new Tuple<string, string>[1];
+            purseParameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetPurseAddress);
+            var queryPurse = Connection.PrivateGetQuery<Dictionary<string, string>>(
+                EndPoints.Trading, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, purseParameters));
+
+            foreach (var currencyName in queryBalance.Keys)
             {
-                result.AddRange(
-                    query.Balances.Select(
-                        balanceDataType =>
-                            balanceDataType.ToBalance(
-                                market,
-                                market.Currencies.First(c => c.Currency.Name == balanceDataType.Currency).Currency)));
+                string purse;
+                queryPurse.TryGetValue(currencyName, out purse);
+                result.Add(
+                    queryBalance[currencyName].ToBalance(
+                        market.Currencies.First(c => c.Currency.Name == currencyName), purse));
             }
 
             return result;
@@ -39,18 +45,7 @@ namespace CryptoSdk.Poloniex.Model
 
         public Balance Balance(Market market, Currency currency)
         {
-            Balance balance = null;
-            var parameters = new Tuple<string, string>[1];
-            parameters[0] = Tuple.Create("currency", currency.Name);
-
-            var apiKeys = market.ApiKeys(ApiKeyRole.Info);
-
-            var query = Connection.PrivateGetQuery<BittrexBalanceDataType>(
-                EndPoints.GetBalance, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
-            if (query.Success)
-                balance = query.Balance.ToBalance(market, currency);
-
-            return balance;
+            return Balances(market).FirstOrDefault(b => b.Currency.Equals(currency));
         }
 
         public Balance Balance(CurrencyOfMarket currency)
@@ -61,7 +56,7 @@ namespace CryptoSdk.Poloniex.Model
         public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
         {
             var result = new List<Order>();
-            var apiKeys = market.ApiKeys(ApiKeyRole.Info);
+            /*var apiKeys = market.ApiKeys(ApiKeyRole.Info);
 
             var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", BittrexPairs.AsString(pair)) };
 
@@ -70,7 +65,7 @@ namespace CryptoSdk.Poloniex.Model
             if (query.Success)
             {
                 result.AddRange(query.Orders.Select(order => order.ToOrder(market)));
-            }
+            }*/
 
             return result;
         }

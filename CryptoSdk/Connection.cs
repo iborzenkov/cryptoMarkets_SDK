@@ -41,8 +41,8 @@ namespace CryptoSdk
 
         protected static string HashHmac(string message, string secretKey)
         {
-            Encoding encoding = Encoding.UTF8;
-            using (HMACSHA512 hmac = new HMACSHA512(encoding.GetBytes(secretKey)))
+            var encoding = Encoding.UTF8;
+            using (var hmac = new HMACSHA512(encoding.GetBytes(secretKey)))
             {
                 var msg = encoding.GetBytes(message);
                 var hash = hmac.ComputeHash(msg);

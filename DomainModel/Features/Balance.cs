@@ -12,6 +12,11 @@
             Pending = pending;
         }
 
+        public Balance(CurrencyOfMarket currency, CryptoAddress address, double available, double reserved, double pending) 
+            : this(currency.Market, currency.Currency, address, available, reserved, pending)
+        {
+        }
+
         public Currency Currency { get; }
 
         public Market Market { get; }

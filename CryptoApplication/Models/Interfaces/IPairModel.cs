@@ -13,7 +13,7 @@ namespace Models.Interfaces
 
         void Release();
 
-        event Action<IEnumerable<PairStatistic>> StatisticsChanged;
+        event Action<IEnumerable<Pair24HoursStatistic>> StatisticsChanged;
         event Action<IEnumerable<PairOfMarket>> PairsChanged;
     }
 }

@@ -52,7 +52,8 @@
     <Compile Include="Features\Balance.cs" />
     <Compile Include="Features\Order.cs" />
     <Compile Include="Features\MarketHistory.cs" />
-    <Compile Include="Features\PairStatistic.cs" />
+    <Compile Include="Features\Pair24HoursStatistic.cs" />
+    <Compile Include="Features\TimeRange.cs" />
     <Compile Include="Features\Trade.cs" />
     <Compile Include="Features\UsdEquivalent.cs" />
     <Compile Include="MarketModel\ApiKeyProvider.cs" />

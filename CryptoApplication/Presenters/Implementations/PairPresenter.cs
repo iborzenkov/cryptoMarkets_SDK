@@ -39,7 +39,7 @@ namespace Presenters.Implementations
             Model.Release();
         }
 
-        private void Model_StatisticsChanged(IEnumerable<PairStatistic> pairStatistics)
+        private void Model_StatisticsChanged(IEnumerable<Pair24HoursStatistic> pairStatistics)
         {
             View.SetStatistics(pairStatistics);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DomainModel.MarketModel.Updaters.PairStatistic
 {
-    internal class PairStatisticUpdater : Updater<ICollection<Features.PairStatistic>, Market>
+    internal class PairStatisticUpdater : Updater<ICollection<Features.Pair24HoursStatistic>, Market>
     {
         private const int DefaultRefreshInterval = 30 * 1000;
 
@@ -15,9 +15,9 @@ namespace DomainModel.MarketModel.Updaters.PairStatistic
             _marketInfo = OwnerFeature.Model.Info;
         }
 
-        protected override ICollection<Features.PairStatistic> UpdateFeature()
+        protected override ICollection<Features.Pair24HoursStatistic> UpdateFeature()
         {
-            var result = _marketInfo.PairsStatistic();
+            var result = _marketInfo.Pairs24HoursStatistic();
             OnChanged(result);
             return result;
         }

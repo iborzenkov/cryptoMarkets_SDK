@@ -64,7 +64,6 @@
     <Compile Include="Bittrex\DataTypes\Misc\BittrexPairs.cs" />
     <Compile Include="Bittrex\Features\MarketSummary.cs" />
     <Compile Include="Bittrex\Model\BittrexTrade.cs" />
-    <Compile Include="Bittrex\Model\IBittrexMarketInfo.cs" />
     <Compile Include="Dummy\PairDummy.cs" />
     <Compile Include="Dummy\DummyAccount.cs" />
     <Compile Include="Dummy\CurrencyDummy.cs" />
@@ -76,25 +75,22 @@
     <Compile Include="Poloniex\Connection\PoloniexConnection.cs" />
     <Compile Include="Poloniex\Connection\EndPoints.cs" />
     <Compile Include="Poloniex\DataTypes\BaseDataType.cs" />
-    <Compile Include="Poloniex\DataTypes\BittrexBalancesDataType.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexBalancesDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexCurrencyDataType.cs" />
-    <Compile Include="Poloniex\DataTypes\BittrexMarketHistory.cs" />
-    <Compile Include="Poloniex\DataTypes\BittrexMarketSummary.cs" />
-    <Compile Include="Poloniex\DataTypes\BittrexOrderBook.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexTradeHistoryDataType.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexOrderBookDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexTickerDataType.cs" />
     <Compile Include="Poloniex\DataTypes\BittrexTradeDataType.cs" />
     <Compile Include="Poloniex\DataTypes\Extensions\DataTypeExtensions.cs" />
-    <Compile Include="Poloniex\DataTypes\Misc\BittrexOrderBookTypeEnum.cs" />
     <Compile Include="Poloniex\DataTypes\Misc\PoloniexPairs.cs" />
     <Compile Include="Poloniex\Features\PoloniexFee.cs" />
-    <Compile Include="Poloniex\Features\MarketSummary.cs" />
     <Compile Include="Poloniex\Model\BasePoloniex.cs" />
     <Compile Include="Poloniex\Model\PoloniexAccountInfo.cs" />
     <Compile Include="Poloniex\Model\PoloniexInfo.cs" />
     <Compile Include="Poloniex\Model\PoloniexModel.cs" />
     <Compile Include="Poloniex\Model\PoloniexPrivate.cs" />
     <Compile Include="Poloniex\Model\PoloniexTrade.cs" />
-    <Compile Include="Poloniex\Model\IPoloniexMarketInfo.cs" />
+    <Compile Include="Poloniex\PoloniexTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Misc\Utils.cs" />
   </ItemGroup>

@@ -55,7 +55,7 @@ namespace Views.Implementations
 
                     foreach (var pair in pairs)
                     {
-                        PairStatistic statistic = null;
+                        Pair24HoursStatistic statistic = null;
                         if (_statistics != null)
                             statistic = _statistics.FirstOrDefault(s => s.Pair.Equals(pair.Pair));
 
@@ -78,7 +78,7 @@ namespace Views.Implementations
             }));
         }
 
-        private string DailyVolume(PairStatistic statistic)
+        private string DailyVolume(Pair24HoursStatistic statistic)
         {
             return statistic == null
                 ? string.Empty
@@ -101,16 +101,16 @@ namespace Views.Implementations
             }
         }
 
-        private string DailyChange(PairStatistic statistic)
+        private string DailyChange(Pair24HoursStatistic statistic)
         {
             return statistic == null
                 ? string.Empty
                 : $"{Math.Round(statistic.DailyChangeOfLastPrice(), 2).ToString(CultureInfo.InvariantCulture)}%";
         }
 
-        private IEnumerable<PairStatistic> _statistics;
+        private IEnumerable<Pair24HoursStatistic> _statistics;
 
-        public void SetStatistics(IEnumerable<PairStatistic> statistics)
+        public void SetStatistics(IEnumerable<Pair24HoursStatistic> statistics)
         {
             pairListView.BeginInvoke(new Action(() =>
             {
@@ -122,7 +122,7 @@ namespace Views.Implementations
                     if (statistics == null)
                         return;
 
-                    var pairStatistics = _statistics as PairStatistic[] ?? _statistics.ToArray();
+                    var pairStatistics = _statistics as Pair24HoursStatistic[] ?? _statistics.ToArray();
                     for (var i = 0; i < pairListView.Items.Count; i++)
                     {
                         var pair = pairListView.Items[i].Tag as PairOfMarket;
@@ -257,9 +257,9 @@ namespace Views.Implementations
     {
         private readonly int _column;
         private readonly bool _mode;
-        private readonly IEnumerable<PairStatistic> _statistics;
+        private readonly IEnumerable<Pair24HoursStatistic> _statistics;
 
-        public ListViewItemComparer(int column, bool mode, IEnumerable<PairStatistic> statistics)
+        public ListViewItemComparer(int column, bool mode, IEnumerable<Pair24HoursStatistic> statistics)
         {
             _column = column;
             _mode = mode;
@@ -296,7 +296,7 @@ namespace Views.Implementations
             return value1.CompareTo(value2);
         }
 
-        private PairStatistic Statistic(object obj)
+        private Pair24HoursStatistic Statistic(object obj)
         {
             var pair = ((ListViewItem)obj).Tag as PairOfMarket;
             return _statistics.FirstOrDefault(s => s.Pair.Equals(pair.Pair));
@@ -304,13 +304,19 @@ namespace Views.Implementations
 
         public int Compare(object x, object y)
         {
-            switch (_column)
+            var statisticX = Statistic(x);
+            var statisticY = Statistic(y);
+            if (statisticX != null && statisticY != null)
             {
-                case 2:
-                    return CompareNumbers(Statistic(x).DailyChangeOfLastPrice(), Statistic(y).DailyChangeOfLastPrice());
+                switch (_column)
+                {
+                    case 2:
+                        return CompareNumbers(Statistic(x).DailyChangeOfLastPrice(),
+                            Statistic(y).DailyChangeOfLastPrice());
 
-                case 3:
-                    return CompareNumbers(Statistic(x).BaseVolume, Statistic(y).BaseVolume);
+                    case 3:
+                        return CompareNumbers(Statistic(x).BaseVolume, Statistic(y).BaseVolume);
+                }
             }
 
             return CompareStrings(

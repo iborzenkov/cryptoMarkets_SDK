@@ -3,6 +3,7 @@ using CryptoSdk.Poloniex.DataTypes.Misc;
 using DomainModel;
 using DomainModel.Features;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace CryptoSdk.Poloniex.DataTypes.Extensions
@@ -26,7 +27,7 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             return PoloniexPairs.TryParsePair(pairName, out pair) ? new PairOfMarket(pair, market, !pairDataType.IsFrozen) : null;
         }
 
-        public static MarketHistory ToHistory(this Bittrex.DataTypes.BittrexMarketHistoryItemDataType historyDataType, Pair pair)
+        public static MarketHistory ToHistory(this PoloniexTradeHistoryDataType historyDataType, Pair pair)
         {
             DateTime timeStamp;
             if (!DateTime.TryParse(historyDataType.TimeStamp, out timeStamp))
@@ -54,33 +55,29 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             return history;
         }
 
-        public static Balance ToBalance(this Bittrex.DataTypes.BittrexBalanceItemDataType balanceItemDataType, Market market, Currency currency)
+        public static Balance ToBalance(this PoloniexBalanceDataType balanceItemDataType, CurrencyOfMarket currency, string cryptoAddress)
         {
-            double reserved = 0;
-            if (balanceItemDataType.Balance.HasValue && balanceItemDataType.Available.HasValue)
-                reserved = balanceItemDataType.Balance.Value - balanceItemDataType.Available.Value;
-
             var balance = new Balance(
-                market, currency, CryptoAddress.FromString(balanceItemDataType.CryptoAddress),
+                currency, CryptoAddress.FromString(cryptoAddress),
                 balanceItemDataType.Available ?? 0,
-                reserved,
+                0,
                 balanceItemDataType.Pending ?? 0);
 
             return balance;
         }
 
-        public static Tick ToTick(this Bittrex.DataTypes.TickerDataType tickerDataType)
+        public static Tick ToTick(this PoloniexTickerDataType tickerDataType)
         {
             return new Tick(tickerDataType.Bid, tickerDataType.Ask, tickerDataType.Last);
         }
 
-        public static PairStatistic ToPairsStatistic(this PoloniexTickerDataType tickerDataType, string pairName)
+        public static Pair24HoursStatistic ToPairsStatistic(this PoloniexTickerDataType tickerDataType, string pairName)
         {
             Pair pair;
             if (!PoloniexPairs.TryParsePair(pairName, out pair))
                 return null;
 
-            var summary = new PairStatistic(pair, tickerDataType.High24Hr, tickerDataType.Low24Hr,
+            var summary = new Pair24HoursStatistic(pair, tickerDataType.High24Hr, tickerDataType.Low24Hr,
                 tickerDataType.BaseVolume, tickerDataType.QuoteVolume, 
                 tickerDataType.Last, tickerDataType.DailyChange);
 
@@ -119,28 +116,17 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             return order;
         }
 
-        public static OrderBook ToOrderBook(this Bittrex.DataTypes.BittrexOrderBookDataType orderBookDataType, Pair pair)
+        public static OrderBook ToOrderBook(this PoloniexOrderBookDataType orderBookDataType, Pair pair)
         {
             var result = new OrderBook(pair);
 
-            var asks = orderBookDataType.OrderBook.Asks.Select(ask => new OrderBookPart(ask.Price, ask.Quantity));
+            var nfi  = new NumberFormatInfo { NumberDecimalSeparator = "." };
+
+            var asks = orderBookDataType.Asks.Select(ask => new OrderBookPart(double.Parse(ask[0], nfi), double.Parse(ask[1], nfi)));
             result.ReplaceAsk(asks);
 
-            var bids = orderBookDataType.OrderBook.Bids.Select(bid => new OrderBookPart(bid.Price, bid.Quantity));
+            var bids = orderBookDataType.Bids.Select(bid => new OrderBookPart(double.Parse(bid[0], nfi), double.Parse(bid[1], nfi)));
             result.ReplaceBids(bids);
-
-            return result;
-        }
-
-        public static OrderBook ToOrderBook(this Bittrex.DataTypes.BittrexOrderBookOneSideDataType orderBookDataType, Pair pair, OrderBookType orderBookType)
-        {
-            var result = new OrderBook(pair);
-
-            var prices = orderBookDataType.Prices.Select(price => new OrderBookPart(price.Price, price.Quantity));
-            if (orderBookType == OrderBookType.Sell)
-                result.ReplaceAsk(prices);
-            else
-                result.ReplaceBids(prices);
 
             return result;
         }

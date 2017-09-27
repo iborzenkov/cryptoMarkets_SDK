@@ -17,7 +17,7 @@ namespace CryptoSdk.Poloniex.Model
             var commonParamsCount = 2;
             var additionalParamsCount = additionalParams == null ? 0 : additionalParams.Count;
             var parameters = new Tuple<string, string>[commonParamsCount + additionalParamsCount];
-            parameters[0] = Tuple.Create("apikey", publicKey.Key);
+            parameters[0] = Tuple.Create("key", publicKey.Key);
             parameters[1] = Tuple.Create("nonce", nonce.ToString());
 
             if (additionalParams != null)

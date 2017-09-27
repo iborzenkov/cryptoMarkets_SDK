@@ -71,20 +71,29 @@ namespace CryptoSdk.Dummy
             return result;
         }
 
-        public ICollection<PairStatistic> PairsStatistic()
+        public ICollection<Pair24HoursStatistic> Pairs24HoursStatistic()
         {
-            var result = new List<PairStatistic>();
-            result.Add(new PairStatistic(PairDummy.LtcBtc, 0.1234, 0.0234, 1234, 4321, 0.02, 0.02345, 40, 34));
-            result.Add(new PairStatistic(PairDummy.EthBtc, 10, 7, 100, 200, 7, 4, 400, 340));
+            var result = new List<Pair24HoursStatistic>
+            {
+                new Pair24HoursStatistic(PairDummy.LtcBtc, 0.1234, 0.0234, 1234, 4321, 0.02, 0.02345, 40, 34, DateTime.Now),
+                new Pair24HoursStatistic(PairDummy.EthBtc, 10, 7, 100, 200, 7, 4, 400, 340, DateTime.Now)
+            };
 
             return result;
         }
 
-        public ICollection<MarketHistory> MarketHistory(Pair pair)
+        public Pair24HoursStatistic Pair24HoursStatistic(Pair pair)
         {
-            var result = new List<MarketHistory>();
-            result.Add(new MarketHistory(pair, "id1", DateTime.Now, 12, 0.12, 34, TradePosition.Buy));
-            result.Add(new MarketHistory(pair, "id2", DateTime.Now, 2, 0.45, 8, TradePosition.Sell));
+            return new Pair24HoursStatistic(PairDummy.LtcBtc, 0.1234, 0.0234, 1234, 4321, 0.02, 0.02345, 40, 34, DateTime.Now);
+        }
+
+        public IEnumerable<MarketHistory> MarketTradeHistory(Pair pair, TimeRange timeRange)
+        {
+            var result = new List<MarketHistory>
+            {
+                new MarketHistory(pair, "id1", DateTime.Now, 12, 0.12, 34, TradePosition.Buy),
+                new MarketHistory(pair, "id2", DateTime.Now, 2, 0.45, 8, TradePosition.Sell)
+            };
 
             return result;
         }
