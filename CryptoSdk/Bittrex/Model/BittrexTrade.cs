@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CryptoSdk.Bittrex.Connection;
+﻿using CryptoSdk.Bittrex.Connection;
 using CryptoSdk.Bittrex.DataTypes;
-using CryptoSdk.Bittrex.DataTypes.Extensions;
 using CryptoSdk.Bittrex.DataTypes.Misc;
 using DomainModel.Features;
 using DomainModel.MarketModel;
+using System;
+using System.Collections.Generic;
 
 namespace CryptoSdk.Bittrex.Model
 {
-    public class BittrexTrade : BittrexPrivate, IMarketTrade
+    public class BittrexTrade : BittrexBase, IMarketTrade
     {
         public BittrexTrade(IConnection connection) : base(connection)
         {
@@ -31,7 +29,7 @@ namespace CryptoSdk.Bittrex.Model
             };
 
             var query = Connection.PrivateGetQuery<BittrexLimitOrderDataType>(
-                EndPoints.BuyLimit, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
+                EndPoints.BuyLimit, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
             {
                 result = new OrderId(query.Order.Id);
@@ -59,7 +57,7 @@ namespace CryptoSdk.Bittrex.Model
             };
 
             var query = Connection.PrivateGetQuery<BittrexLimitOrderDataType>(
-                EndPoints.SellLimit, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
+                EndPoints.SellLimit, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
             {
                 result = new OrderId(query.Order.Id);
@@ -82,7 +80,7 @@ namespace CryptoSdk.Bittrex.Model
             };
 
             var query = Connection.PrivateGetQuery<BittrexLimitOrderDataType>(
-                EndPoints.CancelOrder, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
+                EndPoints.CancelOrder, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
             {
                 errorMessage = string.Empty;

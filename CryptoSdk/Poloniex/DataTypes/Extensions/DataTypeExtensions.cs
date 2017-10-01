@@ -1,5 +1,4 @@
-﻿using CryptoSdk.Bittrex.Features;
-using CryptoSdk.Poloniex.DataTypes.Misc;
+﻿using CryptoSdk.Poloniex.DataTypes.Misc;
 using DomainModel;
 using DomainModel.Features;
 using System;
@@ -78,7 +77,7 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
                 return null;
 
             var summary = new Pair24HoursStatistic(pair, tickerDataType.High24Hr, tickerDataType.Low24Hr,
-                tickerDataType.BaseVolume, tickerDataType.QuoteVolume, 
+                tickerDataType.BaseVolume, tickerDataType.QuoteVolume,
                 tickerDataType.Last, tickerDataType.DailyChange);
 
             return summary;
@@ -99,19 +98,11 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             }
         }
 
-        public static Order ToOrder(this Bittrex.DataTypes.BittrexOpenedLimitOrderItemDataType openedLimitOrder, Market market)
+        public static Order ToOrder(this PoloniexOpenedOrdersDataType openedOrder, Market market, Pair pair)
         {
-            Pair pair;
-            if (!PoloniexPairs.TryParsePair(openedLimitOrder.Pair, out pair))
-                return null;
-
-            DateTime timeStamp;
-            DateTime? opened = null;
-            if (DateTime.TryParse(openedLimitOrder.Opened, out timeStamp))
-                opened = timeStamp;
             var order = new Order(
-                new OrderId(openedLimitOrder.Id), market, pair,
-                openedLimitOrder.Quantity, openedLimitOrder.Limit, PositionFromString(openedLimitOrder.OrderType), opened);
+                new OrderId(openedOrder.Id), market, pair,
+                openedOrder.Quantity, openedOrder.Price, PositionFromString(openedOrder.OrderType));
 
             return order;
         }
@@ -120,7 +111,7 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
         {
             var result = new OrderBook(pair);
 
-            var nfi  = new NumberFormatInfo { NumberDecimalSeparator = "." };
+            var nfi = new NumberFormatInfo { NumberDecimalSeparator = "." };
 
             var asks = orderBookDataType.Asks.Select(ask => new OrderBookPart(double.Parse(ask[0], nfi), double.Parse(ask[1], nfi)));
             result.ReplaceAsk(asks);

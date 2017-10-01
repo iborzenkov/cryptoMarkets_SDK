@@ -1,4 +1,5 @@
 ﻿using DomainModel.MarketModel;
+using DomainModel.MarketModel.ApiKeys;
 
 namespace DomainModel.Features
 {
@@ -27,13 +28,13 @@ namespace DomainModel.Features
         }
     }
 
-    public class ApiKeyPair
+    public class Authenticator
     {
         public ApiKeyRole Role { get; }
         public IApiKey PrivateKey { get; set; }
         public IApiKey PublicKey { get; set; }
 
-        public ApiKeyPair(ApiKeyRole role, IApiKey privateKey, IApiKey publicKey)
+        public Authenticator(ApiKeyRole role, IApiKey privateKey, IApiKey publicKey)
         {
             Role = role;
             PrivateKey = privateKey;

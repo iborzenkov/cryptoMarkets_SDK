@@ -56,8 +56,8 @@
     <Compile Include="Features\TimeRange.cs" />
     <Compile Include="Features\Trade.cs" />
     <Compile Include="Features\UsdEquivalent.cs" />
-    <Compile Include="MarketModel\ApiKeyProvider.cs" />
-    <Compile Include="MarketModel\IApiKeyProvider.cs" />
+    <Compile Include="MarketModel\ApiKeys\ApiKeyProvider.cs" />
+    <Compile Include="MarketModel\ApiKeys\IApiKeyProvider.cs" />
     <Compile Include="IniFile.cs" />
     <Compile Include="MarketModel\OrderBookAdapter.cs" />
     <Compile Include="MarketModel\IOrderBook.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Features\ApiKey.cs" />
     <Compile Include="Features\CurrencyOfMarket.cs" />
     <Compile Include="MarketModel\IAccountInfo.cs" />
-    <Compile Include="MarketModel\IApiKey.cs" />
+    <Compile Include="MarketModel\ApiKeys\IApiKey.cs" />
     <Compile Include="MarketModel\IMarketModel.cs" />
     <Compile Include="MarketModel\IMarketInfo.cs" />
     <Compile Include="IModel.cs" />

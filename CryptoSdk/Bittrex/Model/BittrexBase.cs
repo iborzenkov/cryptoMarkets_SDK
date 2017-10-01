@@ -1,13 +1,19 @@
-﻿using DomainModel.MarketModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using DomainModel.MarketModel.ApiKeys;
 
 namespace CryptoSdk.Bittrex.Model
 {
-    public abstract class BittrexPrivate : BaseBittrex
+    public abstract class BittrexBase
     {
-        protected BittrexPrivate(IConnection connection) : base(connection)
+        protected readonly IConnection Connection;
+
+        protected NumberFormatInfo Nfi { get; } = new NumberFormatInfo { NumberDecimalSeparator = "." };
+
+        protected BittrexBase(IConnection connection)
         {
+            Connection = connection;
         }
 
         protected Tuple<string, string>[] GetParameters(IApiKey publicKey, IReadOnlyList<Tuple<string, string>> additionalParams = null)
@@ -30,5 +36,6 @@ namespace CryptoSdk.Bittrex.Model
 
             return parameters;
         }
+
     }
 }

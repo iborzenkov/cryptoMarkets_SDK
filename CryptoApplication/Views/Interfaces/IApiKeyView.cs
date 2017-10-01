@@ -2,6 +2,7 @@
 using DomainModel.MarketModel;
 using System;
 using System.Collections.Generic;
+using DomainModel.MarketModel.ApiKeys;
 
 namespace Views.Interfaces
 {
@@ -11,7 +12,7 @@ namespace Views.Interfaces
 
         void SetApiKeyRoles(IEnumerable<ApiKeyRole> roles);
 
-        void SetApiKeys(ApiKeyPair apiKeyPair);
+        void SetApiKeys(Authenticator authenticator);
 
         event Action<Market> MarketChanged;
 

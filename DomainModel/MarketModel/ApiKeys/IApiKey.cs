@@ -1,4 +1,4 @@
-﻿namespace DomainModel.MarketModel
+﻿namespace DomainModel.MarketModel.ApiKeys
 {
     public interface IApiKey
     {

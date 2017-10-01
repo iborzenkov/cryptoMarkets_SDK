@@ -3,6 +3,7 @@ using DomainModel.MarketModel;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
+using DomainModel.MarketModel.ApiKeys;
 
 namespace Models.Implementations
 {
@@ -29,7 +30,7 @@ namespace Models.Implementations
                 _selectedMarket = value;
 
                 IEnumerable<ApiKeyRole> apiKeyRoles = null;
-                IEnumerable<ApiKeyPair> apiKeys = new List<ApiKeyPair>();
+                IEnumerable<Authenticator> apiKeys = new List<Authenticator>();
                 if (_selectedMarket != null)
                 {
                     apiKeyRoles = _selectedMarket.SpecifiedRoles;
@@ -46,6 +47,6 @@ namespace Models.Implementations
 
         public event Action<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
 
-        public event Action<ApiKeyPair> ApiKeysChanged;
+        public event Action<Authenticator> ApiKeysChanged;
     }
 }

@@ -1,18 +1,17 @@
-﻿using System;
-using CryptoSdk.Bittrex.Connection;
+﻿using CryptoSdk.Bittrex.Connection;
 using CryptoSdk.Bittrex.DataTypes;
 using CryptoSdk.Bittrex.DataTypes.Extensions;
+using CryptoSdk.Bittrex.DataTypes.Misc;
 using DomainModel.Features;
 using DomainModel.MarketModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CryptoSdk.Bittrex.DataTypes.Misc;
 
 namespace CryptoSdk.Bittrex.Model
 {
-    public class BittrexAccountInfo : BittrexPrivate, IAccountInfo
+    public class BittrexAccountInfo : BittrexBase, IAccountInfo
     {
-
         public BittrexAccountInfo(IConnection connection) : base(connection)
         {
         }
@@ -23,7 +22,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var result = new List<Balance>();
             var query = Connection.PrivateGetQuery<BittrexBalancesDataType>(
-                EndPoints.GetBalances, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey));
+                EndPoints.GetBalances, apiKeys, GetParameters(apiKeys.PublicKey));
             if (query.Success)
             {
                 result.AddRange(
@@ -46,7 +45,7 @@ namespace CryptoSdk.Bittrex.Model
             var apiKeys = market.ApiKeys(ApiKeyRole.Info);
 
             var query = Connection.PrivateGetQuery<BittrexBalanceDataType>(
-                EndPoints.GetBalance, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
+                EndPoints.GetBalance, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
                 balance = query.Balance.ToBalance(market, currency);
 
@@ -65,8 +64,8 @@ namespace CryptoSdk.Bittrex.Model
 
             var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", BittrexPairs.AsString(pair)) };
 
-            var query = Connection.PrivateGetQuery<BittrexOpenedLimitOrderDataType>(
-                EndPoints.GetOpenedOrders, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
+            var query = Connection.PrivateGetQuery<BittrexOpenedOrdersDataType>(
+                EndPoints.GetOpenedOrders, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
             if (query.Success)
             {
                 result.AddRange(query.Orders.Select(order => order.ToOrder(market)));

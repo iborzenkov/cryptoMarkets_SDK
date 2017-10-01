@@ -1,6 +1,7 @@
 ﻿using DomainModel.MarketModel;
 using System.Collections.Generic;
 using System.Linq;
+using DomainModel.MarketModel.ApiKeys;
 
 namespace DomainModel.Features
 {
@@ -36,7 +37,7 @@ namespace DomainModel.Features
         }
 
         public ApiKeyRole[] SpecifiedRoles;
-        IReadOnlyCollection<ApiKeyPair> IApiKeyProvider.ApiKeys => _apiKeyProvider.ApiKeys;
+        IReadOnlyCollection<Authenticator> IApiKeyProvider.ApiKeys => _apiKeyProvider.ApiKeys;
         public CurrencyOfMarket Usd => Currencies.FirstOrDefault(c => c.Currency.Name == UsdCurrencyTag);
         private string UsdCurrencyTag { get; }
 
@@ -50,7 +51,7 @@ namespace DomainModel.Features
             _apiKeyProvider.SetPublicApiKey(role, apiKey);
         }
 
-        public ApiKeyPair ApiKeys(ApiKeyRole role)
+        public Authenticator ApiKeys(ApiKeyRole role)
         {
             return _apiKeyProvider.ApiKeys.FirstOrDefault(p => p.Role == role);
         }

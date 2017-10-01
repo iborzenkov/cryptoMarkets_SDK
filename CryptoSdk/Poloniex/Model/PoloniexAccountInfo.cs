@@ -1,6 +1,7 @@
 ﻿using CryptoSdk.Poloniex.Connection;
 using CryptoSdk.Poloniex.DataTypes;
 using CryptoSdk.Poloniex.DataTypes.Extensions;
+using CryptoSdk.Poloniex.DataTypes.Misc;
 using DomainModel.Features;
 using DomainModel.MarketModel;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace CryptoSdk.Poloniex.Model
 {
-    public class PoloniexAccountInfo : PoloniexPrivate, IAccountInfo
+    public class PoloniexAccountInfo : PoloniexBase, IAccountInfo
     {
         public PoloniexAccountInfo(IConnection connection) : base(connection)
         {
@@ -17,19 +18,19 @@ namespace CryptoSdk.Poloniex.Model
 
         public IEnumerable<Balance> Balances(Market market)
         {
-            var apiKeys = market.ApiKeys(ApiKeyRole.Info);
-
-            var balanceParameters = new Tuple<string, string>[1];
-            balanceParameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetBalances);
-
             var result = new List<Balance>();
-            var queryBalance = Connection.PrivateGetQuery<Dictionary<string, PoloniexBalanceDataType>>(
-                EndPoints.Trading, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, balanceParameters));
+
+            var apiKeys = market.ApiKeys(ApiKeyRole.Trade);
+            var balanceParameters = new Tuple<string, string>[1];
+            balanceParameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetBalances);
+
+            var queryBalance = Connection.PrivatePostQuery<Dictionary<string, PoloniexBalanceDataType>>(
+                EndPoints.Trading, apiKeys, PostParameters(apiKeys.PublicKey, balanceParameters));
 
             var purseParameters = new Tuple<string, string>[1];
-            purseParameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetPurseAddress);
-            var queryPurse = Connection.PrivateGetQuery<Dictionary<string, string>>(
-                EndPoints.Trading, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, purseParameters));
+            purseParameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetPurseAddress);
+            var queryPurse = Connection.PrivatePostQuery<Dictionary<string, string>>(
+                EndPoints.Trading, apiKeys, PostParameters(apiKeys.PublicKey, purseParameters));
 
             foreach (var currencyName in queryBalance.Keys)
             {
@@ -55,24 +56,46 @@ namespace CryptoSdk.Poloniex.Model
 
         public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
         {
+            // todo: test it
             var result = new List<Order>();
-            /*var apiKeys = market.ApiKeys(ApiKeyRole.Info);
+            var apiKeys = market.ApiKeys(ApiKeyRole.Trade);
 
-            var parameters = pair == null ? null : new List<Tuple<string, string>> { Tuple.Create("market", BittrexPairs.AsString(pair)) };
+            var parameters = new Tuple<string, string>[2];
+            parameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetBalances);
+            parameters[1] = Tuple.Create("currencyPair", PoloniexPairs.AsString(pair));
 
-            var query = Connection.PrivateGetQuery<BittrexOpenedLimitOrderDataType>(
-                EndPoints.GetOpenedOrders, apiKeys.PrivateKey, GetParameters(apiKeys.PublicKey, parameters));
-            if (query.Success)
-            {
-                result.AddRange(query.Orders.Select(order => order.ToOrder(market)));
-            }*/
+            var query = Connection.PrivateGetQuery<List<PoloniexOpenedOrdersDataType>>(
+                EndPoints.GetOpenedOrders, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+
+            result.AddRange(query.Select(order => order.ToOrder(market, pair)));
 
             return result;
         }
 
         public IEnumerable<Order> OpenedOrders(Market market)
         {
-            return OpenedOrders(market, null);
+            // todo: test it
+            var result = new List<Order>();
+            var apiKeys = market.ApiKeys(ApiKeyRole.Trade);
+
+            var parameters = new Tuple<string, string>[2];
+            parameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetBalances);
+            parameters[1] = Tuple.Create("currencyPair", "all");
+
+            var query = Connection.PrivateGetQuery<Dictionary<string, List<PoloniexOpenedOrdersDataType>>>(
+                EndPoints.GetOpenedOrders, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+
+            foreach (var key in query.Keys)
+            {
+                Pair pair;
+                if (!PoloniexPairs.TryParsePair(key, out pair))
+                    continue;
+
+                var orders = query[key];
+                result.AddRange(orders.Select(order => order.ToOrder(market, pair)));
+            }
+
+            return result;
         }
     }
 }

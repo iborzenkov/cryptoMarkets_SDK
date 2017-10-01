@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using DomainModel.MarketModel.ApiKeys;
 using Views.Interfaces;
 using Views.Localization;
 
@@ -56,6 +57,7 @@ namespace Views.Implementations
             _privateKeyLabels.Clear();
             _publicKeyLabels.Clear();
             _panels.Clear();
+            apiKeysGroupBox.Controls.Clear();
 
             var top = 30;
             foreach (var role in roles)
@@ -110,25 +112,25 @@ namespace Views.Implementations
             }
         }
 
-        public void SetApiKeys(ApiKeyPair apiKeyPair)
+        public void SetApiKeys(Authenticator authenticator)
         {
             foreach (var control in apiKeysGroupBox.Controls.OfType<Control>())
             {
                 if (!(control.Tag is ApiKeyRole))
                     continue;
 
-                if ((ApiKeyRole)control.Tag == apiKeyPair.Role)
+                if ((ApiKeyRole)control.Tag == authenticator.Role)
                 {
-                    if (apiKeyPair.PublicKey != null)
+                    if (authenticator.PublicKey != null)
                     {
                         var publicControl = control.Controls.Find(PublicControlName, false)[0];
-                        publicControl.Text = apiKeyPair.PublicKey.Key;
+                        publicControl.Text = authenticator.PublicKey.Key;
                     }
 
-                    if (apiKeyPair.PrivateKey != null)
+                    if (authenticator.PrivateKey != null)
                     {
                         var privateControl = control.Controls.Find(PrivateControlName, false)[0];
-                        privateControl.Text = apiKeyPair.PrivateKey.Key;
+                        privateControl.Text = authenticator.PrivateKey.Key;
                     }
                 }
             }

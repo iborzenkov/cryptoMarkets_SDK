@@ -1,8 +1,8 @@
-﻿using DomainModel.Features;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DomainModel.Features;
 
-namespace DomainModel.MarketModel
+namespace DomainModel.MarketModel.ApiKeys
 {
     internal class ApiKeyProvider : IApiKeyProvider
     {
@@ -39,7 +39,7 @@ namespace DomainModel.MarketModel
                 var privateKey = string.IsNullOrEmpty(privateKeyValue) ? null : new ApiKey(privateKeyValue);
                 var publicKey = string.IsNullOrEmpty(publicKeyValue) ? null : new ApiKey(publicKeyValue);
 
-                _apiKeys.Add(new ApiKeyPair(role, privateKey, publicKey));
+                _apiKeys.Add(new Authenticator(role, privateKey, publicKey));
             }
         }
 
@@ -49,15 +49,15 @@ namespace DomainModel.MarketModel
             return ApiKeyRoleCaption.Caption(role) + name;
         }
 
-        private readonly List<ApiKeyPair> _apiKeys = new List<ApiKeyPair>();
+        private readonly List<Authenticator> _apiKeys = new List<Authenticator>();
 
-        IReadOnlyCollection<ApiKeyPair> IApiKeyProvider.ApiKeys => _apiKeys.AsReadOnly();
+        IReadOnlyCollection<Authenticator> IApiKeyProvider.ApiKeys => _apiKeys.AsReadOnly();
 
         void IApiKeyProvider.SetPrivateApiKey(ApiKeyRole role, IApiKey apiKey)
         {
             var pair = _apiKeys.FirstOrDefault(k => k.Role == role);
             if (pair == null)
-                _apiKeys.Add(new ApiKeyPair(role, apiKey, null));
+                _apiKeys.Add(new Authenticator(role, apiKey, null));
             else
                 pair.PrivateKey = apiKey;
 
@@ -68,7 +68,7 @@ namespace DomainModel.MarketModel
         {
             var pair = _apiKeys.FirstOrDefault(k => k.Role == role);
             if (pair == null)
-                _apiKeys.Add(new ApiKeyPair(role, null, apiKey));
+                _apiKeys.Add(new Authenticator(role, null, apiKey));
             else
                 pair.PublicKey = apiKey;
 

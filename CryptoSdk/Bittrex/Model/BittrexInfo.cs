@@ -4,16 +4,15 @@ using CryptoSdk.Bittrex.DataTypes.Extensions;
 using CryptoSdk.Bittrex.DataTypes.Misc;
 using DomainModel;
 using DomainModel.Features;
+using DomainModel.MarketModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DomainModel.MarketModel;
 
 namespace CryptoSdk.Bittrex.Model
 {
-    public class BittrexInfo : BaseBittrex, IMarketInfo
+    public class BittrexInfo : BittrexBase, IMarketInfo
     {
-
         public BittrexInfo(IConnection connection) : base(connection)
         {
         }

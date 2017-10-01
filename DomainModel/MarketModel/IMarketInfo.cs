@@ -1,5 +1,4 @@
-﻿using System;
-using DomainModel.Features;
+﻿using DomainModel.Features;
 using System.Collections.Generic;
 
 namespace DomainModel.MarketModel

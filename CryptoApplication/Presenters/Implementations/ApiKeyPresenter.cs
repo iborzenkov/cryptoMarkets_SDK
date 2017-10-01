@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DomainModel.MarketModel.ApiKeys;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -60,9 +61,9 @@ namespace Presenters.Implementations
             View.SetApiKeyRoles(apiKeyRoles);
         }
 
-        private void Model_ApiKeysChanged(ApiKeyPair apiKeyPairs)
+        private void Model_ApiKeysChanged(Authenticator authenticator)
         {
-            View.SetApiKeys(apiKeyPairs);
+            View.SetApiKeys(authenticator);
         }
 
         private void View_MarketChanged(Market market)

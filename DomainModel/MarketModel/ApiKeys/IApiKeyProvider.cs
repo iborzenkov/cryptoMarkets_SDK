@@ -1,11 +1,11 @@
-﻿using DomainModel.Features;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using DomainModel.Features;
 
-namespace DomainModel.MarketModel
+namespace DomainModel.MarketModel.ApiKeys
 {
     public interface IApiKeyProvider
     {
-        IReadOnlyCollection<ApiKeyPair> ApiKeys { get; }
+        IReadOnlyCollection<Authenticator> ApiKeys { get; }
 
         void SetPrivateApiKey(ApiKeyRole role, IApiKey apiKey);
 

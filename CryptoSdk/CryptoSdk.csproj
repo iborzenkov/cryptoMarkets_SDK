@@ -43,10 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bittrex\DataTypes\BittrexMarketHistory.cs" />
+    <Compile Include="Bittrex\DataTypes\BittrexOpenedOrdersDataType.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexTradeDataType.cs" />
     <Compile Include="Bittrex\Features\BittrexFee.cs" />
-    <Compile Include="Bittrex\Model\BaseBittrex.cs" />
-    <Compile Include="Bittrex\Model\BittrexPrivate.cs" />
+    <Compile Include="Bittrex\Model\BittrexBase.cs" />
     <Compile Include="Bittrex\Model\BittrexAccountInfo.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexBalancesDataType.cs" />
     <Compile Include="Bittrex\Model\BittrexInfo.cs" />
@@ -75,6 +75,7 @@
     <Compile Include="Poloniex\Connection\PoloniexConnection.cs" />
     <Compile Include="Poloniex\Connection\EndPoints.cs" />
     <Compile Include="Poloniex\DataTypes\BaseDataType.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexOpenedOrdersDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexBalancesDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexCurrencyDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexTradeHistoryDataType.cs" />
@@ -84,11 +85,10 @@
     <Compile Include="Poloniex\DataTypes\Extensions\DataTypeExtensions.cs" />
     <Compile Include="Poloniex\DataTypes\Misc\PoloniexPairs.cs" />
     <Compile Include="Poloniex\Features\PoloniexFee.cs" />
-    <Compile Include="Poloniex\Model\BasePoloniex.cs" />
+    <Compile Include="Poloniex\Model\PoloniexBase.cs" />
     <Compile Include="Poloniex\Model\PoloniexAccountInfo.cs" />
     <Compile Include="Poloniex\Model\PoloniexInfo.cs" />
     <Compile Include="Poloniex\Model\PoloniexModel.cs" />
-    <Compile Include="Poloniex\Model\PoloniexPrivate.cs" />
     <Compile Include="Poloniex\Model\PoloniexTrade.cs" />
     <Compile Include="Poloniex\PoloniexTools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,5 @@
-﻿using System;
-using DomainModel.MarketModel;
+﻿using DomainModel.Features;
+using System;
 
 namespace CryptoSdk.Poloniex.Connection
 {
@@ -7,14 +7,23 @@ namespace CryptoSdk.Poloniex.Connection
     {
         protected override string MainUri { get; } = EndPoints.Main;
 
-        public override T PrivateGetQuery<T>(string endPoint, IApiKey secretKey, Tuple<string, string>[] getParameters)
+        public override T PrivateGetQuery<T>(string endPoint, Authenticator keys, Tuple<string, string>[] parameters)
+        {
+            throw new NotSupportedException("Poloniex don't supported GET private requests");
+        }
+
+        public override T PrivatePostQuery<T>(string endPoint, Authenticator keys, Tuple<string, string>[] parameters)
         {
             var uri = $"{MainUri}{endPoint}";
-            var sign = HashHmac($"{uri}{CodeGetParams(getParameters)}", secretKey.Key);
+            var sign = HashHmac(CodePostParams(parameters), keys.PrivateKey.Key);
 
-            var headers = new Tuple<string, string>("Sign", sign);
+            var headers = new[]
+            {
+                new Tuple<string, string>("Key", keys.PublicKey.Key),
+                new Tuple<string, string>("Sign", sign),
+            };
 
-            return CallGetRequestWithJsonResponse<T>(uri, getParameters, headers);
+            return CallPostRequestWithJsonResponse<T>(uri, parameters, headers);
         }
     }
 }

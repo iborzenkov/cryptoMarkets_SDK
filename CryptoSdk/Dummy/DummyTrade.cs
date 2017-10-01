@@ -2,6 +2,7 @@
 using DomainModel.MarketModel;
 using System.Collections.Generic;
 using DomainModel;
+using DomainModel.MarketModel.ApiKeys;
 
 namespace CryptoSdk.Dummy
 {

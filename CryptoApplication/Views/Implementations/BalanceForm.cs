@@ -87,10 +87,13 @@ namespace Views.Implementations
                 try
                 {
                     balanceListView.Items.Clear();
+                    SetTotalUsdEquivalent(Enumerable.Empty<Balance>());
+
                     if (balances == null)
                         return;
 
-                    var balancesArray = balances as Balance[] ?? balances.ToArray();
+                    var notNullBalances = balances.Where(b => b.Total > 0);
+                    var balancesArray = notNullBalances as Balance[] ?? notNullBalances.ToArray();
 
                     FillListView(balancesArray);
                     SetTotalUsdEquivalent(balancesArray);

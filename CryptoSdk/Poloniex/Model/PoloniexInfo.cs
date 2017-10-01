@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace CryptoSdk.Poloniex.Model
 {
-    public class PoloniexInfo : BasePoloniex, IMarketInfo
+    public class PoloniexInfo : PoloniexBase, IMarketInfo
     {
         public PoloniexInfo(IConnection connection) : base(connection)
         {

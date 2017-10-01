@@ -11,6 +11,6 @@ namespace Models.Interfaces
 
         event Action<IEnumerable<ApiKeyRole>> ApiKeyRolesChanged;
 
-        event Action<ApiKeyPair> ApiKeysChanged;
+        event Action<Authenticator> ApiKeysChanged;
     }
 }
