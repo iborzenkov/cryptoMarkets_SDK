@@ -31,5 +31,7 @@ namespace DomainModel.MarketModel
         Pair24HoursStatistic Pair24HoursStatistic(Pair pair);
 
         IEnumerable<MarketHistory> MarketTradeHistory(Pair pair, TimeRange timeRange);
+
+        IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, TimeRange timeRange);
     }
 }

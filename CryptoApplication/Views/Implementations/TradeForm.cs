@@ -64,7 +64,7 @@ namespace Views.Implementations
 
                     var selectedPair = Pair;
 
-                    pairComboBox.Items.Clear();
+                    ClearPairs();
                     pairComboBox.Items.AddRange(pairsArray.ToArray<object>());
 
                     if (selectedPair != null)
@@ -75,6 +75,12 @@ namespace Views.Implementations
                     pairComboBox.EndUpdate();
                 }
             }));
+        }
+
+        private void ClearPairs()
+        {
+            pairComboBox.Items.Clear();
+            OnPairChanged();
         }
 
         public void SetOpenedOrders(IEnumerable<Order> orders)
@@ -160,8 +166,11 @@ namespace Views.Implementations
             get { return marketComboBox.SelectedItem as Market; }
             set
             {
+                if (Market == value)
+                    return;
+
                 marketComboBox.SelectedItem = value;
-                MarketChanged?.Invoke(Market);
+                OnMarketChanged();
             }
         }
 
@@ -173,14 +182,11 @@ namespace Views.Implementations
             }
             set
             {
-                if (pairComboBox.SelectedItem == value)
+                if (Pair == value)
                     return;
 
                 pairComboBox.SelectedItem = value;
-
-                SetCurrencyLabels();
-
-                OnPairChanged(Pair);
+                OnPairChanged();
             }
         }
 
@@ -356,9 +362,11 @@ namespace Views.Implementations
 
         public event Action<OrderId> RemoveOrder;
 
-        private void OnPairChanged(PairOfMarket pair)
+        private void OnPairChanged()
         {
-            PairChanged?.Invoke(pair);
+            SetCurrencyLabels();
+            priceTextBox.Clear();
+            PairChanged?.Invoke(Pair);
         }
 
         private void TradeForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -470,9 +478,7 @@ namespace Views.Implementations
 
         private void pairComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SetCurrencyLabels();
-            priceTextBox.Clear();
-            OnPairChanged(Pair);
+            OnPairChanged();
         }
 
         public void SetUsdRate(GetUsdRateDelegate getUsdRate)
@@ -489,7 +495,7 @@ namespace Views.Implementations
 
         private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            MarketChanged?.Invoke(Market);
+            OnMarketChanged();
         }
 
         private void limitOrderRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -529,6 +535,11 @@ namespace Views.Implementations
         private void spendingUsdQuantityTextBox_TextChanged(object sender, EventArgs e)
         {
             OnTradeParamsChanged();
+        }
+
+        private void OnMarketChanged()
+        {
+            MarketChanged?.Invoke(Market);
         }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Features\ApiKeyRoleCaption.cs" />
     <Compile Include="Features\Bar.cs" />
     <Compile Include="Features\Fee.cs" />
+    <Compile Include="Features\HistoryPrice.cs" />
     <Compile Include="Features\Sell.cs" />
     <Compile Include="Features\Buy.cs" />
     <Compile Include="Features\CryptoAddress.cs" />

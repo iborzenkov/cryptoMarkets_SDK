@@ -74,6 +74,7 @@ namespace Presenters.Implementations
 
         private async void View_MarketChanged(Market market)
         {
+            View.ClearOrderBooks();
             await MarketChangedAsync(market);
         }
 

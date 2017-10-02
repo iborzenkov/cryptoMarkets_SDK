@@ -33,6 +33,7 @@ namespace Views.Implementations
         {
             this.pairComboBox = new System.Windows.Forms.ComboBox();
             this.topPanel = new System.Windows.Forms.Panel();
+            this.largeVolumeKoefTrackBar = new System.Windows.Forms.TrackBar();
             this.largePositionCheckBox = new System.Windows.Forms.CheckBox();
             this.multiplierComboBox = new System.Windows.Forms.ComboBox();
             this.multiplierLabel = new System.Windows.Forms.Label();
@@ -46,10 +47,9 @@ namespace Views.Implementations
             this.marketComboBox = new System.Windows.Forms.ComboBox();
             this.pairLabel = new System.Windows.Forms.Label();
             this.orderBookPartPanel = new System.Windows.Forms.Panel();
-            this.largeVolumeKoefTrackBar = new System.Windows.Forms.TrackBar();
             this.topPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeVolumeKoefTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // pairComboBox
@@ -83,6 +83,18 @@ namespace Views.Implementations
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(393, 97);
             this.topPanel.TabIndex = 1;
+            // 
+            // largeVolumeKoefTrackBar
+            // 
+            this.largeVolumeKoefTrackBar.Location = new System.Drawing.Point(152, 65);
+            this.largeVolumeKoefTrackBar.Maximum = 49;
+            this.largeVolumeKoefTrackBar.Minimum = 1;
+            this.largeVolumeKoefTrackBar.Name = "largeVolumeKoefTrackBar";
+            this.largeVolumeKoefTrackBar.Size = new System.Drawing.Size(104, 45);
+            this.largeVolumeKoefTrackBar.TabIndex = 16;
+            this.largeVolumeKoefTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.largeVolumeKoefTrackBar.Value = 25;
+            this.largeVolumeKoefTrackBar.Scroll += new System.EventHandler(this.largeVolumeKoefTrackBar_Scroll);
             // 
             // largePositionCheckBox
             // 
@@ -203,7 +215,7 @@ namespace Views.Implementations
             this.marketComboBox.Name = "marketComboBox";
             this.marketComboBox.Size = new System.Drawing.Size(81, 21);
             this.marketComboBox.TabIndex = 0;
-            this.marketComboBox.SelectedIndexChanged += new System.EventHandler(this.marketComboBox_SelectedIndexChanged);
+            this.marketComboBox.SelectionChangeCommitted += new System.EventHandler(this.marketComboBox_SelectionChangeCommitted);
             // 
             // pairLabel
             // 
@@ -222,18 +234,6 @@ namespace Views.Implementations
             this.orderBookPartPanel.Size = new System.Drawing.Size(393, 319);
             this.orderBookPartPanel.TabIndex = 2;
             // 
-            // largeVolumeKoefTrackBar
-            // 
-            this.largeVolumeKoefTrackBar.Location = new System.Drawing.Point(152, 65);
-            this.largeVolumeKoefTrackBar.Maximum = 49;
-            this.largeVolumeKoefTrackBar.Minimum = 1;
-            this.largeVolumeKoefTrackBar.Name = "largeVolumeKoefTrackBar";
-            this.largeVolumeKoefTrackBar.Size = new System.Drawing.Size(104, 45);
-            this.largeVolumeKoefTrackBar.TabIndex = 16;
-            this.largeVolumeKoefTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.largeVolumeKoefTrackBar.Value = 25;
-            this.largeVolumeKoefTrackBar.Scroll += new System.EventHandler(this.largeVolumeKoefTrackBar_Scroll);
-            // 
             // OrderBookForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -246,8 +246,8 @@ namespace Views.Implementations
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OrderBookForm_FormClosed);
             this.topPanel.ResumeLayout(false);
             this.topPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeVolumeKoefTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.depthNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }

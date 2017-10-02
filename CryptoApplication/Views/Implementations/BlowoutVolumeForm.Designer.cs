@@ -34,38 +34,38 @@ namespace Views.Implementations
             this.marketComboBox = new System.Windows.Forms.ComboBox();
             this.marketLabel = new System.Windows.Forms.Label();
             this.settingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.eMailTextBox = new System.Windows.Forms.TextBox();
+            this.sendEmailCheckBox = new System.Windows.Forms.CheckBox();
+            this.balancePercentPerOneTradeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.autoTradeCheckBox = new System.Windows.Forms.CheckBox();
+            this.barCountUpDown = new System.Windows.Forms.NumericUpDown();
+            this.timeframeComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pairListView = new System.Windows.Forms.ListView();
             this.pairColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.barsAvailableColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.timeframeComboBox = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.barCountUpDown = new System.Windows.Forms.NumericUpDown();
-            this.largeVolumeKoefTrackBar = new System.Windows.Forms.TrackBar();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.largeVolumeKoefTrackBar = new System.Windows.Forms.TrackBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.autoTradeCheckBox = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.balancePercentPerOneTradeUpDown = new System.Windows.Forms.NumericUpDown();
-            this.sendEmailCheckBox = new System.Windows.Forms.CheckBox();
-            this.eMailTextBox = new System.Windows.Forms.TextBox();
             this.settingsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.balancePercentPerOneTradeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barCountUpDown)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.barCountUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeVolumeKoefTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.balancePercentPerOneTradeUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // marketComboBox
@@ -75,7 +75,7 @@ namespace Views.Implementations
             this.marketComboBox.Name = "marketComboBox";
             this.marketComboBox.Size = new System.Drawing.Size(127, 21);
             this.marketComboBox.TabIndex = 0;
-            this.marketComboBox.SelectedIndexChanged += new System.EventHandler(this.marketComboBox_SelectedIndexChanged);
+            this.marketComboBox.SelectionChangeCommitted += new System.EventHandler(this.marketComboBox_SelectionChangeCommitted);
             // 
             // marketLabel
             // 
@@ -103,6 +103,98 @@ namespace Views.Implementations
             this.settingsGroupBox.TabIndex = 2;
             this.settingsGroupBox.TabStop = false;
             this.settingsGroupBox.Text = "Settings";
+            // 
+            // eMailTextBox
+            // 
+            this.eMailTextBox.Location = new System.Drawing.Point(297, 42);
+            this.eMailTextBox.Name = "eMailTextBox";
+            this.eMailTextBox.Size = new System.Drawing.Size(94, 20);
+            this.eMailTextBox.TabIndex = 12;
+            // 
+            // sendEmailCheckBox
+            // 
+            this.sendEmailCheckBox.AutoSize = true;
+            this.sendEmailCheckBox.Location = new System.Drawing.Point(151, 44);
+            this.sendEmailCheckBox.Name = "sendEmailCheckBox";
+            this.sendEmailCheckBox.Size = new System.Drawing.Size(142, 17);
+            this.sendEmailCheckBox.TabIndex = 11;
+            this.sendEmailCheckBox.Text = "send notification to email";
+            this.sendEmailCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // balancePercentPerOneTradeUpDown
+            // 
+            this.balancePercentPerOneTradeUpDown.Location = new System.Drawing.Point(221, 18);
+            this.balancePercentPerOneTradeUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.balancePercentPerOneTradeUpDown.Name = "balancePercentPerOneTradeUpDown";
+            this.balancePercentPerOneTradeUpDown.Size = new System.Drawing.Size(44, 20);
+            this.balancePercentPerOneTradeUpDown.TabIndex = 10;
+            this.balancePercentPerOneTradeUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(267, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(86, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "% of the balance";
+            // 
+            // autoTradeCheckBox
+            // 
+            this.autoTradeCheckBox.AutoSize = true;
+            this.autoTradeCheckBox.Location = new System.Drawing.Point(151, 21);
+            this.autoTradeCheckBox.Name = "autoTradeCheckBox";
+            this.autoTradeCheckBox.Size = new System.Drawing.Size(72, 17);
+            this.autoTradeCheckBox.TabIndex = 8;
+            this.autoTradeCheckBox.Text = "Autotrade";
+            this.autoTradeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // barCountUpDown
+            // 
+            this.barCountUpDown.Location = new System.Drawing.Point(67, 46);
+            this.barCountUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.barCountUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.barCountUpDown.Name = "barCountUpDown";
+            this.barCountUpDown.Size = new System.Drawing.Size(65, 20);
+            this.barCountUpDown.TabIndex = 7;
+            this.barCountUpDown.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // timeframeComboBox
+            // 
+            this.timeframeComboBox.FormattingEnabled = true;
+            this.timeframeComboBox.Location = new System.Drawing.Point(67, 19);
+            this.timeframeComboBox.Name = "timeframeComboBox";
+            this.timeframeComboBox.Size = new System.Drawing.Size(65, 21);
+            this.timeframeComboBox.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Timeframe";
             // 
             // label1
             // 
@@ -166,79 +258,32 @@ namespace Views.Implementations
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Details";
             // 
-            // label2
+            // label8
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Timeframe";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(123, 147);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(175, 13);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "3. Есть открытая сделка по паре";
             // 
-            // timeframeComboBox
+            // label7
             // 
-            this.timeframeComboBox.FormattingEnabled = true;
-            this.timeframeComboBox.Location = new System.Drawing.Point(67, 19);
-            this.timeframeComboBox.Name = "timeframeComboBox";
-            this.timeframeComboBox.Size = new System.Drawing.Size(65, 21);
-            this.timeframeComboBox.TabIndex = 6;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(123, 124);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(146, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "2. Есть критический объем";
             // 
-            // label3
+            // label6
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 19);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Volumes";
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(9, 35);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(44, 225);
-            this.listBox1.TabIndex = 7;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(68, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Limit volume:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(142, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(28, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "1.25";
-            // 
-            // barCountUpDown
-            // 
-            this.barCountUpDown.Location = new System.Drawing.Point(67, 46);
-            this.barCountUpDown.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.barCountUpDown.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.barCountUpDown.Name = "barCountUpDown";
-            this.barCountUpDown.Size = new System.Drawing.Size(65, 20);
-            this.barCountUpDown.TabIndex = 7;
-            this.barCountUpDown.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(123, 100);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(244, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "1. Есть необходимое число баров для анализа";
             // 
             // largeVolumeKoefTrackBar
             // 
@@ -251,32 +296,40 @@ namespace Views.Implementations
             this.largeVolumeKoefTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.largeVolumeKoefTrackBar.Value = 25;
             // 
-            // label6
+            // label5
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(123, 100);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(244, 13);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "1. Есть необходимое число баров для анализа";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(142, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(28, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "1.25";
             // 
-            // label7
+            // label4
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(123, 124);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(146, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "2. Есть критический объем";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(68, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(68, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Limit volume:";
             // 
-            // label8
+            // listBox1
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(123, 147);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(175, 13);
-            this.label8.TabIndex = 20;
-            this.label8.Text = "3. Есть открытая сделка по паре";
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(9, 35);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(44, 225);
+            this.listBox1.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Volumes";
             // 
             // groupBox2
             // 
@@ -305,59 +358,6 @@ namespace Views.Implementations
             this.columnHeader1.Text = "Pair";
             this.columnHeader1.Width = 70;
             // 
-            // autoTradeCheckBox
-            // 
-            this.autoTradeCheckBox.AutoSize = true;
-            this.autoTradeCheckBox.Location = new System.Drawing.Point(151, 21);
-            this.autoTradeCheckBox.Name = "autoTradeCheckBox";
-            this.autoTradeCheckBox.Size = new System.Drawing.Size(72, 17);
-            this.autoTradeCheckBox.TabIndex = 8;
-            this.autoTradeCheckBox.Text = "Autotrade";
-            this.autoTradeCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(267, 22);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(86, 13);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "% of the balance";
-            // 
-            // balancePercentPerOneTradeUpDown
-            // 
-            this.balancePercentPerOneTradeUpDown.Location = new System.Drawing.Point(221, 18);
-            this.balancePercentPerOneTradeUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.balancePercentPerOneTradeUpDown.Name = "balancePercentPerOneTradeUpDown";
-            this.balancePercentPerOneTradeUpDown.Size = new System.Drawing.Size(44, 20);
-            this.balancePercentPerOneTradeUpDown.TabIndex = 10;
-            this.balancePercentPerOneTradeUpDown.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // sendEmailCheckBox
-            // 
-            this.sendEmailCheckBox.AutoSize = true;
-            this.sendEmailCheckBox.Location = new System.Drawing.Point(151, 44);
-            this.sendEmailCheckBox.Name = "sendEmailCheckBox";
-            this.sendEmailCheckBox.Size = new System.Drawing.Size(142, 17);
-            this.sendEmailCheckBox.TabIndex = 11;
-            this.sendEmailCheckBox.Text = "send notification to email";
-            this.sendEmailCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // eMailTextBox
-            // 
-            this.eMailTextBox.Location = new System.Drawing.Point(297, 42);
-            this.eMailTextBox.Name = "eMailTextBox";
-            this.eMailTextBox.Size = new System.Drawing.Size(94, 20);
-            this.eMailTextBox.TabIndex = 12;
-            // 
             // BlowoutVolumeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -371,14 +371,14 @@ namespace Views.Implementations
             this.Text = "BlowoutVolumeForm";
             this.settingsGroupBox.ResumeLayout(false);
             this.settingsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.balancePercentPerOneTradeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barCountUpDown)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.barCountUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeVolumeKoefTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.balancePercentPerOneTradeUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }

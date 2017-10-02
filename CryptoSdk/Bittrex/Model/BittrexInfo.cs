@@ -95,6 +95,11 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, TimeRange timeRange)
+        {
+            return Enumerable.Empty<HistoryPrice>();
+        }
+
         public OrderBook OrderBook(Pair pair, int depth, OrderBookType orderBookType)
         {
             OrderBook result = null;

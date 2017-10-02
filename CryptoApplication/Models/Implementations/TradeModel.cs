@@ -110,13 +110,17 @@ namespace Models.Implementations
         public void PairChanged(PairOfMarket pair)
         {
             Pair = pair;
+
             ReleasePairTickUpdater();
             ReleaseBalanceUpdater();
 
-            InitTickUpdater();
-            InitBalanceUpdater();
+            if (pair != null)
+            {
+                InitTickUpdater();
+                InitBalanceUpdater();
 
-            InitMayTrade();
+                InitMayTrade();
+            }
         }
 
         public void RemoveOrder(OrderId id)

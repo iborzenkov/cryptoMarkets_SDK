@@ -66,17 +66,23 @@ namespace Views.Implementations
 
                     var selectedPair = Pair;
 
-                    pairComboBox.Items.Clear();
+                    ClearPairs();
                     pairComboBox.Items.AddRange(pairsArray.ToArray<object>());
 
                     if (selectedPair != null)
-                      Pair = pairsArray.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
+                        Pair = pairsArray.FirstOrDefault(pairOfMarket => pairOfMarket.Pair.Equals(selectedPair.Pair));
                 }
                 finally
                 {
                     pairComboBox.EndUpdate();
                 }
             }));
+        }
+
+        private void ClearPairs()
+        {
+            pairComboBox.Items.Clear();
+            OnPairChanged();
         }
 
         public void SetOrderBook(IOrderBook orderBook)
@@ -153,7 +159,14 @@ namespace Views.Implementations
         private Market Market
         {
             get { return marketComboBox.SelectedItem as Market; }
-            set { marketComboBox.SelectedItem = value; }
+            set
+            {
+                if (Market == value)
+                    return;
+
+                marketComboBox.SelectedItem = value;
+                OnMarketChanged();
+            }
         }
 
         public PairOfMarket Pair
@@ -164,22 +177,17 @@ namespace Views.Implementations
             }
             set
             {
-                if (pairComboBox.SelectedItem == value)
+                if (Pair == value)
                     return;
 
                 pairComboBox.SelectedItem = value;
-                OnPairChanged(Pair);
+                OnPairChanged();
             }
-        }
-
-        private void marketComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MarketChanged?.Invoke(Market);
         }
 
         private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            OnPairChanged(Pair);
+            OnPairChanged();
         }
 
         private void OrderBookForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -204,9 +212,9 @@ namespace Views.Implementations
             OnOrderBookSettingsChanged();
         }
 
-        private void OnPairChanged(PairOfMarket pair)
+        private void OnPairChanged()
         {
-            PairChanged?.Invoke(pair);
+            PairChanged?.Invoke(Pair);
         }
 
         private void OnOrderBookSettingsChanged()
@@ -244,6 +252,16 @@ namespace Views.Implementations
         private void largePositionCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             OnOrderBookSettingsChanged();
+        }
+
+        private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            OnMarketChanged();
+        }
+
+        private void OnMarketChanged()
+        {
+            MarketChanged?.Invoke(Market);
         }
     }
 }

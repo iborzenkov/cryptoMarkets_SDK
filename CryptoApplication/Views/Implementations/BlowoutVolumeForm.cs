@@ -47,7 +47,14 @@ namespace Views.Implementations
         private Market Market
         {
             get { return marketComboBox.SelectedItem as Market; }
-            set { marketComboBox.SelectedItem = value; }
+            set
+            {
+                if (Market == value)
+                    return;
+
+                marketComboBox.SelectedItem = value;
+                OnMarketChanged();
+            }
         }
 
         private PairOfMarket Pair => pairListView.FocusedItem.Tag as PairOfMarket;
@@ -125,11 +132,6 @@ namespace Views.Implementations
             }));
         }
 
-        private void marketComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MarketChanged?.Invoke(Market);
-        }
-
         public event Action<Market> MarketChanged;
 
         public event Action<PairOfMarket, bool> PairChecked;
@@ -197,6 +199,16 @@ namespace Views.Implementations
         private void pairListView_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             OnPairChecked(e.Item.Tag as PairOfMarket, e.Item.Checked);
+        }
+
+        private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            OnMarketChanged();
+        }
+
+        private void OnMarketChanged()
+        {
+            MarketChanged?.Invoke(Market);
         }
     }
 }

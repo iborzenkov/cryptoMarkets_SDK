@@ -78,6 +78,7 @@
     <Compile Include="Poloniex\DataTypes\PoloniexOpenedOrdersDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexBalancesDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexCurrencyDataType.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexHistoryDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexTradeHistoryDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexOrderBookDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexTickerDataType.cs" />

@@ -15,9 +15,11 @@ namespace DomainModel.Features
             _market = market;
         }
 
+        private readonly object _locker = new object();
+
         public double? UsdRate(Currency currency)
         {
-            lock (currency)
+            lock (_locker)
             {
                 double rate;
                 if (_usdRate.TryGetValue(currency.Name, out rate))

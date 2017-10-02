@@ -114,7 +114,12 @@ namespace Views.Implementations
         private Market Market
         {
             get { return marketListBox.SelectedItem as Market; }
-            set { marketListBox.SelectedItem = value; }
+            set
+            {
+                if (Market == value)
+                    return;
+                marketListBox.SelectedItem = value;
+            }
         }
 
         private CurrencyOfMarket Currency

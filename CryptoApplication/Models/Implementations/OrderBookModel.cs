@@ -23,7 +23,7 @@ namespace Models.Implementations
 
         private IOrderBookUpdaterProvider OrderBookUpdaterProvider => _domainModel.OrderBookUpdaterProvider;
 
-        IEnumerable<Market> IOrderBookModel.Markets => _domainModel.Markets;
+        public IEnumerable<Market> Markets => _domainModel.Markets;
 
         private void ResetUpdaters()
         {
@@ -55,7 +55,7 @@ namespace Models.Implementations
         private readonly TimeInterval _refreshInterval = TimeInterval.InMilliseconds(DefaultInterval);
         private static int DefaultInterval = 1000;
 
-        void IOrderBookModel.NeedOrderBookOf(PairOfMarket pair)
+        public void NeedOrderBookOf(PairOfMarket pair)
         {
             ResetUpdaters();
             ResetUsdRate();
@@ -63,7 +63,7 @@ namespace Models.Implementations
             if (pair == null)
             {
                 OrderBook = null;
-                OnOrderBookChanged();
+                //OnOrderBookChanged();
                 return;
             }
 
@@ -128,7 +128,8 @@ namespace Models.Implementations
         {
             OrderBookChanged?.Invoke(OrderBookAdapter);
 
-            UsdRateChanged?.Invoke(_pair.Market.UsdEquivalent.UsdRate(_pair.Pair.BaseCurrency));
+            if (_pair != null)
+                UsdRateChanged?.Invoke(_pair.Market.UsdEquivalent.UsdRate(_pair.Pair.BaseCurrency));
         }
     }
 }

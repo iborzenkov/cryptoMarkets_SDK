@@ -54,6 +54,15 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             return history;
         }
 
+        public static HistoryPrice ToHistory(this PoloniexHistoryDataType historyDataType, Pair pair)
+        {
+            var history = new HistoryPrice(PoloniexTools.UnixTimeStampToDateTime(historyDataType.TimeStamp), 
+                historyDataType.Open, historyDataType.Close,
+                historyDataType.High, historyDataType.Low, historyDataType.Volume, historyDataType.QuoteVolume);
+
+            return history;
+        }
+
         public static Balance ToBalance(this PoloniexBalanceDataType balanceItemDataType, CurrencyOfMarket currency, string cryptoAddress)
         {
             var balance = new Balance(

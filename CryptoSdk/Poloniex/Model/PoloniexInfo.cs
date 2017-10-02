@@ -120,5 +120,19 @@ namespace CryptoSdk.Poloniex.Model
 
             return result;
         }
+
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, TimeRange timeRange)
+        {
+            var parameters = new Tuple<string, string>[5];
+            parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetHistoryData);
+            parameters[1] = new Tuple<string, string>("currencyPair", PoloniexPairs.AsString(pair));
+            parameters[2] = new Tuple<string, string>("start", PoloniexPairs.AsString(pair));
+            parameters[3] = new Tuple<string, string>("end", PoloniexPairs.AsString(pair));
+            parameters[4] = new Tuple<string, string>("period", PoloniexPairs.AsString(pair));
+
+            var query = Connection.PublicGetQuery<List<PoloniexHistoryDataType>>(EndPoints.Public, parameters);
+
+            return query.Select(item => item.ToHistory(pair));
+        }
     }
 }

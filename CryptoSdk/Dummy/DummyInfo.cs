@@ -3,6 +3,7 @@ using DomainModel.Features;
 using DomainModel.MarketModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoSdk.Dummy
 {
@@ -96,6 +97,11 @@ namespace CryptoSdk.Dummy
             };
 
             return result;
+        }
+
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, TimeRange timeRange)
+        {
+            return Enumerable.Empty<HistoryPrice>();
         }
     }
 }
