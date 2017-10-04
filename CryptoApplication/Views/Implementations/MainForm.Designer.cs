@@ -48,6 +48,7 @@ namespace Views.Implementations
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.russianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.candlestickGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,7 +87,8 @@ namespace Views.Implementations
             this.currenciesToolStripMenuItem,
             this.pairsToolStripMenuItem,
             this.orderbooksToolStripMenuItem,
-            this.balancesToolStripMenuItem});
+            this.balancesToolStripMenuItem,
+            this.candlestickGraphToolStripMenuItem});
             this.informationToolStripMenuItem.Name = "informationToolStripMenuItem";
             this.informationToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.informationToolStripMenuItem.Text = "Information";
@@ -94,28 +96,28 @@ namespace Views.Implementations
             // currenciesToolStripMenuItem
             // 
             this.currenciesToolStripMenuItem.Name = "currenciesToolStripMenuItem";
-            this.currenciesToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.currenciesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.currenciesToolStripMenuItem.Text = "Currencies...";
             this.currenciesToolStripMenuItem.Click += new System.EventHandler(this.currenciesToolStripMenuItem_Click);
             // 
             // pairsToolStripMenuItem
             // 
             this.pairsToolStripMenuItem.Name = "pairsToolStripMenuItem";
-            this.pairsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.pairsToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.pairsToolStripMenuItem.Text = "Pairs...";
             this.pairsToolStripMenuItem.Click += new System.EventHandler(this.pairsToolStripMenuItem_Click);
             // 
             // orderbooksToolStripMenuItem
             // 
             this.orderbooksToolStripMenuItem.Name = "orderbooksToolStripMenuItem";
-            this.orderbooksToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.orderbooksToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.orderbooksToolStripMenuItem.Text = "Orderbooks...";
             this.orderbooksToolStripMenuItem.Click += new System.EventHandler(this.orderbooksToolStripMenuItem_Click);
             // 
             // balancesToolStripMenuItem
             // 
             this.balancesToolStripMenuItem.Name = "balancesToolStripMenuItem";
-            this.balancesToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.balancesToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.balancesToolStripMenuItem.Text = "Balances...";
             this.balancesToolStripMenuItem.Click += new System.EventHandler(this.balancesToolStripMenuItem_Click);
             // 
@@ -130,7 +132,7 @@ namespace Views.Implementations
             // tradeToolStripMenuItem
             // 
             this.tradeToolStripMenuItem.Name = "tradeToolStripMenuItem";
-            this.tradeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tradeToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.tradeToolStripMenuItem.Text = "Trade...";
             this.tradeToolStripMenuItem.Click += new System.EventHandler(this.tradeToolStripMenuItem_Click);
             // 
@@ -188,6 +190,13 @@ namespace Views.Implementations
             this.russianToolStripMenuItem.Text = "Russian";
             this.russianToolStripMenuItem.Click += new System.EventHandler(this.russianToolStripMenuItem_Click);
             // 
+            // candlestickGraphToolStripMenuItem
+            // 
+            this.candlestickGraphToolStripMenuItem.Name = "candlestickGraphToolStripMenuItem";
+            this.candlestickGraphToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.candlestickGraphToolStripMenuItem.Text = "Candlestick Graph...";
+            this.candlestickGraphToolStripMenuItem.Click += new System.EventHandler(this.candlestickGraphToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -239,7 +248,10 @@ namespace Views.Implementations
         private System.Windows.Forms.ToolStripMenuItem strategiesToolStripMenuItem;
         [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem tradeToolStripMenuItem;
+        [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem blowoutVolumeToolStripMenuItem;
+        [LocalizableClass]
+        private System.Windows.Forms.ToolStripMenuItem candlestickGraphToolStripMenuItem;
     }
 }
 

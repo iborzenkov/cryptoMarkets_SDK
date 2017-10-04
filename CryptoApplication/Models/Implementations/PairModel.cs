@@ -21,7 +21,7 @@ namespace Models.Implementations
 
         private IPairStatisticUpdaterProvider PairStatisticUpdaterProvider => _domainModel.PairStatisticUpdaterProvider;
 
-        Market IPairModel.SelectedMarket
+        public Market SelectedMarket
         {
             get { return _selectedMarket; }
             set
@@ -85,10 +85,10 @@ namespace Models.Implementations
 
         public event Action<IEnumerable<Pair24HoursStatistic>> StatisticsChanged;
 
-        IEnumerable<Market> IPairModel.Markets => _domainModel.Markets;
+        public IEnumerable<Market> Markets => _domainModel.Markets;
         private IUpdater<ICollection<Pair24HoursStatistic>, Market> _statisticUpdater;
 
-        void IPairModel.SetFilter(PairViewFilter filter)
+        public void SetFilter(PairViewFilter filter)
         {
             IPairModel model = this;
             if (model.SelectedMarket == null)
@@ -144,7 +144,7 @@ namespace Models.Implementations
             PairsChanged?.Invoke(pairs);
         }
 
-        void IPairModel.Release()
+        public void Release()
         {
             ReleaseUpdater();
         }

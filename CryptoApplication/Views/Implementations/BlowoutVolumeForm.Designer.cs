@@ -369,6 +369,7 @@ namespace Views.Implementations
             this.Controls.Add(this.settingsGroupBox);
             this.Name = "BlowoutVolumeForm";
             this.Text = "BlowoutVolumeForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BlowoutVolumeForm_FormClosed);
             this.settingsGroupBox.ResumeLayout(false);
             this.settingsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.balancePercentPerOneTradeUpDown)).EndInit();

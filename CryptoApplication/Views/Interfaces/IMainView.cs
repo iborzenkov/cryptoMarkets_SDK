@@ -21,6 +21,8 @@ namespace Views.Interfaces
 
         event Action ShowBlowoutVolumeStrategy;
 
+        event Action ShowCandlestickGraph;
+
         event Action Exit;
     }
 }

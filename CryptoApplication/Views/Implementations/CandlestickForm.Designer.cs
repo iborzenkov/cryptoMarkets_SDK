@@ -31,13 +31,13 @@ namespace Views.Implementations
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.topPanel = new System.Windows.Forms.Panel();
-            this.periodComboBox = new System.Windows.Forms.ComboBox();
-            this.periodLabel = new System.Windows.Forms.Label();
+            this.timeframeComboBox = new System.Windows.Forms.ComboBox();
+            this.timeframeLabel = new System.Windows.Forms.Label();
             this.marketLabel = new System.Windows.Forms.Label();
             this.marketComboBox = new System.Windows.Forms.ComboBox();
             this.pairLabel = new System.Windows.Forms.Label();
@@ -48,28 +48,28 @@ namespace Views.Implementations
             // 
             // chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea2);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            this.chart.Legends.Add(legend2);
             this.chart.Location = new System.Drawing.Point(0, 0);
             this.chart.Name = "chart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "priceSeries";
-            series1.YValuesPerPoint = 4;
-            this.chart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series2.IsVisibleInLegend = false;
+            series2.Legend = "Legend1";
+            series2.Name = "priceSeries";
+            series2.YValuesPerPoint = 4;
+            this.chart.Series.Add(series2);
             this.chart.Size = new System.Drawing.Size(549, 481);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
             // 
             // topPanel
             // 
-            this.topPanel.Controls.Add(this.periodComboBox);
-            this.topPanel.Controls.Add(this.periodLabel);
+            this.topPanel.Controls.Add(this.timeframeComboBox);
+            this.topPanel.Controls.Add(this.timeframeLabel);
             this.topPanel.Controls.Add(this.marketLabel);
             this.topPanel.Controls.Add(this.marketComboBox);
             this.topPanel.Controls.Add(this.pairLabel);
@@ -80,24 +80,24 @@ namespace Views.Implementations
             this.topPanel.Size = new System.Drawing.Size(549, 49);
             this.topPanel.TabIndex = 2;
             // 
-            // periodComboBox
+            // timeframeComboBox
             // 
-            this.periodComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.periodComboBox.FormattingEnabled = true;
-            this.periodComboBox.Location = new System.Drawing.Point(350, 12);
-            this.periodComboBox.Name = "periodComboBox";
-            this.periodComboBox.Size = new System.Drawing.Size(64, 21);
-            this.periodComboBox.TabIndex = 11;
-            this.periodComboBox.SelectedIndexChanged += new System.EventHandler(this.periodComboBox_SelectedIndexChanged);
+            this.timeframeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.timeframeComboBox.FormattingEnabled = true;
+            this.timeframeComboBox.Location = new System.Drawing.Point(366, 12);
+            this.timeframeComboBox.Name = "timeframeComboBox";
+            this.timeframeComboBox.Size = new System.Drawing.Size(64, 21);
+            this.timeframeComboBox.TabIndex = 11;
+            this.timeframeComboBox.SelectionChangeCommitted += new System.EventHandler(this.periodComboBox_SelectionChangeCommitted);
             // 
-            // periodLabel
+            // timeframeLabel
             // 
-            this.periodLabel.AutoSize = true;
-            this.periodLabel.Location = new System.Drawing.Point(304, 16);
-            this.periodLabel.Name = "periodLabel";
-            this.periodLabel.Size = new System.Drawing.Size(37, 13);
-            this.periodLabel.TabIndex = 10;
-            this.periodLabel.Text = "Period";
+            this.timeframeLabel.AutoSize = true;
+            this.timeframeLabel.Location = new System.Drawing.Point(304, 16);
+            this.timeframeLabel.Name = "timeframeLabel";
+            this.timeframeLabel.Size = new System.Drawing.Size(56, 13);
+            this.timeframeLabel.TabIndex = 10;
+            this.timeframeLabel.Text = "Timeframe";
             // 
             // marketLabel
             // 
@@ -157,7 +157,7 @@ namespace Views.Implementations
         #endregion
 
         [LocalizableClass]
-        private System.Windows.Forms.Label periodLabel;
+        private System.Windows.Forms.Label timeframeLabel;
         [LocalizableClass]
         private System.Windows.Forms.Label marketLabel;
         [LocalizableClass]
@@ -165,7 +165,7 @@ namespace Views.Implementations
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.Panel topPanel;
-        private System.Windows.Forms.ComboBox periodComboBox;
+        private System.Windows.Forms.ComboBox timeframeComboBox;
         private System.Windows.Forms.ComboBox marketComboBox;
         private System.Windows.Forms.ComboBox pairComboBox;
     }

@@ -103,5 +103,15 @@ namespace CryptoSdk.Dummy
         {
             return Enumerable.Empty<HistoryPrice>();
         }
+
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime startTime)
+        {
+            return MarketHistoryData(pair, timeframe, new TimeRange(startTime, DateTime.Now));
+        }
+
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe)
+        {
+            return MarketHistoryData(pair, timeframe, DateTime.MinValue);
+        }
     }
 }

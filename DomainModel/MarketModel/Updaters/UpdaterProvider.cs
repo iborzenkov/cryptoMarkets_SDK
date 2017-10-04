@@ -6,7 +6,7 @@ namespace DomainModel.MarketModel.Updaters
 {
     internal abstract class UpdaterProvider<TUpdatableFeature, TOwnerUpdatableFeature>
         : IUpdaterProvider<TUpdatableFeature, TOwnerUpdatableFeature> 
-        where TOwnerUpdatableFeature : class
+        //where TOwnerUpdatableFeature : class
     {
         private readonly Dictionary<TOwnerUpdatableFeature, Updater<TUpdatableFeature, TOwnerUpdatableFeature>> _ownerToUpdaterDictionary = 
             new Dictionary<TOwnerUpdatableFeature, Updater<TUpdatableFeature, TOwnerUpdatableFeature>>();
@@ -38,7 +38,7 @@ namespace DomainModel.MarketModel.Updaters
                 var values = _updatersToPairAndIntervalDictionary.Values.ToArray();
                 for (var i = 0; i < values.Length; i++)
                 {
-                    if (values[i].Key == owner && values[i].Value == refreshInterval)
+                    if (values[i].Key.Equals(owner) && values[i].Value == refreshInterval)
                     {
                         result = updaters[i];
                         break;
@@ -69,8 +69,8 @@ namespace DomainModel.MarketModel.Updaters
             int? minRefreshInterval = null;
             foreach (var pairInterval in _updatersToPairAndIntervalDictionary.Values)
             {
-                var pair = pairInterval.Key;
-                if (pair == releasedOwner)
+                var owner = pairInterval.Key;
+                if (owner.Equals(releasedOwner))
                 {
                     minRefreshInterval = minRefreshInterval.HasValue
                         ? Math.Min(minRefreshInterval.Value, pairInterval.Value.Value)

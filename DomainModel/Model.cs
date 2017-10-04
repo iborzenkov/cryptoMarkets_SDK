@@ -5,6 +5,7 @@ using DomainModel.MarketModel.Updaters.OrderBook;
 using DomainModel.MarketModel.Updaters.PairStatistic;
 using DomainModel.MarketModel.Updaters.PairTick;
 using System.Collections.Generic;
+using DomainModel.MarketModel.Updaters.HistoryPrices;
 
 namespace DomainModel
 {
@@ -17,16 +18,18 @@ namespace DomainModel
             _markets.Add(market);
         }
 
-        IEnumerable<Market> IModel.Markets => _markets;
+        public IEnumerable<Market> Markets => _markets;
 
-        IOrderBookUpdaterProvider IModel.OrderBookUpdaterProvider { get; } = new OrderBookUpdaterProvider();
+        public IOrderBookUpdaterProvider OrderBookUpdaterProvider { get; } = new OrderBookUpdaterProvider();
 
-        IBalanceUpdaterProvider IModel.BalanceUpdaterProvider { get; } = new BalanceUpdaterProvider();
+        public IBalanceUpdaterProvider BalanceUpdaterProvider { get; } = new BalanceUpdaterProvider();
 
-        IPairStatisticUpdaterProvider IModel.PairStatisticUpdaterProvider { get; } = new PairStatisticUpdaterProvider();
+        public IPairStatisticUpdaterProvider PairStatisticUpdaterProvider { get; } = new PairStatisticUpdaterProvider();
 
-        IPairTickUpdaterProvider IModel.PairTickUpdaterProvider { get; } = new PairTickUpdaterProvider();
+        public IPairTickUpdaterProvider PairTickUpdaterProvider { get; } = new PairTickUpdaterProvider();
 
-        IOpenedOrdersUpdaterProvider IModel.OpenedOrdersProvider { get; } = new OpenedOrdersUpdaterProvider();
+        public IOpenedOrdersUpdaterProvider OpenedOrdersProvider { get; } = new OpenedOrdersUpdaterProvider();
+
+        public IHistoryPricesUpdaterProvider HistoryPricesProvider { get; } = new HistoryPricesUpdaterProvider();
     }
 }

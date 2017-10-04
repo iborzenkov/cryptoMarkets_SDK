@@ -1,0 +1,100 @@
+﻿using DomainModel;
+using DomainModel.Features;
+using Models.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Views.Interfaces;
+
+namespace Presenters.Implementations
+{
+    internal class CandlestickPresenter : BasePresenter<ICandlestickView>
+    {
+        private ICandlestickModel Model { get; }
+
+        public CandlestickPresenter(ICandlestickView view, ICandlestickModel model) : base(view)
+        {
+            Model = model;
+            Model.GraphChanged += Model_GraphChanged;
+
+            View.SetMarkets(Model.Markets);
+            View.Timeframe = Model.Timeframe;
+
+            View.ViewClosed += View_ViewClosed;
+            View.MarketChanged += View_MarketChanged;
+            View.PairChanged += View_PairChanged;
+            View.TimeframeChanged += View_TimeframeChanged;
+        }
+
+        private async void View_TimeframeChanged(TimeframeType timeframe)
+        {
+            View.ClearGraph();
+            await TimeframeChangedAsync(timeframe);
+        }
+
+        private Task TimeframeChangedAsync(TimeframeType timeframe)
+        {
+            Model.Timeframe = timeframe;
+            return GetHistoryPricesAsync();
+        }
+
+        private void Model_GraphChanged(IEnumerable<HistoryPrice> prices)
+        {
+            View.SetPrices(prices);
+        }
+
+        private void Release()
+        {
+            View.ViewClosed -= View_ViewClosed;
+            View.MarketChanged -= View_MarketChanged;
+            View.PairChanged -= View_PairChanged;
+
+            Model.GraphChanged -= Model_GraphChanged;
+            Model.Release();
+        }
+
+        private async void View_PairChanged(PairOfMarket pair)
+        {
+            View.ClearGraph();
+            await PairChangedAsync(pair);
+        }
+
+        private PairOfMarket _pair;
+
+        private Task PairChangedAsync(PairOfMarket pair)
+        {
+            _pair = pair;
+            return GetHistoryPricesAsync();
+        }
+
+        private Task GetHistoryPricesAsync()
+        {
+            return Task.Run(() =>
+            {
+                Model.NeedGraphOf(_pair);
+            });
+        }
+
+        private async void View_MarketChanged(Market market)
+        {
+            View.ClearGraph();
+            await MarketChangedAsync(market);
+        }
+
+        private Task MarketChangedAsync(Market market)
+        {
+            return Task.Run(() =>
+            {
+                //Model.SelectedMarket = market;
+                var pairs = market.Pairs;
+                var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
+                View.SetPairs(pairOfMarkets);
+            });
+        }
+
+        private void View_ViewClosed()
+        {
+            Release();
+        }
+    }
+}

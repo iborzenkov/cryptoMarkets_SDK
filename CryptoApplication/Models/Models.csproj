@@ -32,10 +32,12 @@
   <ItemGroup>
     <Compile Include="BlowoutVolumeSettings.cs" />
     <Compile Include="Implementations\BlowoutVolumeModel.cs" />
+    <Compile Include="Implementations\CandlestickModel.cs" />
     <Compile Include="Implementations\TradeModel.cs" />
     <Compile Include="Implementations\PairModel.cs" />
     <Compile Include="InfoMessages.cs" />
     <Compile Include="Interfaces\IBlowoutVolumeModel.cs" />
+    <Compile Include="Interfaces\ICandlestickModel.cs" />
     <Compile Include="Interfaces\ITradeModel.cs" />
     <Compile Include="Interfaces\IPairModel.cs" />
     <Compile Include="PairViewFilter.cs" />

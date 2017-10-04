@@ -34,6 +34,7 @@
     <Compile Include="Implementations\ApiKeyPresenter.cs" />
     <Compile Include="Implementations\BalancePresenter.cs" />
     <Compile Include="Implementations\BlowoutVolumePresenter.cs" />
+    <Compile Include="Implementations\CandlestickPresenter.cs" />
     <Compile Include="Implementations\TradePresenter.cs" />
     <Compile Include="Implementations\PairPresenter.cs" />
     <Compile Include="Implementations\CurrencyPresenter.cs" />

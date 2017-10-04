@@ -210,5 +210,12 @@ namespace Views.Implementations
         {
             MarketChanged?.Invoke(Market);
         }
+
+        private void BlowoutVolumeForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Locale.Instance.UnRegisterView(this);
+
+            ViewClosed?.Invoke();
+        }
     }
 }

@@ -82,6 +82,8 @@ namespace Views.Implementations
 
         public event Action ShowTrade;
 
+        public event Action ShowCandlestickGraph;
+
         public event Action ShowBlowoutVolumeStrategy;
 
         public event Action Exit;
@@ -119,6 +121,11 @@ namespace Views.Implementations
         private void blowoutVolumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowBlowoutVolumeStrategy?.Invoke();
+        }
+
+        private void candlestickGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowCandlestickGraph?.Invoke();
         }
     }
 }

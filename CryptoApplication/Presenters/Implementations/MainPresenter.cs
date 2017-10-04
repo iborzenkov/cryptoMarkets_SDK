@@ -18,11 +18,21 @@ namespace Presenters.Implementations
             View.ShowBalances += View_ShowBalances;
             View.ShowTrade += View_ShowPendingTrade;
             View.ShowBlowoutVolumeStrategy += View_ShowBlowoutVolumeStrategy;
+            View.ShowCandlestickGraph += View_ShowCandlestickGraph;
             View.Exit += View_Exit;
 
             _model = model;
         }
 
+        private void View_ShowCandlestickGraph()
+        {
+            var form = new CandlestickForm { MdiParent = View.MdiParentForm };
+
+            var candlestickPresenter = new CandlestickPresenter(form, new CandlestickModel(_model.DomainModel));
+
+            candlestickPresenter.Run();
+        }
+        
         private void View_ShowBlowoutVolumeStrategy()
         {
             var form = new BlowoutVolumeForm { MdiParent = View.MdiParentForm };

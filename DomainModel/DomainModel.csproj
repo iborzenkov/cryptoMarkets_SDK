@@ -77,6 +77,10 @@
     <Compile Include="MarketModel\IMarketTrade.cs" />
     <Compile Include="Features\OrderId.cs" />
     <Compile Include="MarketModel\OrdersToBars.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPriceFeature.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryPrices\IHistoryPricesProvider.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPricesUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPricesUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdater.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\IOpenedOrdersProvider.cs" />

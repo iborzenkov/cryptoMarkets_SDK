@@ -40,11 +40,11 @@ namespace Models.Implementations
             UsdRateChanged?.Invoke(null);
         }
 
-        private PairOfMarket _pair;
+        private PairOfMarket Pair { get; set; }
 
         private void SetUpdaters(PairOfMarket pair)
         {
-            _pair = pair;
+            Pair = pair;
 
             _updater = OrderBookUpdaterProvider.GetUpdater(pair, _refreshInterval);
             _updater.Changed += OrderBookUpdater_Changed;
@@ -128,8 +128,8 @@ namespace Models.Implementations
         {
             OrderBookChanged?.Invoke(OrderBookAdapter);
 
-            if (_pair != null)
-                UsdRateChanged?.Invoke(_pair.Market.UsdEquivalent.UsdRate(_pair.Pair.BaseCurrency));
+            if (Pair != null)
+                UsdRateChanged?.Invoke(Pair.Market.UsdEquivalent.UsdRate(Pair.Pair.BaseCurrency));
         }
     }
 }

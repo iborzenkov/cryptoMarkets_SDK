@@ -20,8 +20,6 @@ namespace Views.Interfaces
 
         void ClearOrderBooks();
 
-        PairOfMarket Pair { get; set; }
-
         event Action<Market> MarketChanged;
 
         event Action<PairOfMarket> PairChanged;
