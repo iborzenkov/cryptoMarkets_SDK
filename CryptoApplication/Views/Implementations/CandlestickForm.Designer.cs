@@ -31,11 +31,13 @@ namespace Views.Implementations
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.topPanel = new System.Windows.Forms.Panel();
+            this.barCountComboBox = new System.Windows.Forms.ComboBox();
+            this.barCountLabel = new System.Windows.Forms.Label();
             this.timeframeComboBox = new System.Windows.Forms.ComboBox();
             this.timeframeLabel = new System.Windows.Forms.Label();
             this.marketLabel = new System.Windows.Forms.Label();
@@ -48,26 +50,28 @@ namespace Views.Implementations
             // 
             // chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea2);
+            chartArea7.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea7);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chart.Legends.Add(legend2);
+            legend7.Name = "Legend1";
+            this.chart.Legends.Add(legend7);
             this.chart.Location = new System.Drawing.Point(0, 0);
             this.chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series2.IsVisibleInLegend = false;
-            series2.Legend = "Legend1";
-            series2.Name = "priceSeries";
-            series2.YValuesPerPoint = 4;
-            this.chart.Series.Add(series2);
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series7.IsVisibleInLegend = false;
+            series7.Legend = "Legend1";
+            series7.Name = "priceSeries";
+            series7.YValuesPerPoint = 4;
+            this.chart.Series.Add(series7);
             this.chart.Size = new System.Drawing.Size(549, 481);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
             // 
             // topPanel
             // 
+            this.topPanel.Controls.Add(this.barCountComboBox);
+            this.topPanel.Controls.Add(this.barCountLabel);
             this.topPanel.Controls.Add(this.timeframeComboBox);
             this.topPanel.Controls.Add(this.timeframeLabel);
             this.topPanel.Controls.Add(this.marketLabel);
@@ -80,13 +84,39 @@ namespace Views.Implementations
             this.topPanel.Size = new System.Drawing.Size(549, 49);
             this.topPanel.TabIndex = 2;
             // 
+            // barCountComboBox
+            // 
+            this.barCountComboBox.FormattingEnabled = true;
+            this.barCountComboBox.Items.AddRange(new object[] {
+            "10",
+            "50",
+            "100",
+            "150",
+            "200"});
+            this.barCountComboBox.Location = new System.Drawing.Point(493, 12);
+            this.barCountComboBox.Name = "barCountComboBox";
+            this.barCountComboBox.Size = new System.Drawing.Size(44, 21);
+            this.barCountComboBox.TabIndex = 13;
+            this.barCountComboBox.SelectionChangeCommitted += new System.EventHandler(this.barCountComboBox_SelectionChangeCommitted);
+            this.barCountComboBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.barCountComboBox_KeyPress);
+            this.barCountComboBox.Leave += new System.EventHandler(this.barCountComboBox_Leave);
+            // 
+            // barCountLabel
+            // 
+            this.barCountLabel.AutoSize = true;
+            this.barCountLabel.Location = new System.Drawing.Point(434, 16);
+            this.barCountLabel.Name = "barCountLabel";
+            this.barCountLabel.Size = new System.Drawing.Size(53, 13);
+            this.barCountLabel.TabIndex = 12;
+            this.barCountLabel.Text = "Bar count";
+            // 
             // timeframeComboBox
             // 
             this.timeframeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.timeframeComboBox.FormattingEnabled = true;
             this.timeframeComboBox.Location = new System.Drawing.Point(366, 12);
             this.timeframeComboBox.Name = "timeframeComboBox";
-            this.timeframeComboBox.Size = new System.Drawing.Size(64, 21);
+            this.timeframeComboBox.Size = new System.Drawing.Size(48, 21);
             this.timeframeComboBox.TabIndex = 11;
             this.timeframeComboBox.SelectionChangeCommitted += new System.EventHandler(this.periodComboBox_SelectionChangeCommitted);
             // 
@@ -162,11 +192,14 @@ namespace Views.Implementations
         private System.Windows.Forms.Label marketLabel;
         [LocalizableClass]
         private System.Windows.Forms.Label pairLabel;
+        [LocalizableClass]
+        private System.Windows.Forms.Label barCountLabel;
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.ComboBox timeframeComboBox;
         private System.Windows.Forms.ComboBox marketComboBox;
         private System.Windows.Forms.ComboBox pairComboBox;
+        private System.Windows.Forms.ComboBox barCountComboBox;
     }
 }

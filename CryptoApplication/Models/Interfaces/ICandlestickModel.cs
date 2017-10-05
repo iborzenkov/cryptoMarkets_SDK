@@ -9,7 +9,9 @@ namespace Models.Interfaces
     {
         IEnumerable<Market> Markets { get; }
 
-        TimeframeType Timeframe { get; set; }
+        TimeframeType? Timeframe { get; set; }
+
+        int BarCount{ get; set; }
 
         event Action<IEnumerable<HistoryPrice>> GraphChanged;
 

@@ -13,7 +13,9 @@ namespace Views.Interfaces
 
         void SetPrices(IEnumerable<HistoryPrice> prices);
 
-        TimeframeType Timeframe { get; set; }
+        TimeframeType? Timeframe { get; set; }
+
+        int BarCount { get; set; }
 
         void ClearGraph();
 
@@ -21,6 +23,9 @@ namespace Views.Interfaces
 
         event Action<PairOfMarket> PairChanged;
 
-        event Action<TimeframeType> TimeframeChanged;
+        event Action<TimeframeType?> TimeframeChanged;
+
+        event Action<int> BarCountChanged;
+        void SetTimeframes(TimeframeType[] timeframes);
     }
 }

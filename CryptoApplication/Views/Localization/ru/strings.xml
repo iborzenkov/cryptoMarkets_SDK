@@ -101,6 +101,7 @@
 	<Item key="Views.Implementations.CandlestickForm.timeframeLabel_Text">Таймфрейм</Item>
 	<Item key="Views.Implementations.CandlestickForm.pairLabel_Text">Пара</Item>
 	<Item key="Views.Implementations.CandlestickForm.marketLabel_Text">Рынок</Item>
+	<Item key="Views.Implementations.CandlestickForm.barCountLabel_Text">Баров:</Item>
 
 	<Item key="PublicKey">Публичный</Item>
 	<Item key="PrivateKey">Секретный</Item>

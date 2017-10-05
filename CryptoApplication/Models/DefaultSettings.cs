@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using DomainModel.MarketModel.Updaters;
 
 namespace Models
 {
@@ -34,5 +35,6 @@ namespace Models
         public OrderBookSettings OrderBookSettings { get; set; }
 
         public BlowoutVolumeSettings BlowoutVolumeSettings { get; set; }
+
     }
 }

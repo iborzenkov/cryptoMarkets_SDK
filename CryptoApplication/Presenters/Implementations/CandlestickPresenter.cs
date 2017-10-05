@@ -19,22 +19,36 @@ namespace Presenters.Implementations
 
             View.SetMarkets(Model.Markets);
             View.Timeframe = Model.Timeframe;
+            View.BarCount = Model.BarCount;
 
             View.ViewClosed += View_ViewClosed;
             View.MarketChanged += View_MarketChanged;
             View.PairChanged += View_PairChanged;
             View.TimeframeChanged += View_TimeframeChanged;
+            View.BarCountChanged += View_BarCountChanged;
         }
 
-        private async void View_TimeframeChanged(TimeframeType timeframe)
+        private async void View_BarCountChanged(int barCount)
+        {
+            View.ClearGraph();
+            await BarCountChangedAsync(barCount);
+        }
+
+        private async void View_TimeframeChanged(TimeframeType? timeframe)
         {
             View.ClearGraph();
             await TimeframeChangedAsync(timeframe);
         }
 
-        private Task TimeframeChangedAsync(TimeframeType timeframe)
+        private Task TimeframeChangedAsync(TimeframeType? timeframe)
         {
             Model.Timeframe = timeframe;
+            return GetHistoryPricesAsync();
+        }
+
+        private Task BarCountChangedAsync(int barCount)
+        {
+            Model.BarCount = barCount;
             return GetHistoryPricesAsync();
         }
 
@@ -48,6 +62,8 @@ namespace Presenters.Implementations
             View.ViewClosed -= View_ViewClosed;
             View.MarketChanged -= View_MarketChanged;
             View.PairChanged -= View_PairChanged;
+            View.TimeframeChanged -= View_TimeframeChanged;
+            View.BarCountChanged -= View_BarCountChanged;
 
             Model.GraphChanged -= Model_GraphChanged;
             Model.Release();
@@ -89,6 +105,7 @@ namespace Presenters.Implementations
                 var pairs = market.Pairs;
                 var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
                 View.SetPairs(pairOfMarkets);
+                View.SetTimeframes(market.PossibleTimeframes);
             });
         }
 

@@ -17,10 +17,6 @@ namespace Views.Implementations
         {
             InitializeComponent();
 
-            // todo: to do localization
-            foreach (var item in Enum.GetValues(typeof(TimeframeType)))
-                timeframeComboBox.Items.Add(item);
-
             Locale.Instance.RegisterView(this);
         }
 
@@ -63,16 +59,34 @@ namespace Views.Implementations
             }
         }
 
-        public TimeframeType Timeframe
+        public TimeframeType? Timeframe
         {
-            get { return (TimeframeType)timeframeComboBox.SelectedItem; }
+            get
+            {
+                return (TimeframeType?) timeframeComboBox.SelectedItem;
+            }
             set
             {
                 if (timeframeComboBox.SelectedItem != null && Timeframe == value)
                     return;
 
-                timeframeComboBox.SelectedItem = value;
+                timeframeComboBox.SelectedItem = value.Value;
                 OnTimeframeChanged();
+            }
+        }
+
+        public int BarCount
+        {
+            //get { return (int)barCountComboBox.SelectedItem; }
+            get { return int.Parse(barCountComboBox.Text); }
+            set
+            {
+                if (barCountComboBox.SelectedItem != null && BarCount == value)
+                    return;
+
+                //barCountComboBox.SelectedItem = value;
+                barCountComboBox.Text = value.ToString();
+                OnBarCountChanged();
             }
         }
 
@@ -85,7 +99,39 @@ namespace Views.Implementations
 
         public event Action<Market> MarketChanged;
 
-        public event Action<TimeframeType> TimeframeChanged;
+        public event Action<TimeframeType?> TimeframeChanged;
+
+        public event Action<int> BarCountChanged;
+
+        public void SetTimeframes(TimeframeType[] timeframes)
+        {
+            timeframeComboBox.BeginInvoke(new Action(() =>
+            {
+                timeframeComboBox.BeginUpdate();
+                try
+                {
+                    var selectedTimeframe = Timeframe;
+
+                    ClearTimeframes();
+                    foreach (var timeframe in Market.PossibleTimeframes)
+                    {
+                        timeframeComboBox.Items.Add(timeframe);
+                    }
+
+                    Timeframe = selectedTimeframe ?? Market.PossibleTimeframes.FirstOrDefault();
+                }
+                finally
+                {
+                    pairComboBox.EndUpdate();
+                }
+            }));
+        }
+
+        private void ClearTimeframes()
+        {
+            timeframeComboBox.Items.Clear();
+            OnTimeframeChanged();
+        }
 
         public event Action ViewClosed;
 
@@ -135,7 +181,7 @@ namespace Views.Implementations
             }));
         }
 
-        public void SetPrices(IEnumerable<HistoryPrice> prices)
+        public void SetPrices(IEnumerable<HistoryPrice> historyPrices)
         {
             chart.BeginInvoke(new Action(() =>
             {
@@ -143,6 +189,7 @@ namespace Views.Implementations
                 try
                 {
                     ClearGraph();
+                    var prices = historyPrices as HistoryPrice[] ?? historyPrices.ToArray();
                     foreach (var price in prices)
                     {
                         chart.Series[0].Points.Add(new DataPoint(price.TimeStamp.ToOADate(),
@@ -154,6 +201,14 @@ namespace Views.Implementations
                     chart.ChartAreas[0].AxisX.MajorGrid.LineWidth = 0;
                     chart.ChartAreas[0].AxisY.MajorGrid.LineWidth = 0;
                     chart.DataManipulator.IsStartFromFirst = true;
+                    //chart.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+                    //chart.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+                    //chart.ChartAreas[0].CursorX.IsUserEnabled = true;
+                    //chart.ChartAreas[0].CursorY.IsUserEnabled = true;
+                    chart.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+                    chart.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+                    //chart.ChartAreas[0].AxisY.Minimum = prices.Min(price => price.Low);
+                    //chart.ChartAreas[0].AxisY.Maximum = prices.Min(price => price.High);
                 }
                 finally
                 {
@@ -193,6 +248,27 @@ namespace Views.Implementations
         private void periodComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
             OnTimeframeChanged();
+        }
+
+        private void barCountComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            OnBarCountChanged();
+        }
+
+        protected virtual void OnBarCountChanged()
+        {
+            BarCountChanged?.Invoke(BarCount);
+        }
+
+        private void barCountComboBox_Leave(object sender, EventArgs e)
+        {
+            OnBarCountChanged();
+        }
+
+        private void barCountComboBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                OnBarCountChanged();
         }
     }
 }

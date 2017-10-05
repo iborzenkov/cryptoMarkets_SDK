@@ -18,21 +18,8 @@ namespace Models.Implementations
             _domainModel = domainModel;
         }
 
-        /*public Market SelectedMarket
-        {
-            get { return _selectedMarket; }
-            set
-            {
-                if (_selectedMarket == value)
-                    return;
-
-                _selectedMarket = value;
-            }
-        }*/
-
+        public int BarCount { get; set; } = 100;
         public event Action<IEnumerable<HistoryPrice>> GraphChanged;
-
-        public TimeframeType Timeframe { get; set; } = TimeframeType.M5;
 
         public void NeedGraphOf(PairOfMarket pair)
         {
@@ -49,6 +36,7 @@ namespace Models.Implementations
         }
 
         public IEnumerable<Market> Markets => _domainModel.Markets;
+        public TimeframeType? Timeframe { get; set; } = TimeframeType.M5;
 
         public void Release()
         {
@@ -62,9 +50,16 @@ namespace Models.Implementations
         private readonly TimeInterval _refreshInterval = TimeInterval.InSeconds(DefaultInterval);
         private static int DefaultInterval = 60;
 
+        private bool IsMayRunUpdater => Timeframe.HasValue;
+
         private void SetUpdaters(PairOfMarket pair)
         {
-            _updater = HistoryPricesUpdaterProvider.GetUpdater(new HistoryPriceFeature(pair, Timeframe), _refreshInterval);
+            if (!IsMayRunUpdater)
+                return;
+
+            _updater = HistoryPricesUpdaterProvider.GetUpdater(
+                new HistoryPriceFeature(pair, Timeframe.Value, BarCount), 
+                _refreshInterval);
             _updater.Changed += HistoryPriceUpdater_Changed;
             //SetUpdaterSettings();
             _updater.Start();

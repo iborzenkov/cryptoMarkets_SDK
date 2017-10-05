@@ -60,7 +60,7 @@ namespace Views.Implementations
             this.pairComboBox.Name = "pairComboBox";
             this.pairComboBox.Size = new System.Drawing.Size(81, 21);
             this.pairComboBox.TabIndex = 1;
-            this.pairComboBox.SelectedIndexChanged += new System.EventHandler(this.pairComboBox_SelectedIndexChanged);
+            this.pairComboBox.SelectionChangeCommitted += new System.EventHandler(this.pairComboBox_SelectionChangeCommitted);
             // 
             // topPanel
             // 
@@ -123,7 +123,7 @@ namespace Views.Implementations
             this.multiplierComboBox.Name = "multiplierComboBox";
             this.multiplierComboBox.Size = new System.Drawing.Size(64, 21);
             this.multiplierComboBox.TabIndex = 14;
-            this.multiplierComboBox.SelectedIndexChanged += new System.EventHandler(this.multiplierComboBox_SelectedIndexChanged);
+            this.multiplierComboBox.SelectionChangeCommitted += new System.EventHandler(this.multiplierComboBox_SelectionChangeCommitted);
             // 
             // multiplierLabel
             // 
@@ -142,7 +142,7 @@ namespace Views.Implementations
             this.typeComboBox.Name = "typeComboBox";
             this.typeComboBox.Size = new System.Drawing.Size(64, 21);
             this.typeComboBox.TabIndex = 11;
-            this.typeComboBox.SelectedIndexChanged += new System.EventHandler(this.typeComboBox_SelectedIndexChanged);
+            this.typeComboBox.SelectionChangeCommitted += new System.EventHandler(this.typeComboBox_SelectionChangeCommitted);
             // 
             // typeLabel
             // 

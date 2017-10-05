@@ -185,11 +185,6 @@ namespace Views.Implementations
             }
         }
 
-        private void pairComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            OnPairChanged();
-        }
-
         private void OrderBookForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Locale.Instance.UnRegisterView(this);
@@ -203,11 +198,6 @@ namespace Views.Implementations
         }
 
         private void intervalTextBox_TextChanged(object sender, EventArgs e)
-        {
-            OnOrderBookSettingsChanged();
-        }
-
-        private void typeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             OnOrderBookSettingsChanged();
         }
@@ -239,11 +229,6 @@ namespace Views.Implementations
 
         public event Action ViewClosed;
 
-        private void multiplierComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            OnOrderBookSettingsChanged();
-        }
-
         private void largeVolumeKoefTrackBar_Scroll(object sender, EventArgs e)
         {
             OnOrderBookSettingsChanged();
@@ -262,6 +247,21 @@ namespace Views.Implementations
         private void OnMarketChanged()
         {
             MarketChanged?.Invoke(Market);
+        }
+
+        private void multiplierComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            OnOrderBookSettingsChanged();
+        }
+
+        private void typeComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            OnOrderBookSettingsChanged();
+        }
+
+        private void pairComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            OnPairChanged();
         }
     }
 }
