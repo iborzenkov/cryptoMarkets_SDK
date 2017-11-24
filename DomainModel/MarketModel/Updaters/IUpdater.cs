@@ -28,6 +28,7 @@ namespace DomainModel.MarketModel.Updaters
 
         object Parameters { get; set; }
 
-        event Action<TUpdatableFeature> Changed;
+        //event Action<TUpdatableFeature> Changed;
+        event EventHandler<TUpdatableFeature> Changed;
     }
 }

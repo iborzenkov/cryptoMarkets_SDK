@@ -321,17 +321,17 @@ namespace Models.Implementations
             ReleaseOpenedOrdersUpdater();
         }
 
-        private void PairTickUpdater_Changed(Tick tick)
+        private void PairTickUpdater_Changed(object sender, Tick tick)
         {
             SetTick(tick);
         }
 
-        private void BalanceUpdater_Changed(Balance balance)
+        private void BalanceUpdater_Changed(object sender, Balance balance)
         {
             SetBalance(balance);
         }
 
-        private void OpenedOrdersUpdater_Changed(IEnumerable<Order> openedOrders)
+        private void OpenedOrdersUpdater_Changed(object sender, IEnumerable<Order> openedOrders)
         {
             SetOpenedOrders(openedOrders);
         }

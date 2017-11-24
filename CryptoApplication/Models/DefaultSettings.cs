@@ -1,5 +1,4 @@
 ﻿using DomainModel;
-using DomainModel.MarketModel.Updaters;
 
 namespace Models
 {
@@ -21,12 +20,12 @@ namespace Models
 
             BlowoutVolumeSettings = new BlowoutVolumeSettings
             {
-                Timeframe = TimeframeType.M5,
                 AutoTrade = false,
                 BalancePercentPerOneTrade = 10,
-                BarCount = 100,
                 SendEmailNotifications = true,
                 EMail = string.Empty,
+                IsShowHistoricSignals = true,
+                LargeVolumeKoef = 0.25,
             };
         }
 
@@ -35,6 +34,5 @@ namespace Models
         public OrderBookSettings OrderBookSettings { get; set; }
 
         public BlowoutVolumeSettings BlowoutVolumeSettings { get; set; }
-
     }
 }

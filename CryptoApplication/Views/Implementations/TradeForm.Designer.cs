@@ -97,6 +97,9 @@ namespace Views.Implementations
             // 
             // myOrdersGroupBox
             // 
+            this.myOrdersGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.myOrdersGroupBox.ContextMenuStrip = this.ordersContextMenuStrip;
             this.myOrdersGroupBox.Controls.Add(this.openedOrdersListView);
             this.myOrdersGroupBox.Location = new System.Drawing.Point(15, 170);
@@ -122,6 +125,9 @@ namespace Views.Implementations
             // 
             // openedOrdersListView
             // 
+            this.openedOrdersListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.openedOrdersListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.marketColumnHeader,
             this.pairColumnHeader,
@@ -129,7 +135,6 @@ namespace Views.Implementations
             this.priceColumnHeader,
             this.quantityColumnHeader,
             this.openedDateColumnHeader});
-            this.openedOrdersListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openedOrdersListView.FullRowSelect = true;
             this.openedOrdersListView.GridLines = true;
             this.openedOrdersListView.Location = new System.Drawing.Point(3, 16);
@@ -180,6 +185,8 @@ namespace Views.Implementations
             // 
             // iWantToGroupBox
             // 
+            this.iWantToGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.iWantToGroupBox.Controls.Add(this.priceGroupBox);
             this.iWantToGroupBox.Controls.Add(this.quantityGroupBox);
             this.iWantToGroupBox.Controls.Add(this.tradeButton);
@@ -457,14 +464,14 @@ namespace Views.Implementations
             this.priceValueLabel.Name = "priceValueLabel";
             this.priceValueLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // PendingTradeForm
+            // TradeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(553, 337);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.topPanel);
-            this.Name = "PendingTradeForm";
+            this.Name = "TradeForm";
             this.Text = "Pending Trade";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TradeForm_FormClosed);
             this.topPanel.ResumeLayout(false);

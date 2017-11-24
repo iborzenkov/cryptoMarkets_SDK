@@ -39,6 +39,7 @@ namespace Views.Implementations
             this.pairsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.orderbooksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.balancesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.candlestickGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.strategiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +49,6 @@ namespace Views.Implementations
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.russianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.candlestickGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,6 +121,13 @@ namespace Views.Implementations
             this.balancesToolStripMenuItem.Text = "Balances...";
             this.balancesToolStripMenuItem.Click += new System.EventHandler(this.balancesToolStripMenuItem_Click);
             // 
+            // candlestickGraphToolStripMenuItem
+            // 
+            this.candlestickGraphToolStripMenuItem.Name = "candlestickGraphToolStripMenuItem";
+            this.candlestickGraphToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.candlestickGraphToolStripMenuItem.Text = "Candlestick Graph...";
+            this.candlestickGraphToolStripMenuItem.Click += new System.EventHandler(this.candlestickGraphToolStripMenuItem_Click);
+            // 
             // tradingToolStripMenuItem
             // 
             this.tradingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -143,6 +150,7 @@ namespace Views.Implementations
             this.strategiesToolStripMenuItem.Name = "strategiesToolStripMenuItem";
             this.strategiesToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.strategiesToolStripMenuItem.Text = "Strategies";
+            this.strategiesToolStripMenuItem.Visible = false;
             // 
             // blowoutVolumeToolStripMenuItem
             // 
@@ -189,13 +197,6 @@ namespace Views.Implementations
             this.russianToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.russianToolStripMenuItem.Text = "Russian";
             this.russianToolStripMenuItem.Click += new System.EventHandler(this.russianToolStripMenuItem_Click);
-            // 
-            // candlestickGraphToolStripMenuItem
-            // 
-            this.candlestickGraphToolStripMenuItem.Name = "candlestickGraphToolStripMenuItem";
-            this.candlestickGraphToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.candlestickGraphToolStripMenuItem.Text = "Candlestick Graph...";
-            this.candlestickGraphToolStripMenuItem.Click += new System.EventHandler(this.candlestickGraphToolStripMenuItem_Click);
             // 
             // MainForm
             // 

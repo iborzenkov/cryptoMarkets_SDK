@@ -36,6 +36,8 @@ namespace Presenters.Implementations
             View.RefreshBalances -= View_RefreshBalances;
 
             Model.BalancesChanged -= Model_BalancesChanged;
+
+            OnClosed();
         }
 
         private void View_ViewClosed()

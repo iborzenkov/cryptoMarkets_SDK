@@ -13,8 +13,11 @@ namespace CryptoSdk.Poloniex.Model
 {
     public class PoloniexInfo : PoloniexBase, IMarketInfo
     {
-        public PoloniexInfo(IConnection connection) : base(connection)
+        private readonly MarketTimeCorrector _timeCorrector;
+
+        public PoloniexInfo(IConnection connection, TimeZoneInfo serverTimeZone) : base(connection)
         {
+            _timeCorrector = new MarketTimeCorrector(serverTimeZone);
         }
 
         public Tick Tick(Pair pair)
@@ -93,8 +96,10 @@ namespace CryptoSdk.Poloniex.Model
             parameters[1] = new Tuple<string, string>("currencyPair", PoloniexPairs.AsString(pair));
             if (timeRange != null)
             {
-                parameters[2] = new Tuple<string, string>("start", PoloniexTools.DateTimeToUnixTimeStamp(timeRange.Start).ToString());
-                parameters[3] = new Tuple<string, string>("end", PoloniexTools.DateTimeToUnixTimeStamp(timeRange.Finish).ToString());
+                var start = _timeCorrector.ToMarketTime(timeRange.Start);
+                var finish = _timeCorrector.ToMarketTime(timeRange.Finish);
+                parameters[2] = new Tuple<string, string>("start", PoloniexTools.DateTimeToUnixTimeStamp(start).ToString());
+                parameters[3] = new Tuple<string, string>("end", PoloniexTools.DateTimeToUnixTimeStamp(finish).ToString());
             }
 
             var query = Connection.PublicGetQuery<List<PoloniexTradeHistoryDataType>>(EndPoints.Public, parameters);
@@ -123,11 +128,14 @@ namespace CryptoSdk.Poloniex.Model
 
         public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, TimeRange timeRange)
         {
+            var start = _timeCorrector.ToMarketTime(timeRange.Start);
+            var finish = _timeCorrector.ToMarketTime(timeRange.Finish);
+
             var parameters = new Tuple<string, string>[5];
             parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetHistoryData);
             parameters[1] = new Tuple<string, string>("currencyPair", PoloniexPairs.AsString(pair));
-            parameters[2] = new Tuple<string, string>("start", PoloniexTools.DateTimeToUnixTimeStamp(timeRange.Start).ToString());
-            parameters[3] = new Tuple<string, string>("end", PoloniexTools.DateTimeToUnixTimeStamp(timeRange.Finish).ToString());
+            parameters[2] = new Tuple<string, string>("start", PoloniexTools.DateTimeToUnixTimeStamp(start).ToString());
+            parameters[3] = new Tuple<string, string>("end", PoloniexTools.DateTimeToUnixTimeStamp(finish).ToString());
             parameters[4] = new Tuple<string, string>("period", PoloniexTools.TimeFrameToSeconds(timeframe).ToString());
 
             var query = Connection.PublicGetQuery<List<PoloniexHistoryDataType>>(EndPoints.Public, parameters);
@@ -135,14 +143,11 @@ namespace CryptoSdk.Poloniex.Model
             return query.Select(item => item.ToHistory(pair));
         }
 
-        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime startTime)
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime? startTime = null)
         {
-            return MarketHistoryData(pair, timeframe, new TimeRange(startTime, DateTime.Now));
-        }
-
-        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe)
-        {
-            return MarketHistoryData(pair, timeframe, DateTime.MinValue);
+            if (!startTime.HasValue)
+                startTime = DateTime.MinValue;
+            return MarketHistoryData(pair, timeframe, new TimeRange(startTime.Value, DateTime.Now));
         }
     }
 }

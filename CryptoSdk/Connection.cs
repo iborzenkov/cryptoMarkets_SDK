@@ -106,7 +106,14 @@ namespace CryptoSdk
                 response.Wait();
                 if (response.IsCompleted)
                 {
-                    result = response.Result.Content.ReadAsStreamAsync().Result.ReadObject<T>();
+                    try
+                    {
+                        result = response.Result.Content.ReadAsStreamAsync().Result.ReadObject<T>();
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
                 }
                 return result;
             }

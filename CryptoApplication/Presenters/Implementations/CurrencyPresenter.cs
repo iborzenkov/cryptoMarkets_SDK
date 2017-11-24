@@ -35,6 +35,8 @@ namespace Presenters.Implementations
             View.ClearFilter -= View_ClearFilter;
 
             Model.CurrenciesChanged -= Model_CurrenciesChanged;
+
+            OnClosed();
         }
 
         private void View_ClearFilter()

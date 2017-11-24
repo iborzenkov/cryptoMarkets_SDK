@@ -113,16 +113,16 @@ namespace Views.Implementations
                     var selectedTimeframe = Timeframe;
 
                     ClearTimeframes();
-                    foreach (var timeframe in Market.PossibleTimeframes)
+                    foreach (var timeframe in timeframes)
                     {
                         timeframeComboBox.Items.Add(timeframe);
                     }
 
-                    Timeframe = selectedTimeframe ?? Market.PossibleTimeframes.FirstOrDefault();
+                    Timeframe = selectedTimeframe ?? timeframes.FirstOrDefault();
                 }
                 finally
                 {
-                    pairComboBox.EndUpdate();
+                    timeframeComboBox.EndUpdate();
                 }
             }));
         }

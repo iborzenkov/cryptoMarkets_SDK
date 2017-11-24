@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CryptoSdk.Bittrex.Connection;
 using CryptoSdk.Bittrex.Features;
 using DomainModel.Features;
@@ -37,8 +38,10 @@ namespace CryptoSdk.Bittrex.Model
             Account = new BittrexAccountInfo(_connection);
 
             Fee = new BittrexFee();
+            ServerTimeZone = TimeZoneInfo.Utc;
         }
 
+        public TimeZoneInfo ServerTimeZone { get; }
         public IMarketInfo Info { get; }
         public IMarketTrade Trade { get; }
         public IAccountInfo Account { get; }

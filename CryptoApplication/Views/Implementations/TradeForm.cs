@@ -473,6 +473,12 @@ namespace Views.Implementations
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var orderId = SelectedOrderId;
+            if (orderId == null)
+            {
+                ShowInfoMessage(Locale.Instance.Localize("SelectRemovingOrder"));
+                return;
+            }
             RemoveOrder?.Invoke(SelectedOrderId);
         }
 

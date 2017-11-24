@@ -35,6 +35,8 @@ namespace Presenters.Implementations
             Model.PairsChanged -= Model_PairsChanged;
             Model.StatisticsChanged -= Model_StatisticsChanged;
             Model.Release();
+
+            OnClosed();
         }
 
         private void Model_StatisticsChanged(IEnumerable<Pair24HoursStatistic> pairStatistics)

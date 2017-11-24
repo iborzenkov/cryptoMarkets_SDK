@@ -65,7 +65,7 @@ namespace Models.Implementations
             _updater.Start();
         }
 
-        private void HistoryPriceUpdater_Changed(ICollection<HistoryPrice> prices)
+        private void HistoryPriceUpdater_Changed(object sender, ICollection<HistoryPrice> prices)
         {
             OnGraphChanged(prices);
         }

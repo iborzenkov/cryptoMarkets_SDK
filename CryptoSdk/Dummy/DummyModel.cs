@@ -1,4 +1,5 @@
-﻿using DomainModel.MarketModel;
+﻿using System;
+using DomainModel.MarketModel;
 
 namespace CryptoSdk.Dummy
 {
@@ -9,7 +10,10 @@ namespace CryptoSdk.Dummy
             Info = new DummyInfo();
             Trade = new DummyTrade();
             Account = new DummyAccount();
+            ServerTimeZone = TimeZoneInfo.Local;
         }
+
+        public TimeZoneInfo ServerTimeZone { get; }
 
         public IMarketInfo Info { get; }
         public IMarketTrade Trade { get; }

@@ -37,6 +37,8 @@ namespace Presenters.Implementations
 
             Model.ApiKeyRolesChanged -= Model_ApiKeyRolesChanged;
             Model.ApiKeysChanged -= Model_ApiKeysChanged;
+
+            OnClosed();
         }
 
         private void View_ViewClosed()

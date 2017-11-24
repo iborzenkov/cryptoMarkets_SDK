@@ -9,6 +9,7 @@
 	<Item key="ApiKeyForm">Api Keys</Item>
 	<Item key="MarketTradeForm">Market Trade</Item>
 	<Item key="TradeForm">Pending Trade</Item>
+	<Item key="BlowoutVolumeForm">Strategy "Blowout Volume"</Item>
 	<Item key="Views.Implementations.CurrencyForm.marketsGroupBox_Text">Markets</Item>
 	<Item key="Views.Implementations.CurrencyForm.filterLabel_Text">Filter</Item>
 	<Item key="Views.Implementations.CurrencyForm.activeOnlyCheckBox_Text">Active Only</Item>
@@ -126,7 +127,7 @@
 	<Item key="ZeroOrNegativeNotAllowed">The quantity and price you are entered are not typical for this market</Item>
 	<Item key="RateNotProvided">Rate Not Provided</Item>
 	<Item key="UnknownUsdRateFor">It is impossible to calculate the dollar equivalent for</Item>
-
+	<Item key="SelectRemovingOrder">Error: canceling order not selected</Item>
 	<Item key="SuccessfullTrade">Order was set successfully</Item>
 	<Item key="SuccessfullCancelLimitOrder">Order was removed successfully</Item>
 </Strings>

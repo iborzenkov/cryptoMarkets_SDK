@@ -1,4 +1,6 @@
-﻿using DomainModel.Features;
+﻿using System;
+using DomainModel;
+using DomainModel.Features;
 using Models;
 using Models.Interfaces;
 using System.Linq;
@@ -19,19 +21,50 @@ namespace Presenters.Implementations
             View.SetSettings(Model.Settings);
 
             View.MarketChanged += View_MarketChanged;
-            View.PairChecked += View_PairChecked;
+            View.AddPairToAnalise += View_AddPairToAnalise;
+            View.RemovePairFromAnalise += View_RemovePairFromAnalise;
             View.SettingsChanged += View_SettingsChanged;
             View.ViewClosed += View_ViewClosed;
+
+
+            Model.SignalOccured += Model_SignalOccured;
+            Model.SignalDisappeared += Model_SignalDisappeared;
+        }
+
+        private async void View_RemovePairFromAnalise(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            await ExcludePairToStrategy(pair, timeframe, barCount);
+        }
+
+        private async void View_AddPairToAnalise(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            await IncludePairToStrategy(pair, timeframe, barCount);
+        }
+
+        private void Model_SignalDisappeared(PairOfMarket pair)
+        {
+            View.SignalDisappeared(pair);
+        }
+
+        private void Model_SignalOccured(PairOfMarket pair)
+        {
+            View.SignalOccured(pair);
         }
 
         private void Release()
         {
+            Model.SignalOccured -= Model_SignalOccured;
+            Model.SignalDisappeared -= Model_SignalDisappeared;
+
             View.MarketChanged -= View_MarketChanged;
-            View.PairChecked -= View_PairChecked;
+            View.AddPairToAnalise -= View_AddPairToAnalise;
+            View.RemovePairFromAnalise -= View_RemovePairFromAnalise;
             View.SettingsChanged -= View_SettingsChanged;
             View.ViewClosed -= View_ViewClosed;
 
             Model.Release();
+
+            OnClosed();
         }
 
         private void View_SettingsChanged(BlowoutVolumeSettings settings)
@@ -44,19 +77,19 @@ namespace Presenters.Implementations
             Release();
         }
 
-        private async void View_PairChecked(PairOfMarket pair, bool isChecked)
-        {
-            await PairChangedAsync(pair, isChecked);
-        }
-
-        private Task PairChangedAsync(PairOfMarket pair, bool isChecked)
+        private Task IncludePairToStrategy(PairOfMarket pair, TimeframeType timeframe, int barCount)
         {
             return Task.Run(() =>
             {
-                if (isChecked)
-                    Model.IncludePairToStrategy(pair);
-                else
-                    Model.ExcludePairFromStrategy(pair);
+                Model.IncludePairToStrategy(pair, timeframe, barCount);
+            });
+        }
+
+        private Task ExcludePairToStrategy(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            return Task.Run(() =>
+            {
+                Model.ExcludePairFromStrategy(pair, timeframe, barCount);
             });
         }
 
@@ -69,9 +102,10 @@ namespace Presenters.Implementations
         {
             return Task.Run(() =>
             {
-                var pairs = market.Pairs;
+                var pairs = market.Pairs.ActiveOnly();
                 var pairOfMarkets = pairs as PairOfMarket[] ?? pairs.ToArray();
                 View.SetPairs(pairOfMarkets);
+                View.SetTimeframes(market.PossibleTimeframes);
             });
         }
     }

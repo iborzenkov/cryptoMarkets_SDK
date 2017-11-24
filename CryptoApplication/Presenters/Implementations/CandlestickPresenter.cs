@@ -67,6 +67,8 @@ namespace Presenters.Implementations
 
             Model.GraphChanged -= Model_GraphChanged;
             Model.Release();
+
+            OnClosed();
         }
 
         private async void View_PairChanged(PairOfMarket pair)

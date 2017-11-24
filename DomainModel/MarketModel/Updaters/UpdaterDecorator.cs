@@ -16,7 +16,7 @@ namespace DomainModel.MarketModel.Updaters
 
         private void UpdaterOnChanged(TUpdatableFeature feature)
         {
-            Changed?.Invoke(feature);
+            Changed?.Invoke(this, feature);
         }
 
         public int RefreshInterval
@@ -79,6 +79,6 @@ namespace DomainModel.MarketModel.Updaters
             set { _updater.Parameters = value; }
         }
 
-        public event Action<TUpdatableFeature> Changed;
+        public event EventHandler<TUpdatableFeature> Changed;
     }
 }

@@ -4,6 +4,7 @@ using Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DomainModel;
 using DomainModel.MarketModel.Updaters;
 using IModel = DomainModel.IModel;
 
@@ -65,7 +66,7 @@ namespace Models.Implementations
 
         private readonly TimeInterval _refreshInterval = TimeInterval.InMinutes(1);
 
-        private void PairStatisticUpdater_Changed(ICollection<Pair24HoursStatistic> statistics)
+        private void PairStatisticUpdater_Changed(object sender, ICollection<Pair24HoursStatistic> statistics)
         {
             SetStatistics(statistics);
         }
@@ -100,7 +101,7 @@ namespace Models.Implementations
             var token = filter.PairToken;
 
             var allPairs = model.SelectedMarket.Pairs;
-            var filtered = filter.IsActiveOnly ? allPairs.Where(c => c.IsActive) : allPairs;
+            var filtered = filter.IsActiveOnly ? allPairs.ActiveOnly() : allPairs;
             filtered = string.IsNullOrEmpty(token)
                 ? filtered
                 : filtered.Where(p =>

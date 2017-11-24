@@ -83,6 +83,7 @@ namespace Views.Implementations
             // askUsdEquivalentColumnHeader
             // 
             this.askUsdEquivalentColumnHeader.Text = "USD Equivalent";
+            this.askUsdEquivalentColumnHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.askUsdEquivalentColumnHeader.Width = 90;
             // 
             // splitter
@@ -133,6 +134,7 @@ namespace Views.Implementations
             // bidUsdEquivalentColumnHeader
             // 
             this.bidUsdEquivalentColumnHeader.Text = "USD Equivalent";
+            this.bidUsdEquivalentColumnHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.bidUsdEquivalentColumnHeader.Width = 90;
             // 
             // statusStrip1

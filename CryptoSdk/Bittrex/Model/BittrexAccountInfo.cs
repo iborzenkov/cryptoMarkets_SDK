@@ -23,7 +23,7 @@ namespace CryptoSdk.Bittrex.Model
             var result = new List<Balance>();
             var query = Connection.PrivateGetQuery<BittrexBalancesDataType>(
                 EndPoints.GetBalances, apiKeys, GetParameters(apiKeys.PublicKey));
-            if (query.Success)
+            if (query.Success && query.Balances != null)
             {
                 result.AddRange(
                     query.Balances.Select(
@@ -46,7 +46,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var query = Connection.PrivateGetQuery<BittrexBalanceDataType>(
                 EndPoints.GetBalance, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
-            if (query.Success)
+            if (query != null && query.Success && query.Balance != null)
                 balance = query.Balance.ToBalance(market, currency);
 
             return balance;
@@ -66,7 +66,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var query = Connection.PrivateGetQuery<BittrexOpenedOrdersDataType>(
                 EndPoints.GetOpenedOrders, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
-            if (query.Success)
+            if (query.Success && query.Orders != null)
             {
                 result.AddRange(query.Orders.Select(order => order.ToOrder(market)));
             }

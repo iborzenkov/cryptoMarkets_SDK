@@ -9,6 +9,7 @@
 	<Item key="ApiKeyForm">Api ключи</Item>
 	<Item key="MarketTradeForm">Рыночная торговля</Item>
 	<Item key="TradeForm">Отложенная торговля</Item>
+	<Item key="BlowoutVolumeForm">Статегия "Взрывной объем"</Item>
 	<Item key="Views.Implementations.CurrencyForm.marketsGroupBox_Text">Рынки</Item>
 	<Item key="Views.Implementations.CurrencyForm.filterLabel_Text">Фильтр</Item>
 	<Item key="Views.Implementations.CurrencyForm.activeOnlyCheckBox_Text">Только активные</Item>
@@ -126,6 +127,7 @@
 	<Item key="ZeroOrNegativeNotAllowed">Количество или цена недопустима для этого инструмента</Item>
 	<Item key="RateNotProvided">Цена не указана</Item>
 	<Item key="UnknownUsdRateFor">Невозможно вычислить долларовый эквивалент для</Item>
+	<Item key="SelectRemovingOrder">Ошибка: выберите удаляемый ордер</Item>
 
 	<Item key="SuccessfullTrade">Ордер был выставлен успешно</Item>
 	<Item key="SuccessfullCancelLimitOrder">Ордер был успешно отменен</Item>

@@ -1,7 +1,7 @@
 ﻿using DomainModel.MarketModel;
+using DomainModel.MarketModel.ApiKeys;
 using System.Collections.Generic;
 using System.Linq;
-using DomainModel.MarketModel.ApiKeys;
 
 namespace DomainModel.Features
 {
@@ -9,13 +9,16 @@ namespace DomainModel.Features
     {
         public IMarketModel Model { get; }
         private readonly IApiKeyProvider _apiKeyProvider;
+        public TimeframeType[] PossibleTimeframes { get; }
 
-        public Market(string name, IMarketModel model, IEnumerable<ApiKeyRole> apiKeyRoles, string usdCurrencyTag)
+        public Market(string name, IMarketModel model, IEnumerable<ApiKeyRole> apiKeyRoles,
+            string usdCurrencyTag, TimeframeType[] possibleTimeframes)
         {
             Name = name;
             Model = model;
             UsdCurrencyTag = usdCurrencyTag;
             SpecifiedRoles = apiKeyRoles.ToArray();
+            PossibleTimeframes = possibleTimeframes;
 
             _apiKeyProvider = new ApiKeyProvider(SpecifiedRoles);
             UsdEquivalent = new UsdEquivalent(this);

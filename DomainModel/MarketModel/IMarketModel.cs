@@ -1,4 +1,6 @@
-﻿namespace DomainModel.MarketModel
+﻿using System;
+
+namespace DomainModel.MarketModel
 {
     public interface IMarketModel
     {
@@ -7,5 +9,7 @@
         IAccountInfo Account { get; }
 
         string AdoptMessage(string message);
+
+        TimeZoneInfo ServerTimeZone { get; }
     }
 }

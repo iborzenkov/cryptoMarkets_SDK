@@ -108,7 +108,7 @@ namespace Models.Implementations
         private IOrderBook OrderBook { get; set; }
         private OrderBookAdapter OrderBookAdapter { get; } = new OrderBookAdapter();
 
-        private void OrderBookUpdater_Changed(IOrderBook orderBook)
+        private void OrderBookUpdater_Changed(object sender, IOrderBook orderBook)
         {
             OrderBook = orderBook;
             OrderBookAdapter.SetOrderBook(OrderBook);

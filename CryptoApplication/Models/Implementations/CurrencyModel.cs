@@ -17,7 +17,7 @@ namespace Models.Implementations
             _domainModel = domainModel;
         }
 
-        Market ICurrencyModel.SelectedMarket
+        public Market SelectedMarket
         {
             get { return _selectedMarket; }
             set
@@ -30,9 +30,9 @@ namespace Models.Implementations
             }
         }
 
-        IEnumerable<Market> ICurrencyModel.Markets => _domainModel.Markets;
+        public IEnumerable<Market> Markets => _domainModel.Markets;
 
-        void ICurrencyModel.SetFilter(string filter, bool activeOnly)
+        public void SetFilter(string filter, bool activeOnly)
         {
             ICurrencyModel model = this;
             if (model.SelectedMarket == null)

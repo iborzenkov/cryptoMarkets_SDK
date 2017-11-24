@@ -18,7 +18,7 @@ namespace DomainModel.MarketModel.Updaters.HistoryPrices
 
         protected override ICollection<HistoryPrice> UpdateFeature()
         {
-            var result = _marketInfo.MarketHistoryData(OwnerFeature.Pair.Pair, OwnerFeature.Timeframe);
+            var result = _marketInfo.MarketHistoryData(OwnerFeature.Pair.Pair, OwnerFeature.Timeframe, OwnerFeature.StartTime);
             var prices = result as HistoryPrice[] ?? result.ToArray();
 
             OnChanged(prices);

@@ -1,4 +1,5 @@
-﻿using CryptoSdk.Poloniex.Connection;
+﻿using System;
+using CryptoSdk.Poloniex.Connection;
 using CryptoSdk.Poloniex.Features;
 using DomainModel.Features;
 using DomainModel.MarketModel;
@@ -31,13 +32,16 @@ namespace CryptoSdk.Poloniex.Model
 
         public PoloniexModel()
         {
-            Info = new PoloniexInfo(_connection);
+            ServerTimeZone = TimeZoneInfo.Utc;
+
+            Info = new PoloniexInfo(_connection, ServerTimeZone);
             Trade = new PoloniexTrade(_connection);
             Account = new PoloniexAccountInfo(_connection);
 
             Fee = new PoloniexFee();
         }
 
+        public TimeZoneInfo ServerTimeZone { get; }
         public IMarketInfo Info { get; }
         public IMarketTrade Trade { get; }
         public IAccountInfo Account { get; }

@@ -1,4 +1,5 @@
-﻿using Presenters.Interfaces;
+﻿using System;
+using Presenters.Interfaces;
 using Views.Interfaces;
 
 namespace Presenters.Implementations
@@ -16,6 +17,13 @@ namespace Presenters.Implementations
         public void Run()
         {
             View.Show();
+        }
+
+        public event Action Closed;
+
+        protected void OnClosed()
+        {
+            Closed?.Invoke();
         }
     }
 }

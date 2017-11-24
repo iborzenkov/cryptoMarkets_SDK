@@ -57,6 +57,8 @@ namespace Presenters.Implementations
             Model.IsMayTradeChanged -= Model_IsMayTradeChanged;
 
             Model.Release();
+
+            OnClosed();
         }
 
         private void Model_InfoOccured(string infoMessage)

@@ -30,7 +30,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var query = Connection.PrivateGetQuery<BittrexLimitOrderDataType>(
                 EndPoints.BuyLimit, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
-            if (query.Success)
+            if (query.Success && query.Order != null)
             {
                 result = new OrderId(query.Order.Id);
             }
@@ -58,7 +58,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var query = Connection.PrivateGetQuery<BittrexLimitOrderDataType>(
                 EndPoints.SellLimit, apiKeys, GetParameters(apiKeys.PublicKey, parameters));
-            if (query.Success)
+            if (query.Success && query.Order != null)
             {
                 result = new OrderId(query.Order.Id);
             }

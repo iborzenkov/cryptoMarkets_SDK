@@ -34,7 +34,6 @@ namespace DomainModel.MarketModel
         IEnumerable<MarketHistory> MarketTradeHistory(Pair pair, TimeRange timeRange);
 
         IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, TimeRange timeRange);
-        IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime startTime);
-        IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe);
+        IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime? startTime = null);
     }
 }

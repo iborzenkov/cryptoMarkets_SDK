@@ -3,6 +3,7 @@ using DomainModel.Features;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Views.Interfaces;
@@ -15,9 +16,6 @@ namespace Views.Implementations
         public BlowoutVolumeForm()
         {
             InitializeComponent();
-
-            foreach (var item in Enum.GetValues(typeof(TimeframeType)))
-                timeframeComboBox.Items.Add(item);
 
             Locale.Instance.RegisterView(this);
         }
@@ -57,10 +55,101 @@ namespace Views.Implementations
             }
         }
 
-        private PairOfMarket Pair => pairListView.FocusedItem.Tag as PairOfMarket;
+        private PairOfMarket Pair => pairListView.FocusedItem?.Tag as PairOfMarket;
 
-        private TimeframeType Timeframe => (TimeframeType)timeframeComboBox.SelectedItem;
+        public void SetTimeframes(TimeframeType[] timeframes)
+        {
+            timeframeComboBox.BeginInvoke(new Action(() =>
+            {
+                timeframeComboBox.BeginUpdate();
+                try
+                {
+                    var selectedTimeframe = timeframeComboBox.SelectedItem != null ? Timeframe : (TimeframeType?)null;
+
+                    ClearTimeframes();
+                    foreach (var timeframe in timeframes)
+                    {
+                        timeframeComboBox.Items.Add(timeframe);
+                    }
+
+                    Timeframe = selectedTimeframe != null && timeframeComboBox.Items.Contains(selectedTimeframe.Value) 
+                        ? selectedTimeframe.Value
+                        : timeframes.FirstOrDefault();
+                }
+                finally
+                {
+                    timeframeComboBox.EndUpdate();
+                }
+            }));
+        }
+
+        public event Action<PairOfMarket, TimeframeType, int> AddPairToAnalise;
+        public event Action<PairOfMarket, TimeframeType, int> RemovePairFromAnalise;
+
+        public void PairWasAddedToAnalise(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PairWasRemovedFromAnalise(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveAnalisePairs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadAnalisePairs()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SignalOccured(PairOfMarket pair)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SignalDisappeared(PairOfMarket pair)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ClearTimeframes()
+        {
+            timeframeComboBox.Items.Clear();
+            TimeframeChanged();
+        }
+
+        public TimeframeType? Timeframe
+        {
+            get
+            {
+                return (TimeframeType?)timeframeComboBox.SelectedItem;
+            }
+            set
+            {
+                if (timeframeComboBox.SelectedItem != null && Timeframe == value)
+                    return;
+
+                timeframeComboBox.SelectedItem = value;
+                TimeframeChanged();
+            }
+        }
+
+        private void TimeframeChanged()
+        {
+            UpdateAddPairToAnalize();
+        }
+
+        private void UpdateAddPairToAnalize()
+        {
+            addPairButton.Enabled = Pair != null && Timeframe.HasValue && BarCount > 0;
+        }
+
         private int BarCount => (int)barCountUpDown.Value;
+        private double LargeVolumeKoef => largeVolumeKoefTrackBar.Value / 100.0;
         private bool AutoTrade => autoTradeCheckBox.Checked;
         private bool SendEmailNotifications => sendEmailCheckBox.Checked;
         private int BalancePercentPerOneTrade => (int)balancePercentPerOneTradeUpDown.Value;
@@ -82,13 +171,13 @@ namespace Views.Implementations
                         var item = new ListViewItem(new[]
                         {
                             pair.Pair.ToString(),
-                            AvailableBars(pair),
                         });
-                        item.Checked = pair.IsActive;
+                        item.Checked = ActivePairs.Contains(pair);
                         item.Tag = pair;
                         pairListView.Items.Add(item);
                     }
                 }
+
                 finally
                 {
                     pairListView.EndUpdate();
@@ -96,57 +185,15 @@ namespace Views.Implementations
             }));
         }
 
-        private string AvailableBars(PairOfMarket pair)
-        {
-            int bars;
-            if (!_availableBars.TryGetValue(pair, out bars))
-                bars = 0;
-            return bars.ToString();
-        }
-
-        private Dictionary<PairOfMarket, int> _availableBars = new Dictionary<PairOfMarket, int>();
-
-        public void SetAvailableBars(Dictionary<PairOfMarket, int> availableBars)
-        {
-            _availableBars = availableBars;
-            UpdateAvailableBars();
-        }
-
-        private void UpdateAvailableBars()
-        {
-            pairListView.BeginInvoke(new Action(() =>
-            {
-                pairListView.BeginUpdate();
-                try
-                {
-                    for (var i = 0; i < pairListView.Items.Count; i++)
-                    {
-                        var pair = pairListView.Items[i].Tag as PairOfMarket;
-                        pairListView.Items[i].SubItems[1].Text = AvailableBars(pair);
-                    }
-                }
-                finally
-                {
-                    pairListView.EndUpdate();
-                }
-            }));
-        }
+        private IList<PairOfMarket> ActivePairs { get; } = new List<PairOfMarket>();
 
         public event Action<Market> MarketChanged;
-
-        public event Action<PairOfMarket, bool> PairChecked;
 
         public event Action<BlowoutVolumeSettings> SettingsChanged;
 
         public void SetSettings(BlowoutVolumeSettings settings)
         {
             var changed = false;
-
-            if (Timeframe != settings.Timeframe)
-            {
-                timeframeComboBox.SelectedItem = settings.Timeframe;
-                changed = true;
-            }
 
             if (AutoTrade != settings.AutoTrade)
             {
@@ -172,9 +219,9 @@ namespace Views.Implementations
                 changed = true;
             }
 
-            if (BarCount != settings.BarCount)
+            if (Math.Abs(LargeVolumeKoef - settings.LargeVolumeKoef) > 0.00001)
             {
-                barCountUpDown.Value = settings.BarCount;
+                largeVolumeKoefTrackBar.Value = (int)Math.Round(settings.LargeVolumeKoef * 100);
                 changed = true;
             }
 
@@ -184,27 +231,12 @@ namespace Views.Implementations
 
         public event Action ViewClosed;
 
-        protected virtual void OnSettingsChanged()
+        private void OnSettingsChanged()
         {
             SettingsChanged?.Invoke(Settings);
         }
 
         public BlowoutVolumeSettings Settings { get; } = new BlowoutVolumeSettings();
-
-        protected virtual void OnPairChecked(PairOfMarket pair, bool isChecked)
-        {
-            PairChecked?.Invoke(pair, isChecked);
-        }
-
-        private void pairListView_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-            OnPairChecked(e.Item.Tag as PairOfMarket, e.Item.Checked);
-        }
-
-        private void marketComboBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            OnMarketChanged();
-        }
 
         private void OnMarketChanged()
         {
@@ -216,6 +248,50 @@ namespace Views.Implementations
             Locale.Instance.UnRegisterView(this);
 
             ViewClosed?.Invoke();
+        }
+
+        private void largeVolumeKoefTrackBar_Scroll(object sender, EventArgs e)
+        {
+            OnSettingsChanged();
+        }
+
+        private void OnAddPairToAnalise(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            AddPairToAnalise?.Invoke(pair, timeframe, barCount);
+        }
+
+        private void OnRemovePairFromAnalise(PairOfMarket pair, TimeframeType timeframe, int barCount)
+        {
+            RemovePairFromAnalise?.Invoke(pair, timeframe, barCount);
+        }
+
+        private void addPairButton_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(Timeframe.HasValue);
+
+            OnAddPairToAnalise(Pair, Timeframe.Value, BarCount);
+        }
+
+        private void marketComboBox_SelectionChangeCommitted_1(object sender, EventArgs e)
+        {
+            OnMarketChanged();
+        }
+
+        private void barCountUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateAddPairToAnalize();
+        }
+
+        private void pairListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateAddPairToAnalize();
+        }
+
+        private void removePairButton_Click(object sender, EventArgs e)
+        {
+            Debug.Assert(Timeframe.HasValue);
+
+            OnRemovePairFromAnalise(Pair, Timeframe.Value, BarCount);
         }
     }
 }

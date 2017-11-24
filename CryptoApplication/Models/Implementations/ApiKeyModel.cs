@@ -1,9 +1,8 @@
 ﻿using DomainModel.Features;
-using DomainModel.MarketModel;
+using DomainModel.MarketModel.ApiKeys;
 using Models.Interfaces;
 using System;
 using System.Collections.Generic;
-using DomainModel.MarketModel.ApiKeys;
 
 namespace Models.Implementations
 {

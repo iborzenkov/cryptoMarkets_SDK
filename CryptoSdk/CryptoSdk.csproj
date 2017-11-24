@@ -72,6 +72,7 @@
     <Compile Include="Dummy\DummyTrade.cs" />
     <Compile Include="IConnection.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="MarketTimeCorrector.cs" />
     <Compile Include="Poloniex\Connection\PoloniexConnection.cs" />
     <Compile Include="Poloniex\Connection\EndPoints.cs" />
     <Compile Include="Poloniex\DataTypes\BaseDataType.cs" />

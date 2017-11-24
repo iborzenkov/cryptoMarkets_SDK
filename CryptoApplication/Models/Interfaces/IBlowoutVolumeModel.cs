@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using DomainModel;
 using DomainModel.Features;
 
 namespace Models.Interfaces
@@ -11,7 +13,12 @@ namespace Models.Interfaces
 
         void Release();
 
-        void IncludePairToStrategy(PairOfMarket pair);
-        void ExcludePairFromStrategy(PairOfMarket pair);
+        event Action<PairOfMarket> SignalOccured;
+        event Action<PairOfMarket> SignalDisappeared;
+
+        //IEnumerable<PairOfMarket> ActivePairs { get; }
+
+        void IncludePairToStrategy(PairOfMarket pair, TimeframeType timeframe, int barCount);
+        void ExcludePairFromStrategy(PairOfMarket pair, TimeframeType timeframe, int barCount);
     }
 }

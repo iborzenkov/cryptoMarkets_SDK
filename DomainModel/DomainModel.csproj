@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Features\ApiKeyRoleCaption.cs" />
     <Compile Include="Features\Bar.cs" />
     <Compile Include="Features\Fee.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="MarketModel\IMarketTrade.cs" />
     <Compile Include="Features\OrderId.cs" />
     <Compile Include="MarketModel\OrdersToBars.cs" />
+    <Compile Include="MarketModel\QueriesQueue.cs" />
     <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPriceFeature.cs" />
     <Compile Include="MarketModel\Updaters\HistoryPrices\IHistoryPricesProvider.cs" />
     <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPricesUpdater.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Strategies\Strategy.cs" />
     <Compile Include="Strategies\StrategyDataUpdater.cs" />
     <Compile Include="Strategies\StrategySettings.cs" />
+    <Compile Include="Strategies\Volume\VolumeAnalyzingPair.cs" />
     <Compile Include="Strategies\Volume\VolumeStrategyDataUpdater.cs" />
     <Compile Include="Strategies\Volume\VolumeStrategy.cs" />
     <Compile Include="Strategies\Volume\VolumeStrategySettings.cs" />

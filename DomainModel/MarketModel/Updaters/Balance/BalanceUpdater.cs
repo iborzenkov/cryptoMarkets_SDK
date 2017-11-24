@@ -17,7 +17,8 @@ namespace DomainModel.MarketModel.Updaters.Balance
         protected override Features.Balance UpdateFeature()
         {
             var result = _accountInfo.Balance(OwnerFeature);
-            OnChanged(result);
+            if (result != null)
+                OnChanged(result);
             return result;
         }
     }

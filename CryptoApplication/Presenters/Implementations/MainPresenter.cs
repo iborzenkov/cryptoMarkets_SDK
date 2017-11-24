@@ -32,14 +32,18 @@ namespace Presenters.Implementations
 
             candlestickPresenter.Run();
         }
-        
+
+        BlowoutVolumePresenter _blowoutVolumeStrategyPresenter;
         private void View_ShowBlowoutVolumeStrategy()
         {
-            var form = new BlowoutVolumeForm { MdiParent = View.MdiParentForm };
+            if (_blowoutVolumeStrategyPresenter == null)
+            {
+                var form = new BlowoutVolumeForm {MdiParent = View.MdiParentForm};
+                _blowoutVolumeStrategyPresenter = new BlowoutVolumePresenter(form, new BlowoutVolumeModel(_model.DomainModel));
+                _blowoutVolumeStrategyPresenter.Closed += () => _blowoutVolumeStrategyPresenter = null;
+            }
 
-            var tradePresenter = new BlowoutVolumePresenter(form, new BlowoutVolumeModel(_model.DomainModel));
-
-            tradePresenter.Run();
+            _blowoutVolumeStrategyPresenter.Run();
         }
 
         private void View_ShowPendingTrade()

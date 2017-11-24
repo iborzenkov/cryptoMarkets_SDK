@@ -41,6 +41,8 @@ namespace Presenters.Implementations
 
             Model.OrderBookChanged -= Model_OrderBookChanged;
             Model.Release();
+
+            OnClosed();
         }
 
         private void View_SettingsChanged(OrderBookSettings settings)

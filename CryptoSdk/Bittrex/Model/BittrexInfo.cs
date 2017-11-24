@@ -23,7 +23,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var query = Connection.PublicGetQuery<BittrexTickerDataType>(
                 EndPoints.GetTicker, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
-            if (query.Success)
+            if (query.Success && query.Ticker != null)
                 result = query.Ticker.ToTick();
 
             return result;
@@ -34,7 +34,7 @@ namespace CryptoSdk.Bittrex.Model
             var result = new List<PairOfMarket>();
 
             var query = Connection.PublicGetQuery<BittrexMarketsDataType>(EndPoints.GetMarkets);
-            if (query.Success)
+            if (query.Success && query.Pairs != null)
                 result.AddRange(query.Pairs.Select(marketDataType => marketDataType.ToPair(market)));
 
             result.Sort(Comparison);
@@ -51,7 +51,7 @@ namespace CryptoSdk.Bittrex.Model
             var result = new List<CurrencyOfMarket>();
 
             var query = Connection.PublicGetQuery<BittrexCurrenciesDataType>(EndPoints.GetCurrencies);
-            if (query.Success)
+            if (query.Success && query.Currencies != null)
                 result.AddRange(query.Currencies.Select(currencyDataType => currencyDataType.ToCurrency(market)));
 
             return result;
@@ -62,7 +62,7 @@ namespace CryptoSdk.Bittrex.Model
             var result = new List<Pair24HoursStatistic>();
 
             var query = Connection.PublicGetQuery<BittrexMarketSummaries>(EndPoints.GetMarketSummaries);
-            if (query.Success)
+            if (query.Success && query.MarketSummaries != null)
                 result.AddRange(query.MarketSummaries.Select(summaryDataType => summaryDataType.ToMarketSummary()));
 
             return result;
@@ -74,7 +74,7 @@ namespace CryptoSdk.Bittrex.Model
 
             var query = Connection.PublicGetQuery<BittrexMarketSummaries>(
                 EndPoints.GetMarketSummary, new Tuple<string, string>("market", BittrexPairs.AsString(pair)));
-            if (query.Success)
+            if (query.Success && query.MarketSummaries != null)
                 result = query.MarketSummaries[0].ToMarketSummary();
 
             return result;
@@ -88,9 +88,8 @@ namespace CryptoSdk.Bittrex.Model
             parameters[0] = new Tuple<string, string>("market", BittrexPairs.AsString(pair));
 
             var query = Connection.PublicGetQuery<BittrexMarketHistoryDataType>(EndPoints.GetMarketHistory, parameters);
-            if (query.Success)
-                result.AddRange(
-                    query.Items.Select(item => item.ToHistory(pair)));
+            if (query.Success && query.Items != null)
+                result.AddRange(query.Items.Select(item => item.ToHistory(pair)));
 
             return result;
         }
@@ -100,16 +99,13 @@ namespace CryptoSdk.Bittrex.Model
             return Enumerable.Empty<HistoryPrice>();
         }
 
-        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime startTime)
+        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe, DateTime? startTime = null)
         {
-            return MarketHistoryData(pair, timeframe, new TimeRange(startTime, DateTime.Now));
+            if (!startTime.HasValue)
+                startTime = DateTime.MinValue;
+            return MarketHistoryData(pair, timeframe, new TimeRange(startTime.Value, DateTime.Now));
         }
-
-        public IEnumerable<HistoryPrice> MarketHistoryData(Pair pair, TimeframeType timeframe)
-        {
-            return MarketHistoryData(pair, timeframe, DateTime.MinValue);
-        }
-
+        
         public OrderBook OrderBook(Pair pair, int depth, OrderBookType orderBookType)
         {
             OrderBook result = null;

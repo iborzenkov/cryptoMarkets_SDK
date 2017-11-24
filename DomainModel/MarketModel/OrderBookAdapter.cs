@@ -27,11 +27,13 @@ namespace DomainModel.MarketModel
             if (!HighlightLargePositions)
                 return result;
 
-            var orderBookParts = parts.ToArray();
+            var orderBookParts = parts as OrderBookPart[] ?? parts.ToArray();
             if (!orderBookParts.Any())
                 return result;
 
-            var prices = orderBookParts.Select(b => b.Quantity).ToArray();
+            return Mathematics.LargeIndexes(orderBookParts.Select(p => p.Quantity), LargeVolumeKoef);
+
+            /*var prices = orderBookParts.Select(b => b.Quantity).ToArray();
             var firstPercentile = Mathematics.Percentile(prices, 0.5 - LargeVolumeKoef);
             var thirdPercentile = Mathematics.Percentile(prices, 0.5 + LargeVolumeKoef);
             var diff = thirdPercentile - firstPercentile;
@@ -43,7 +45,7 @@ namespace DomainModel.MarketModel
                 if (orderBookParts[i].Quantity <= minLimit || orderBookParts[i].Quantity >= maxLimit)
                     result.Add(i);
             }
-            return result;
+            return result;*/
         }
 
         public IEnumerable<int> LargeBidsIndexes => LargeIndexes(Bids);
