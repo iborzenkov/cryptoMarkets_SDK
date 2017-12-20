@@ -216,7 +216,7 @@ namespace Models.Implementations
             if (PriceType != PriceTypeEnum.Market)
                 return Price;
 
-            const int marketKoef = 2;
+            const double marketKoef = 1.05;
             var lastPrice = _pairTickUpdater.LastValue ?? _pairTickUpdater.UpdateNow();
             return Position == TradePosition.Buy ? lastPrice.Last * marketKoef : lastPrice.Last / marketKoef;
         }
@@ -226,9 +226,9 @@ namespace Models.Implementations
             _openedOrdersUpdater = OpenedOrdersUpdaterProvider.GetUpdater(Market, _openedOrdersRefreshInterval);
             _openedOrdersUpdater.Changed += OpenedOrdersUpdater_Changed;
 
-            _openedOrdersUpdater.ImmediatelyUpdateIfOlder(_openedOrdersRefreshInterval);
+            /*_openedOrdersUpdater.ImmediatelyUpdateIfOlder(_openedOrdersRefreshInterval);
             if (_openedOrdersUpdater.LastValue != null)
-                SetOpenedOrders(_openedOrdersUpdater.LastValue);
+                SetOpenedOrders(_openedOrdersUpdater.LastValue);*/
 
             _openedOrdersUpdater.Start();
         }
@@ -241,9 +241,9 @@ namespace Models.Implementations
             _balanceUpdater = BalanceUpdaterProvider.GetUpdater(currencyOfMarket, _balanceRefreshInterval);
             _balanceUpdater.Changed += BalanceUpdater_Changed;
 
-            _balanceUpdater.ImmediatelyUpdateIfOlder(_balanceRefreshInterval);
+            /*_balanceUpdater.ImmediatelyUpdateIfOlder(_balanceRefreshInterval);
             if (_balanceUpdater.LastValue != null)
-                SetBalance(_balanceUpdater.LastValue);
+                SetBalance(_balanceUpdater.LastValue);*/
 
             _balanceUpdater.Start();
         }
@@ -253,9 +253,7 @@ namespace Models.Implementations
             _pairTickUpdater = PairTickUpdaterProvider.GetUpdater(Pair, _tickRefreshInterval);
             _pairTickUpdater.Changed += PairTickUpdater_Changed;
 
-            _pairTickUpdater.ImmediatelyUpdateIfOlder(_tickRefreshInterval);
-            //if (_pairTickUpdater.LastValue != null)
-            //  SetTick(_pairTickUpdater.LastValue);
+            //_pairTickUpdater.ImmediatelyUpdateIfOlder(_tickRefreshInterval);
 
             _pairTickUpdater.Start();
         }
@@ -266,7 +264,7 @@ namespace Models.Implementations
 
         private void SetOpenedOrders(IEnumerable<Order> openedOrders)
         {
-            OpenedOrders = openedOrders;
+            OpenedOrders = openedOrders.OrderBy(o => o.Pair.ToString());
             OnOpenedOrdersChanged();
         }
 

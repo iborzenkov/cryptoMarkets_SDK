@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bittrex\DataTypes\BittrexHistoryOrdersDataType.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexMarketHistory.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexOpenedOrdersDataType.cs" />
     <Compile Include="Bittrex\DataTypes\BittrexTradeDataType.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Poloniex\Connection\PoloniexConnection.cs" />
     <Compile Include="Poloniex\Connection\EndPoints.cs" />
     <Compile Include="Poloniex\DataTypes\BaseDataType.cs" />
+    <Compile Include="Poloniex\DataTypes\PoloniexHistoryOrdersDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexOpenedOrdersDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexBalancesDataType.cs" />
     <Compile Include="Poloniex\DataTypes\PoloniexCurrencyDataType.cs" />

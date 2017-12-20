@@ -49,6 +49,7 @@ namespace Views.Implementations
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.englishToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.russianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -131,7 +132,8 @@ namespace Views.Implementations
             // tradingToolStripMenuItem
             // 
             this.tradingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tradeToolStripMenuItem});
+            this.tradeToolStripMenuItem,
+            this.historyToolStripMenuItem});
             this.tradingToolStripMenuItem.Name = "tradingToolStripMenuItem";
             this.tradingToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.tradingToolStripMenuItem.Text = "Trading";
@@ -139,7 +141,7 @@ namespace Views.Implementations
             // tradeToolStripMenuItem
             // 
             this.tradeToolStripMenuItem.Name = "tradeToolStripMenuItem";
-            this.tradeToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.tradeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tradeToolStripMenuItem.Text = "Trade...";
             this.tradeToolStripMenuItem.Click += new System.EventHandler(this.tradeToolStripMenuItem_Click);
             // 
@@ -198,6 +200,13 @@ namespace Views.Implementations
             this.russianToolStripMenuItem.Text = "Russian";
             this.russianToolStripMenuItem.Click += new System.EventHandler(this.russianToolStripMenuItem_Click);
             // 
+            // historyToolStripMenuItem
+            // 
+            this.historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            this.historyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.historyToolStripMenuItem.Text = "History...";
+            this.historyToolStripMenuItem.Click += new System.EventHandler(this.historyToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -253,6 +262,7 @@ namespace Views.Implementations
         private System.Windows.Forms.ToolStripMenuItem blowoutVolumeToolStripMenuItem;
         [LocalizableClass]
         private System.Windows.Forms.ToolStripMenuItem candlestickGraphToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem historyToolStripMenuItem;
     }
 }
 

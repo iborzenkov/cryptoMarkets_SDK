@@ -16,5 +16,6 @@
         public static string SellLimit { get; } = "market/selllimit";
         public static string CancelOrder { get; } = "market/cancel";
         public static string GetOpenedOrders { get; } = "market/getopenorders";
+        public static string GetOrdersHistory { get; } = "account/getorderhistory";
     }
 }

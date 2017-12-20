@@ -11,8 +11,8 @@ namespace DomainModel.MarketModel
 
         Balance Balance(CurrencyOfMarket currency);
 
-        IEnumerable<Order> OpenedOrders(Market market, Pair pair);
+        IEnumerable<Order> OpenedOrders(Market market, Pair pair = null);
 
-        IEnumerable<Order> OpenedOrders(Market market);
+        IEnumerable<HistoryOrder> HistoryOrders(Market market, Pair pair = null); 
     }
 }

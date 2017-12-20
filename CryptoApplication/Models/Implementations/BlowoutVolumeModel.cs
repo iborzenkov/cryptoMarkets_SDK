@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using DomainModel.Misc;
 using IModel = DomainModel.IModel;
 
 namespace Models.Implementations
@@ -19,7 +20,7 @@ namespace Models.Implementations
         {
             _domainModel = domainModel;
 
-            Settings = DefaultSettings.Instance.BlowoutVolumeSettings;
+            Settings = Default.Instance.BlowoutVolumeSettings;
         }
 
         private IHistoryPricesUpdaterProvider HistoryPricesProvider => _domainModel.HistoryPricesProvider;

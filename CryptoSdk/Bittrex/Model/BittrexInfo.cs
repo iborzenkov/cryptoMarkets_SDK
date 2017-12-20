@@ -37,13 +37,8 @@ namespace CryptoSdk.Bittrex.Model
             if (query.Success && query.Pairs != null)
                 result.AddRange(query.Pairs.Select(marketDataType => marketDataType.ToPair(market)));
 
-            result.Sort(Comparison);
-            return result;
-        }
-
-        private static int Comparison(PairOfMarket pair1, PairOfMarket pair2)
-        {
-            return string.CompareOrdinal(pair1.Pair.ToString(), pair2.Pair.ToString());
+            var sorted = result.GetSorted();
+            return sorted;
         }
 
         public IEnumerable<CurrencyOfMarket> Currencies(Market market)

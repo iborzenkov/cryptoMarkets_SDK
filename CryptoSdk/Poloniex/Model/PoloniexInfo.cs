@@ -32,23 +32,14 @@ namespace CryptoSdk.Poloniex.Model
 
         public IEnumerable<PairOfMarket> Pairs(Market market)
         {
-            var result = new List<PairOfMarket>();
-
             var parameters = new Tuple<string, string>[1];
             parameters[0] = new Tuple<string, string>(EndPoints.CommandTag, EndPoints.GetTicker);
 
             var query = Connection.PublicGetQuery<Dictionary<string, PoloniexTickerDataType>>(EndPoints.Public, parameters);
-            foreach (var pairName in query.Keys)
-            {
-                result.Add(query[pairName].ToPair(pairName, market));
-            }
-            result.Sort(Comparison);
-            return result.Where(p => p != null);
-        }
+            var result = query.Keys.Select(pairName => query[pairName].ToPair(pairName, market)).Where(p => p != null);
 
-        private static int Comparison(PairOfMarket pair1, PairOfMarket pair2)
-        {
-            return string.CompareOrdinal(pair1.Pair.ToString(), pair2.Pair.ToString());
+            var sorted = result.GetSorted();
+            return sorted;
         }
 
         public IEnumerable<CurrencyOfMarket> Currencies(Market market)

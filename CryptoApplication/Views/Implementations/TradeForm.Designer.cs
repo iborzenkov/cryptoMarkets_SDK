@@ -43,6 +43,7 @@ namespace Views.Implementations
             this.priceColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.quantityColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.openedDateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.targetColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marketLabel = new System.Windows.Forms.Label();
             this.iWantToGroupBox = new System.Windows.Forms.GroupBox();
             this.priceGroupBox = new System.Windows.Forms.GroupBox();
@@ -92,7 +93,7 @@ namespace Views.Implementations
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
             this.topPanel.Name = "topPanel";
-            this.topPanel.Size = new System.Drawing.Size(553, 337);
+            this.topPanel.Size = new System.Drawing.Size(608, 337);
             this.topPanel.TabIndex = 2;
             // 
             // myOrdersGroupBox
@@ -104,7 +105,7 @@ namespace Views.Implementations
             this.myOrdersGroupBox.Controls.Add(this.openedOrdersListView);
             this.myOrdersGroupBox.Location = new System.Drawing.Point(15, 170);
             this.myOrdersGroupBox.Name = "myOrdersGroupBox";
-            this.myOrdersGroupBox.Size = new System.Drawing.Size(525, 142);
+            this.myOrdersGroupBox.Size = new System.Drawing.Size(580, 142);
             this.myOrdersGroupBox.TabIndex = 3;
             this.myOrdersGroupBox.TabStop = false;
             this.myOrdersGroupBox.Text = "My opened limit orders";
@@ -134,13 +135,14 @@ namespace Views.Implementations
             this.orderTypeColumnHeader,
             this.priceColumnHeader,
             this.quantityColumnHeader,
-            this.openedDateColumnHeader});
+            this.openedDateColumnHeader,
+            this.targetColumnHeader});
             this.openedOrdersListView.FullRowSelect = true;
             this.openedOrdersListView.GridLines = true;
             this.openedOrdersListView.Location = new System.Drawing.Point(3, 16);
             this.openedOrdersListView.MultiSelect = false;
             this.openedOrdersListView.Name = "openedOrdersListView";
-            this.openedOrdersListView.Size = new System.Drawing.Size(519, 123);
+            this.openedOrdersListView.Size = new System.Drawing.Size(574, 123);
             this.openedOrdersListView.TabIndex = 8;
             this.openedOrdersListView.UseCompatibleStateImageBehavior = false;
             this.openedOrdersListView.View = System.Windows.Forms.View.Details;
@@ -194,7 +196,7 @@ namespace Views.Implementations
             this.iWantToGroupBox.Controls.Add(this.sellLimitRadioButton);
             this.iWantToGroupBox.Location = new System.Drawing.Point(15, 39);
             this.iWantToGroupBox.Name = "iWantToGroupBox";
-            this.iWantToGroupBox.Size = new System.Drawing.Size(522, 125);
+            this.iWantToGroupBox.Size = new System.Drawing.Size(577, 125);
             this.iWantToGroupBox.TabIndex = 2;
             this.iWantToGroupBox.TabStop = false;
             this.iWantToGroupBox.Text = "Operation";
@@ -431,7 +433,7 @@ namespace Views.Implementations
             this.priceValueLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 315);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(553, 22);
+            this.statusStrip.Size = new System.Drawing.Size(608, 22);
             this.statusStrip.TabIndex = 6;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -468,7 +470,7 @@ namespace Views.Implementations
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(553, 337);
+            this.ClientSize = new System.Drawing.Size(608, 337);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.topPanel);
             this.Name = "TradeForm";
@@ -542,6 +544,8 @@ namespace Views.Implementations
         private System.Windows.Forms.RadioButton spendingUsdRadioButton;
         [LocalizableClass]
         private System.Windows.Forms.RadioButton spendingRadioButton;
+        [LocalizableClass]
+        private System.Windows.Forms.ColumnHeader targetColumnHeader;
 
         private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.ComboBox marketComboBox;

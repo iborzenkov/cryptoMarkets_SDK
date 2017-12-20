@@ -57,7 +57,7 @@ namespace CryptoSdk.Bittrex.Model
             return Balance(currency.Market, currency.Currency);
         }
 
-        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
+        public IEnumerable<Order> OpenedOrders(Market market, Pair pair = null)
         {
             var result = new List<Order>();
             var apiKeys = market.ApiKeys(ApiKeyRole.Info);
@@ -74,9 +74,21 @@ namespace CryptoSdk.Bittrex.Model
             return result;
         }
 
-        public IEnumerable<Order> OpenedOrders(Market market)
+        public IEnumerable<HistoryOrder> HistoryOrders(Market market, Pair pair)
         {
-            return OpenedOrders(market, null);
+            var apiKeys = market.ApiKeys(ApiKeyRole.Info);
+
+            var result = new List<HistoryOrder>();
+            var query = Connection.PrivateGetQuery<BittrexHistoryOrdersDataType>(
+                EndPoints.GetOrdersHistory, apiKeys, GetParameters(apiKeys.PublicKey));
+            if (query.Success && query.HistoryOrders != null)
+            {
+                result.AddRange(
+                    query.HistoryOrders.Select(
+                        historyOrderDataType => historyOrderDataType.ToHistoryOrder(market)));
+            }
+
+            return result;
         }
     }
 }

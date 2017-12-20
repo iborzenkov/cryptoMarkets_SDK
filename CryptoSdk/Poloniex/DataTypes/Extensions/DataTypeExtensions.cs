@@ -116,6 +116,20 @@ namespace CryptoSdk.Poloniex.DataTypes.Extensions
             return order;
         }
 
+        public static HistoryOrder ToOrder(this PoloniexHistoryOrdersDataType historyOrder, Market market, Pair pair)
+        {
+            DateTime timeStamp;
+            if (!DateTime.TryParse(historyOrder.Date, out timeStamp))
+                throw new Exception("TimeStamp is a required field");
+
+            var order = new HistoryOrder(
+                new OrderId(historyOrder.Id), market, pair,
+                historyOrder.Quantity, historyOrder.Price, historyOrder.Fee, 
+                PositionFromString(historyOrder.OrderType), timeStamp);
+
+            return order;
+        }
+
         public static OrderBook ToOrderBook(this PoloniexOrderBookDataType orderBookDataType, Pair pair)
         {
             var result = new OrderBook(pair);

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DomainModel
+namespace DomainModel.Misc
 {
     internal class IniFile
     {

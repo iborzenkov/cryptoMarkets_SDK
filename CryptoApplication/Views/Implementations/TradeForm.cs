@@ -114,8 +114,8 @@ namespace Views.Implementations
                             order.Market.Name,
                             order.Pair.ToString(),
                             TradePositionAsString(order.Position),
-                            order.Price.ToString(CultureInfo.CurrentCulture),
-                            order.Quantity.ToString(CultureInfo.CurrentCulture),
+                            order.Price.ToString("F8", CultureInfo.CurrentCulture),
+                            order.Quantity.ToString("F8", CultureInfo.CurrentCulture),
                             GetOpenedDate(order.Opened),
                         });
                 item.Tag = order;
@@ -254,7 +254,7 @@ namespace Views.Implementations
                 var usdText = string.Empty;
                 if (usdEquivalent.HasValue)
                     usdText = $" (~{Math.Round(usdEquivalent.Value)} USD)";
-                availableQuantityLabel.Text = $"{availableQuantity.ToString(CultureInfo.CurrentCulture)} {currency}{usdText}";
+                availableQuantityLabel.Text = $"{availableQuantity.ToString("F8", CultureInfo.CurrentCulture)} {currency}{usdText}";
             }));
         }
 
@@ -264,13 +264,13 @@ namespace Views.Implementations
             {
                 var forOne = Locale.Instance.Localize("ForOne");
                 priceValueLabel.Text = 
-                    $"{currentPrice.ToString(CultureInfo.CurrentCulture)} {Pair.Pair.QuoteCurrency} {forOne} {Pair.Pair.BaseCurrency}";
+                    $"{currentPrice.ToString("F8", CultureInfo.CurrentCulture)} {Pair.Pair.QuoteCurrency} {forOne} {Pair.Pair.BaseCurrency}";
             }));
 
             priceTextBox.BeginInvoke(new Action(() =>
             {
                 if (string.IsNullOrEmpty(priceTextBox.Text))
-                    priceTextBox.Text = $"{currentPrice.ToString(CultureInfo.CurrentCulture)}";
+                    priceTextBox.Text = $"{currentPrice.ToString("F8", CultureInfo.CurrentCulture)}";
             }));
         }
 

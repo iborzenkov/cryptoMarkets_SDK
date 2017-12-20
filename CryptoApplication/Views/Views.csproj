@@ -66,6 +66,12 @@
     <Compile Include="Implementations\CandlestickForm.Designer.cs">
       <DependentUpon>CandlestickForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\TradingHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Implementations\TradingHistoryForm.Designer.cs">
+      <DependentUpon>TradingHistoryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\ICandlestickView.cs" />
     <Compile Include="Implementations\PairForm.cs">
       <SubType>Form</SubType>
@@ -81,6 +87,7 @@
     </Compile>
     <Compile Include="Interfaces\IBlowoutVolumeView.cs" />
     <Compile Include="Interfaces\IPairView.cs" />
+    <Compile Include="Interfaces\ITradingHistoryView.cs" />
     <Compile Include="Interfaces\ITradeView.cs" />
     <Compile Include="Interfaces\IBalanceView.cs" />
     <Compile Include="Interfaces\IApiKeyView.cs" />
@@ -150,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Implementations\OrderBookForm.resx">
       <DependentUpon>OrderBookForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Implementations\TradingHistoryForm.resx">
+      <DependentUpon>TradingHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Implementations\TradeForm.resx">
       <DependentUpon>TradeForm.cs</DependentUpon>

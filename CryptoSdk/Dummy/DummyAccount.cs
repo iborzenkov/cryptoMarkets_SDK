@@ -1,8 +1,8 @@
-﻿using DomainModel.Features;
+﻿using DomainModel;
+using DomainModel.Features;
 using DomainModel.MarketModel;
 using System;
 using System.Collections.Generic;
-using DomainModel;
 
 namespace CryptoSdk.Dummy
 {
@@ -53,7 +53,7 @@ namespace CryptoSdk.Dummy
             return Balance(currency.Market, currency.Currency);
         }
 
-        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
+        public IEnumerable<Order> OpenedOrders(Market market, Pair pair = null)
         {
             var result = new List<Order>
             {
@@ -64,12 +64,12 @@ namespace CryptoSdk.Dummy
             return result;
         }
 
-        public IEnumerable<Order> OpenedOrders(Market market)
+        public IEnumerable<HistoryOrder> HistoryOrders(Market market, Pair pair = null)
         {
-            var result = new List<Order>
+            var result = new List<HistoryOrder>
             {
-                new Order(new OrderId("3"), market, PairDummy.EthBtc, 123, 0.145, TradePosition.Buy),
-                new Order(new OrderId("4"), market, PairDummy.UsdtBtc, 34, 0.785, TradePosition.Sell)
+                new HistoryOrder(new OrderId("3"), market, PairDummy.EthBtc, 123, 0.145, 0.1, TradePosition.Buy, DateTime.Now),
+                new HistoryOrder(new OrderId("4"), market, PairDummy.UsdtBtc, 34, 0.785, 0.01, TradePosition.Sell, DateTime.Now)
             };
 
             return result;

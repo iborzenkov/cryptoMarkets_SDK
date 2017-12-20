@@ -7,6 +7,30 @@ namespace DomainModel
 {
     public static class Extensions
     {
+        public static IEnumerable<PairOfMarket> GetSorted(this IEnumerable<PairOfMarket> pairs)
+        {
+            var sortedPairs = pairs.ToList();
+            sortedPairs.Sort(PairOfMarketComparison);
+            return sortedPairs;
+        }
+
+        private static int PairOfMarketComparison(PairOfMarket pair1, PairOfMarket pair2)
+        {
+            return string.CompareOrdinal(pair1.Pair.ToString(), pair2.Pair.ToString());
+        }
+
+        public static IEnumerable<Pair> GetSorted(this IEnumerable<Pair> pairs)
+        {
+            var sortedPairs = pairs.ToList();
+            sortedPairs.Sort(PairComparison);
+            return sortedPairs;
+        }
+
+        private static int PairComparison(Pair pair1, Pair pair2)
+        {
+            return string.CompareOrdinal(pair1.ToString(), pair2.ToString());
+        }
+
         public static int ToMinutes(this TimeframeType timeframe)
         {
             switch (timeframe)

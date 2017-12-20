@@ -44,4 +44,17 @@
         H4,
         D1,
     }
+
+    public enum Period
+    {
+        Hours12,
+        Day1,
+        Day3,
+        Day7,
+        Month1,
+        Month3,
+        Month6,
+        Year1,
+    }
+
 }

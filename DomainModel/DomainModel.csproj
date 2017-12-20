@@ -40,13 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Misc\EnumerableExtensions.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Features\ApiKeyRoleCaption.cs" />
     <Compile Include="Features\Bar.cs" />
     <Compile Include="Features\Fee.cs" />
     <Compile Include="Features\HistoryPrice.cs" />
+    <Compile Include="Features\HistoryOrder.cs" />
     <Compile Include="Features\Sell.cs" />
     <Compile Include="Features\Buy.cs" />
     <Compile Include="Features\CryptoAddress.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Features\UsdEquivalent.cs" />
     <Compile Include="MarketModel\ApiKeys\ApiKeyProvider.cs" />
     <Compile Include="MarketModel\ApiKeys\IApiKeyProvider.cs" />
-    <Compile Include="IniFile.cs" />
+    <Compile Include="Misc\IniFile.cs" />
     <Compile Include="MarketModel\OrderBookAdapter.cs" />
     <Compile Include="MarketModel\IOrderBook.cs" />
     <Compile Include="Features\Market.cs" />
@@ -83,9 +84,12 @@
     <Compile Include="MarketModel\Updaters\HistoryPrices\IHistoryPricesProvider.cs" />
     <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPricesUpdater.cs" />
     <Compile Include="MarketModel\Updaters\HistoryPrices\HistoryPricesUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryOrders\IHistoryOrdersUpdaterProvider.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryOrders\HistoryOrdersUpdater.cs" />
+    <Compile Include="MarketModel\Updaters\HistoryOrders\HistoryOrdersUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdater.cs" />
     <Compile Include="MarketModel\Updaters\OpenedOrders\OpenedOrdersUpdaterProvider.cs" />
-    <Compile Include="MarketModel\Updaters\OpenedOrders\IOpenedOrdersProvider.cs" />
+    <Compile Include="MarketModel\Updaters\OpenedOrders\IOpenedOrdersUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\UpdaterDecorator.cs" />
     <Compile Include="MarketModel\Updaters\Signal.cs" />
     <Compile Include="MarketModel\Updaters\IUpdater.cs" />
@@ -105,7 +109,8 @@
     <Compile Include="MarketModel\Updaters\Balance\BalanceUpdaterProvider.cs" />
     <Compile Include="MarketModel\Updaters\Balance\BalanceUpdater.cs" />
     <Compile Include="MarketModel\Updaters\TimeInterval.cs" />
-    <Compile Include="Mathematics.cs" />
+    <Compile Include="Misc\Mathematics.cs" />
+    <Compile Include="Misc\PairComparer.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdater.cs" />
     <Compile Include="MarketModel\Updaters\OrderBook\OrderBookUpdaterProvider.cs" />
@@ -120,6 +125,7 @@
     <Compile Include="Strategies\Volume\VolumeStrategy.cs" />
     <Compile Include="Strategies\Volume\VolumeStrategySettings.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

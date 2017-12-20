@@ -86,6 +86,8 @@ namespace Views.Implementations
 
         public event Action ShowBlowoutVolumeStrategy;
 
+        public event Action ShowTradingHistory;
+
         public event Action Exit;
 
         private void balancesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -126,6 +128,11 @@ namespace Views.Implementations
         private void candlestickGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowCandlestickGraph?.Invoke();
+        }
+
+        private void historyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowTradingHistory?.Invoke();
         }
     }
 }

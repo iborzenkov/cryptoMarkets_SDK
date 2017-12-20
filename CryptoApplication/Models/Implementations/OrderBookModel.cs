@@ -18,7 +18,7 @@ namespace Models.Implementations
         {
             _domainModel = domainModel;
 
-            Settings = DefaultSettings.Instance.OrderBookSettings;
+            Settings = Default.Instance.OrderBookSettings;
         }
 
         private IOrderBookUpdaterProvider OrderBookUpdaterProvider => _domainModel.OrderBookUpdaterProvider;

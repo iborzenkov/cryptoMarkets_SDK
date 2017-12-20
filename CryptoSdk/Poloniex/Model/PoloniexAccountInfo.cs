@@ -54,45 +54,71 @@ namespace CryptoSdk.Poloniex.Model
             return Balance(currency.Market, currency.Currency);
         }
 
-        public IEnumerable<Order> OpenedOrders(Market market, Pair pair)
+        public IEnumerable<Order> OpenedOrders(Market market, Pair pair = null)
         {
             // todo: test it
             var result = new List<Order>();
             var apiKeys = market.ApiKeys(ApiKeyRole.Trade);
 
             var parameters = new Tuple<string, string>[2];
-            parameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetBalances);
-            parameters[1] = Tuple.Create("currencyPair", PoloniexPairs.AsString(pair));
+            parameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetOpenedOrders);
+            parameters[1] = Tuple.Create("currencyPair", pair == null ? "all" : PoloniexPairs.AsString(pair));
 
-            var query = Connection.PrivateGetQuery<List<PoloniexOpenedOrdersDataType>>(
-                EndPoints.GetOpenedOrders, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+            if (pair == null)
+            {
+                var query = Connection.PrivatePostQuery<Dictionary<string, List<PoloniexOpenedOrdersDataType>>>(
+                    EndPoints.Trading, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+                foreach (var key in query.Keys)
+                {
+                    Pair tmpPair;
+                    if (!PoloniexPairs.TryParsePair(key, out tmpPair))
+                        continue;
 
-            result.AddRange(query.Select(order => order.ToOrder(market, pair)));
+                    var orders = query[key];
+                    result.AddRange(orders.Select(order => order.ToOrder(market, tmpPair)));
+                }
+            }
+            else
+            {
+                var query = Connection.PrivatePostQuery<List<PoloniexOpenedOrdersDataType>>(
+                    EndPoints.Trading, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+
+                result.AddRange(query.Select(order => order.ToOrder(market, pair)));
+            }
 
             return result;
         }
 
-        public IEnumerable<Order> OpenedOrders(Market market)
+        public IEnumerable<HistoryOrder> HistoryOrders(Market market, Pair pair = null)
         {
             // todo: test it
-            var result = new List<Order>();
+            var result = new List<HistoryOrder>();
             var apiKeys = market.ApiKeys(ApiKeyRole.Trade);
 
             var parameters = new Tuple<string, string>[2];
-            parameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetBalances);
-            parameters[1] = Tuple.Create("currencyPair", "all");
+            parameters[0] = Tuple.Create(EndPoints.CommandTag, EndPoints.GetHistoryOrders);
+            parameters[1] = Tuple.Create("currencyPair", pair == null ? "all" : PoloniexPairs.AsString(pair));
 
-            var query = Connection.PrivateGetQuery<Dictionary<string, List<PoloniexOpenedOrdersDataType>>>(
-                EndPoints.GetOpenedOrders, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
-
-            foreach (var key in query.Keys)
+            if (pair == null)
             {
-                Pair pair;
-                if (!PoloniexPairs.TryParsePair(key, out pair))
-                    continue;
+                var query = Connection.PrivatePostQuery<Dictionary<string, List<PoloniexHistoryOrdersDataType>>>(
+                    EndPoints.Trading, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+                foreach (var key in query.Keys)
+                {
+                    Pair tmpPair;
+                    if (!PoloniexPairs.TryParsePair(key, out tmpPair))
+                        continue;
 
-                var orders = query[key];
-                result.AddRange(orders.Select(order => order.ToOrder(market, pair)));
+                    var orders = query[key];
+                    result.AddRange(orders.Select(order => order.ToOrder(market, tmpPair)));
+                }
+            }
+            else
+            {
+                var query = Connection.PrivatePostQuery<List<PoloniexHistoryOrdersDataType>>(
+                    EndPoints.Trading, apiKeys, PostParameters(apiKeys.PublicKey, parameters));
+
+                result.AddRange(query.Select(order => order.ToOrder(market, pair)));
             }
 
             return result;

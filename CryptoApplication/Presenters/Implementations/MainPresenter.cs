@@ -1,4 +1,5 @@
-﻿using Models.Implementations;
+﻿using System;
+using Models.Implementations;
 using Models.Interfaces;
 using Views.Implementations;
 using Views.Interfaces;
@@ -17,11 +18,21 @@ namespace Presenters.Implementations
             View.ShowApiKeys += View_ShowApiKeys;
             View.ShowBalances += View_ShowBalances;
             View.ShowTrade += View_ShowPendingTrade;
+            View.ShowTradingHistory += View_ShowTradingHistory;
             View.ShowBlowoutVolumeStrategy += View_ShowBlowoutVolumeStrategy;
             View.ShowCandlestickGraph += View_ShowCandlestickGraph;
             View.Exit += View_Exit;
 
             _model = model;
+        }
+
+        private void View_ShowTradingHistory()
+        {
+            var form = new TradingHistoryForm { MdiParent = View.MdiParentForm };
+
+            var tradingHistoryPresenter = new TradingHistoryPresenter(form, new TradingHistoryModel(_model.DomainModel));
+
+            tradingHistoryPresenter.Run();
         }
 
         private void View_ShowCandlestickGraph()

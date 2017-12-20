@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DomainModel
+namespace DomainModel.Misc
 {
     public static class Mathematics
     {

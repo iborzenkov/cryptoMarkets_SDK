@@ -74,6 +74,37 @@ namespace CryptoSdk.Bittrex.DataTypes.Extensions
             return balance;
         }
 
+        public static HistoryOrder ToHistoryOrder(this BittrexHistoryOrderItemDataType orderHistoryItemDataType, Market market)
+        {
+            Pair pair;
+            if (!BittrexPairs.TryParsePair(orderHistoryItemDataType.Pair, out pair))
+                return null;
+
+            TradePosition orderType;
+            switch (orderHistoryItemDataType.OrderType.ToLower())
+            {
+                case "limit_buy":
+                    orderType = TradePosition.Buy;
+                    break;
+
+                case "limit_sell":
+                    orderType = TradePosition.Sell;
+                    break;
+
+                default:
+                    throw new Exception($"Unknown trade tag: {orderHistoryItemDataType.OrderType}");
+            }
+
+            DateTime dateTime;
+            var timeStamp = DateTime.TryParse(orderHistoryItemDataType.TimeStamp, out dateTime) ? dateTime : (DateTime?)null;
+
+            var historyOrder = new HistoryOrder(new OrderId(orderHistoryItemDataType.Id), 
+                market, pair, orderHistoryItemDataType.Quantity, orderHistoryItemDataType.Limit, orderHistoryItemDataType.Commission,
+                orderType, timeStamp);
+
+            return historyOrder;
+        }
+
         public static Tick ToTick(this TickerDataType tickerDataType)
         {
             return new Tick(tickerDataType.Bid, tickerDataType.Ask, tickerDataType.Last);

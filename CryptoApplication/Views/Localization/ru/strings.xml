@@ -104,6 +104,20 @@
 	<Item key="Views.Implementations.CandlestickForm.marketLabel_Text">Рынок</Item>
 	<Item key="Views.Implementations.CandlestickForm.barCountLabel_Text">Баров:</Item>
 
+	<Item key="Views.Implementations.TradingHistoryForm.marketLabel_Text">Рынок</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.pairLabel_Text">Пара</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.periodLabel_Text">Период</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.orderTypeLabel_Text">Тип</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.HistoryOrdersGroupBox_Text">История ордеров</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.totalLabel_Text">Количество</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.marketColumnHeader_Text">Рынок</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.pairColumnHeader_Text">Пара</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.orderTypeColumnHeader_Text">Тип</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.priceColumnHeader_Text">Цена</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.quantityColumnHeader_Text">Количество</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.timeColumnHeader_Text">Время</Item>
+	<Item key="Views.Implementations.TradingHistoryForm.feeColumnHeader_Text">Комиссия</Item>
+
 	<Item key="PublicKey">Публичный</Item>
 	<Item key="PrivateKey">Секретный</Item>
 	<Item key="InfoApiKeyRole">Информация</Item>
@@ -118,6 +132,7 @@
 	<Item key="Buy">Покупка</Item>
 	<Item key="Sell">Продажа</Item>
 	<Item key="ForOne">за 1</Item>
+	<Item key="All">Все</Item>
 	<Item key="AllAvailable">всё, что есть</Item>
 	<Item key="AllThatPossible">всё, что можно</Item>
 	<Item key="InsufficientFunds">Недостаточно средств</Item>

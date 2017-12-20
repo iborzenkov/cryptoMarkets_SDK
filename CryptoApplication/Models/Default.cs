@@ -2,11 +2,11 @@
 
 namespace Models
 {
-    public class DefaultSettings
+    public class Default
     {
-        private static DefaultSettings _instance;
+        private static Default _instance;
 
-        private DefaultSettings()
+        private Default()
         {
             OrderBookSettings = new OrderBookSettings
             {
@@ -29,10 +29,12 @@ namespace Models
             };
         }
 
-        public static DefaultSettings Instance => _instance ?? (_instance = new DefaultSettings());
+        public static Default Instance => _instance ?? (_instance = new Default());
 
         public OrderBookSettings OrderBookSettings { get; set; }
 
         public BlowoutVolumeSettings BlowoutVolumeSettings { get; set; }
+
+        public HistoryOrdersFilter TradingHistoryFilter = new HistoryOrdersFilter();
     }
 }

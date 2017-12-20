@@ -31,17 +31,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BlowoutVolumeSettings.cs" />
+    <Compile Include="HistoryOrdersFilter.cs" />
     <Compile Include="Implementations\BlowoutVolumeModel.cs" />
     <Compile Include="Implementations\CandlestickModel.cs" />
+    <Compile Include="Implementations\TradingHistoryModel.cs" />
     <Compile Include="Implementations\TradeModel.cs" />
     <Compile Include="Implementations\PairModel.cs" />
     <Compile Include="InfoMessages.cs" />
     <Compile Include="Interfaces\IBlowoutVolumeModel.cs" />
     <Compile Include="Interfaces\ICandlestickModel.cs" />
+    <Compile Include="Interfaces\ITradingHistoryModel.cs" />
     <Compile Include="Interfaces\ITradeModel.cs" />
     <Compile Include="Interfaces\IPairModel.cs" />
     <Compile Include="PairViewFilter.cs" />
-    <Compile Include="DefaultSettings.cs" />
+    <Compile Include="Default.cs" />
     <Compile Include="Implementations\ApiKeyModel.cs" />
     <Compile Include="Implementations\BalanceModel.cs" />
     <Compile Include="Implementations\CurrencyModel.cs" />
